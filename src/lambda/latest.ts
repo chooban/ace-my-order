@@ -3,7 +3,6 @@
 import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda';
 import * as AWS from 'aws-sdk'
 
-import { parse as parseCsv } from './util/parseCsv'
 import { PreviewsItem } from 'ace-my-order'
 
 type S3Object = {
@@ -21,6 +20,16 @@ const s3 = new AWS.S3()
 const params = {
   Bucket: 'ace-my-order',
   Delimiter: ''
+}
+
+function parseCsv(text: string): any[] {
+  const lines = text.split(/\r\n|\n|\r/g);
+  const stripSpace = (textToStrip: string) => {
+    if (!textToStrip) return null;
+    return textToStrip.replace(/^"\s*/, '').replace(/\s*"$/, '');
+  };
+
+  return lines.map((rawData) => rawData.split(',').map(stripSpace));
 }
 
 function toLineItem(row: string[]): PreviewsItem | null {
