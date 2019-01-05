@@ -4,10 +4,10 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "es6"
     ],
     "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -23,6 +23,7 @@
     "src"
   ],
   "exclude": [
+    "src/lambda",
     "src/setupProxy.js"
   ]
 }
