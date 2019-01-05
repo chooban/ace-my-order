@@ -1,24 +1,42 @@
 import React, { Component } from 'react';
+import { PreviewsItem } from './PreviewsItemType'
+import PreviewsTable from './PreviewsTable'
 import logo from './logo.svg';
 import './App.css';
 
-class App extends Component {
+type AppState = {
+	items: PreviewsItem[]
+}
+
+class App extends Component<any, AppState> {
+
+	state = {
+		items: [],
+	}
+
+  componentDidMount() {
+    fetch('.netlify/functions/latest')
+      .then(response => response.json())
+      .then(items => this.setState({
+				items
+			}))
+  }
+
   render() {
+
+		if (this.state.items.length === 0) {
+			return (
+				<div className="App">
+					<header className="App-header">
+						<img src={logo} className="App-logo" alt="logo" />
+					</header>
+				</div>
+			)
+		}
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <PreviewsTable rows={this.state.items} />
         </header>
       </div>
     );
