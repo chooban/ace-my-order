@@ -1,8 +1,11 @@
+/// <reference path="./typings/ace-my-order.d.ts" />
+
 import React, { Component } from 'react';
-import { PreviewsItem } from './PreviewsItemType'
 import PreviewsTable from './PreviewsTable'
 import logo from './logo.svg';
 import './App.css';
+
+import { PreviewsItem } from 'ace-my-order'
 
 type AppState = {
 	items: PreviewsItem[]
