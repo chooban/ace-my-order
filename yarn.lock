@@ -998,6 +998,13 @@
   resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.17.tgz#bbe458225bab095c3e313115182f31f072474940"
   integrity sha512-KV/9fMAvv5428/v4+AP4nDOfSB4sJIBOGgBtv5YbuQVaAEapL1/Bc8IyACZ48Q3hYukVFjzAdVFq94zTxyd5Yw==
 
+"@types/es6-promise@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@types/es6-promise/-/es6-promise-3.3.0.tgz#61b55e554fd807b563f158a7986ee53d3a5a5a9d"
+  integrity sha512-ixCIAEkLUKv9movnHKCzx2rzAJgEnSALDXPrOSSwOjWwXFs0ssSZKan+O2e3FExPPCbX+DfA9NcKsbvLuyUlNA==
+  dependencies:
+    es6-promise "*"
+
 "@types/jest@23.3.11":
   version "23.3.11"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.11.tgz#d3a936ae753d9e484965f5cbd19027c2b8af2551"
@@ -3620,6 +3627,11 @@ es-to-primitive@^1.2.0:
     is-callable "^1.1.4"
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
+
+es6-promise@*:
+  version "4.2.5"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.5.tgz#da6d0d5692efb461e082c14817fe2427d8f5d054"
+  integrity sha512-n6wvpdE43VFtJq+lUDYDBFUwV8TZbuGXLV4D6wKafg13ldznKsyEvatubnmUe31zcvelSzOHF+XbaT+Bl9ObDg==
 
 escape-html@~1.0.3:
   version "1.0.3"

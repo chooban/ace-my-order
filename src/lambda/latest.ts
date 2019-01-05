@@ -76,14 +76,14 @@ const getObject = async function(key:string): Promise<any> {
   }).promise()
 
   const items = parseCsv(rawData.Body!.toString())
-  .map(toLineItem)
-  .filter(Boolean)
-  .sort((a, b) => {
-    const firstCode = +a!.code.split('/')[1]
-    const secondCode = +b!.code.split('/')[1]
+    .map(toLineItem)
+    .filter(Boolean)
+    .sort((a, b) => {
+      const firstCode = +a!.code.split('/')[1]
+      const secondCode = +b!.code.split('/')[1]
 
-    return firstCode < secondCode ? -1 : 1
-  })
+      return firstCode < secondCode ? -1 : 1
+    })
   return items
 }
 
