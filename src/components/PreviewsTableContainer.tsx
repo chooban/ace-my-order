@@ -1,32 +1,65 @@
 /// <reference path="../typings/ace-my-order.d.ts" />
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PreviewsTable from './PreviewsTable'
+import SearchContext from '../search-context'
 
 import { PreviewsItem } from "ace-my-order"
 
-export default class PreviewsTablesContainer extends Component {
-	state = {
-	  items: [],
-	  loading: true
-	}
+function searchCatalogue(searchTerm: string, catalogue: PreviewsItem[]) {
+  const publisherOrTitleMatches = (regex: RegExp) =>
+    (d: PreviewsItem) => regex.test(`${d.title} ${d.publisher}`);
 
-	componentDidMount() {
-	  fetch('.netlify/functions/latest')
-	    .then(response => response.json())
-	    .then(items => this.setState({
-	      items,
-	      loading: false
-	    }))
-	}
+  const terms = searchTerm.split(' ');
+  const regex = terms
+    .map((t) => `(?=.*${t})`)
+    .reduce((a, b) => a + b, '');
 
-	render() {
-	  const { loading, items } = this.state
+  const re = new RegExp(regex, 'i');
 
-	  if (loading) {
-	    return (<p>Loading...</p>)
-	  }
+  return catalogue.filter(publisherOrTitleMatches(re));
+}
 
-	  return <PreviewsTable rows={items} />
-	}
+type IState = {
+  items: PreviewsItem[],
+  loading: boolean
+}
+
+export default class PreviewsTablesContainer extends PureComponent<any, IState> {
+
+  state = {
+    items: [],
+    loading: true
+  }
+
+  componentDidMount() {
+    fetch('.netlify/functions/latest')
+      .then(response => response.json())
+      .then(items => this.setState({
+        items: items.slice(0, 50),
+        loading: false
+      }))
+  }
+
+  render() {
+    const { loading } = this.state
+
+    if (loading) {
+      return (<p>Loading...</p>)
+    }
+
+    return (
+      <SearchContext.Consumer>
+        {({ searchValue }) => {
+          const catalogue = this.state.items
+          const items = searchValue.length > 3
+            ? searchCatalogue(searchValue, catalogue)
+            : catalogue
+
+          return <PreviewsTable rows={items} />
+          }}
+        </SearchContext.Consumer>
+
+    )
+  }
 }
