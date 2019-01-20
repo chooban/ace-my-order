@@ -12,8 +12,8 @@ type S3Object = {
 require('dotenv').config()
 
 AWS.config.update({
-  accessKeyId: process.env.AWS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_KEY,
+  accessKeyId: process.env.MY_AWS_KEY_ID,
+  secretAccessKey: process.env.MY_AWS_SECRET_KEY,
   region: 'eu-west-1'
 })
 const s3 = new AWS.S3()

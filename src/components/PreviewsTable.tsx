@@ -1,6 +1,6 @@
-/// <reference path="./typings/ace-my-order.d.ts" />
+/// <reference path="../typings/ace-my-order.d.ts" />
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -26,7 +26,7 @@ interface PreviewsTableProps extends WithStyles<typeof styles> {
   rows: PreviewsItem[]
 }
 
-class PreviewsTable extends React.Component<PreviewsTableProps, any> {
+class PreviewsTable extends PureComponent<PreviewsTableProps, any> {
 
   render() {
     const { classes, rows } = this.props
