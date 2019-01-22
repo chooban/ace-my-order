@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import TextField from '@material-ui/core/TextField'
 import { debounce } from 'ts-debounce'
 
 import SearchContext from '../search-context'
@@ -9,7 +10,7 @@ class SearchBox extends React.Component<any, any> {
     this.updateSearch = debounce(this.updateSearch, 250)
   }
 
-  onChange = (e: React.FormEvent<HTMLInputElement>) => {
+  onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.updateSearch(e.currentTarget.value)
   }
 
@@ -20,9 +21,13 @@ class SearchBox extends React.Component<any, any> {
   render() {
     return (
       <div className="search-box">
-        <input
-          type="text"
-          placeholder="Search..."
+        <TextField
+          id="outlined-search"
+          label="Search"
+          type="search"
+          // className={classes.textField}
+          margin="normal"
+          variant="outlined"
           onChange={this.onChange}
         />
       </div>
