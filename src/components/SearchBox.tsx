@@ -3,25 +3,33 @@ import { debounce } from 'ts-debounce'
 
 import SearchContext from '../search-context'
 
-const SearchBox: React.SFC = () => {
-  return (
-    <SearchContext.Consumer>
-      {({ searchValue, updateSearch }) => {
-        return (
-          <div className="search-box">
-            <input
-              type="text"
-              value={searchValue}
-              placeholder="Search..."
-              onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                updateSearch(e.currentTarget.value)
-              }}
-            />
-          </div>
-        )
-      }}
-    </SearchContext.Consumer>
-  )
+class SearchBox extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props)
+    this.updateSearch = debounce(this.updateSearch, 250)
+  }
+
+  onChange = (e: React.FormEvent<HTMLInputElement>) => {
+    this.updateSearch(e.currentTarget.value)
+  }
+
+  updateSearch = (s: string) => {
+    this.context.updateSearch(s)
+  }
+
+  render() {
+    return (
+      <div className="search-box">
+        <input
+          type="text"
+          placeholder="Search..."
+          onChange={this.onChange}
+        />
+      </div>
+    )
+  }
 }
+
+SearchBox.contextType = SearchContext
 
 export default SearchBox
