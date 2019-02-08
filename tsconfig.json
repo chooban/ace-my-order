@@ -23,7 +23,6 @@
     "src"
   ],
   "exclude": [
-    "src/lambda",
     "src/setupProxy.js"
   ]
 }

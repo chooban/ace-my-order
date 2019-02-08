@@ -22,30 +22,47 @@ function searchCatalogue(searchTerm: string, catalogue: PreviewsItem[]) {
 
 type IState = {
   items: PreviewsItem[],
-  loading: boolean
+  loading: boolean,
+  error: boolean,
 }
 
 export default class PreviewsTablesContainer extends PureComponent<any, IState> {
 
   state = {
     items: [],
-    loading: true
+    loading: true,
+    error: false,
   }
 
   componentDidMount() {
     fetch('.netlify/functions/latest')
-      .then(response => response.json())
+      .then(response => {
+        if (response.status === 200) {
+          return response.json()
+        }
+        throw new Error()
+      })
       .then(items => this.setState({
         items: items.slice(0, 50),
         loading: false
       }))
+      .catch(e => {
+        this.setState({
+          loading: false,
+          error: true
+        })
+      })
   }
 
   render() {
-    const { loading } = this.state
+    const { loading, error } = this.state
 
     if (loading) {
       return (<p>Loading...</p>)
+    }
+
+    if (error) {
+      return (<p>Error. Sorry</p>)
     }
 
     return (
