@@ -1,6 +1,7 @@
 /// <reference path="./typings/ace-my-order.d.ts" />
 
 import React, { Component } from 'react'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import { debounce } from 'ts-debounce'
 
 import PreviewsTable from './components/PreviewsTableContainer'
@@ -33,10 +34,13 @@ class App extends Component<any, AppState> {
   render() {
     return (
       <div className="App">
-        <SearchContext.Provider value={this.state}>
-          <SearchBox />
-          <PreviewsTable />
-        </SearchContext.Provider>
+        <React.Fragment>
+          <CssBaseline />
+          <SearchContext.Provider value={this.state}>
+            <SearchBox />
+            <PreviewsTable />
+          </SearchContext.Provider>
+        </React.Fragment>
       </div>
     )
   }
