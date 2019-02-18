@@ -1,6 +1,6 @@
 /// <reference path="../typings/ace-my-order.d.ts" />
 
-import React, { PureComponent } from 'react'
+import React, { PureComponent, useState, useEffect } from 'react'
 import PreviewsTable from './PreviewsTable'
 import SearchContext from '../search-context'
 
@@ -20,21 +20,15 @@ function searchCatalogue(searchTerm: string, catalogue: PreviewsItem[]) {
   return catalogue.filter(publisherOrTitleMatches(re));
 }
 
-type IState = {
-  items: PreviewsItem[],
-  loading: boolean,
-  error: boolean,
-}
+const initialItems:PreviewsItem[] = []
 
-export default class PreviewsTablesContainer extends PureComponent<any, IState> {
+export default function PreviewsTablesContainer() {
 
-  state = {
-    items: [],
-    loading: true,
-    error: false,
-  }
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [items, setItems] = useState(initialItems)
 
-  componentDidMount() {
+  useEffect(() => {
     fetch('.netlify/functions/latest')
       .then(response => {
         if (response.status === 200) {
@@ -42,41 +36,34 @@ export default class PreviewsTablesContainer extends PureComponent<any, IState> 
         }
         throw new Error()
       })
-      .then(items => this.setState({
-        items: items.slice(0, 50),
-        loading: false
-      }))
-      .catch(e => {
-        this.setState({
-          loading: false,
-          error: true
-        })
+      .then(items => {
+        setLoading(false)
+        setItems(items.slice(0, 50))
       })
+      .catch(e => {
+        setError(true)
+        setLoading(false)
+      })
+  }, [])
+
+  if (loading) {
+    return (<p>Loading...</p>)
   }
 
-  render() {
-    const { loading, error } = this.state
-
-    if (loading) {
-      return (<p>Loading...</p>)
-    }
-
-    if (error) {
-      return (<p>Error. Sorry</p>)
-    }
-
-    return (
-      <SearchContext.Consumer>
-        {({ searchValue }) => {
-          const catalogue = this.state.items
-          const items = searchValue.length > 3
-            ? searchCatalogue(searchValue, catalogue)
-            : catalogue
-
-          return <PreviewsTable rows={items} />
-          }}
-        </SearchContext.Consumer>
-
-    )
+  if (error) {
+    return (<p>Error. Sorry</p>)
   }
+
+  return (
+    <SearchContext.Consumer>
+      {({ searchValue }) => {
+        const catalogue = searchValue.length > 3
+          ? searchCatalogue(searchValue, items)
+          : items
+
+        return <PreviewsTable rows={catalogue} />
+        }}
+      </SearchContext.Consumer>
+
+  )
 }
