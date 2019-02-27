@@ -1,6 +1,6 @@
 /// <reference path="../typings/ace-my-order.d.ts" />
 
-import React, { PureComponent } from 'react'
+import React, { PureComponent, useState } from 'react'
 import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -44,20 +44,35 @@ class PreviewsTable extends PureComponent<PreviewsTableProps, any> {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => {
-              return (
-                <TableRow key={row.code}>
-                  <TableCell>{row.title}</TableCell>
-                  <TableCell align="right">{row.price > 0 ? row.price: '\u2014' }</TableCell>
-                  <TableCell>{row.publisher}</TableCell>
-                </TableRow>
-              )
-            })}
+            {rows.map(row => <Row key={row.code} row={row} />)}
           </TableBody>
         </Table>
       </Paper>
     )
   }
+}
+
+
+const Row = ({ row }: { row: PreviewsItem }) => {
+
+  const [expanded, setExpanded] = useState(false)
+
+  return (
+    <React.Fragment>
+      <TableRow onClick={() => setExpanded(!expanded)}>
+        <TableCell>{row.title}</TableCell>
+        <TableCell align="right">{row.price > 0 ? row.price: '\u2014' }</TableCell>
+        <TableCell>{row.publisher}</TableCell>
+      </TableRow>
+      {expanded &&
+        <TableRow>
+          <TableCell colSpan={3}>
+            Expandeded
+          </TableCell>
+        </TableRow>
+      }
+    </React.Fragment>
+  )
 }
 
 export default withStyles(styles)(PreviewsTable)
