@@ -38,7 +38,7 @@ export default function PreviewsTablesContainer() {
       })
       .then(items => {
         setLoading(false)
-        setItems(items.slice(0, 50))
+        setItems(items)
       })
       .catch(e => {
         setError(true)

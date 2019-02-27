@@ -13,9 +13,11 @@ import { PreviewsItem } from "ace-my-order"
 
 const styles = createStyles({
   root: {
-    width: '100%',
+    width: '75vw',
     marginTop: 3,
     overflowX: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   table: {
     minWidth: 700,
@@ -36,7 +38,6 @@ class PreviewsTable extends PureComponent<PreviewsTableProps, any> {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell>Previews</TableCell>
               <TableCell align="left">Description</TableCell>
               <TableCell align="right">Price</TableCell>
               <TableCell align="left">Publisher</TableCell>
@@ -46,11 +47,8 @@ class PreviewsTable extends PureComponent<PreviewsTableProps, any> {
             {rows.map(row => {
               return (
                 <TableRow key={row.code}>
-                  <TableCell component="th" scope="row">
-                    {row.code}
-                  </TableCell>
                   <TableCell>{row.title}</TableCell>
-                  <TableCell align="right">{row.price}</TableCell>
+                  <TableCell align="right">{row.price > 0 ? row.price: '\u2014' }</TableCell>
                   <TableCell>{row.publisher}</TableCell>
                 </TableRow>
               )
