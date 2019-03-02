@@ -6,20 +6,6 @@ import SearchContext from '../search-context'
 
 import { PreviewsItem } from "ace-my-order"
 
-function searchCatalogue(searchTerm: string, catalogue: PreviewsItem[]) {
-  const publisherOrTitleMatches = (regex: RegExp) =>
-    (d: PreviewsItem) => regex.test(`${d.title} ${d.publisher}`);
-
-  const terms = searchTerm.split(' ');
-  const regex = terms
-    .map((t) => `(?=.*${t})`)
-    .reduce((a, b) => a + b, '');
-
-  const re = new RegExp(regex, 'i');
-
-  return catalogue.filter(publisherOrTitleMatches(re));
-}
-
 const initialItems:PreviewsItem[] = []
 
 export default function PreviewsTablesContainer() {
@@ -54,16 +40,5 @@ export default function PreviewsTablesContainer() {
     return (<p>Error. Sorry</p>)
   }
 
-  return (
-    <SearchContext.Consumer>
-      {({ searchValue }) => {
-        const catalogue = searchValue.length > 3
-          ? searchCatalogue(searchValue, items)
-          : items
-
-        return <PreviewsTable rows={catalogue} />
-        }}
-      </SearchContext.Consumer>
-
-  )
+  return (<PreviewsTable rows={items} />)
 }
