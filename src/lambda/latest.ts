@@ -2,7 +2,7 @@
 
 import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda';
 import * as AWS from 'aws-sdk'
-
+import { builder as previewsItemBuilder } from './lib/previews-item-builder'
 import { PreviewsItem } from 'ace-my-order'
 
 type S3Object = {
@@ -35,32 +35,6 @@ function parseCsv(text: string): any[] {
   return lines.map((rawData) => rawData.split(',').map(stripSpace));
 }
 
-function toLineItem(row: string[]): PreviewsItem | null {
-  if (!hasMinimumFields(row)) {
-    return null
-  }
-
-  const price = +row[3].replace(/[^\d.-]/g, '')
-  const reducedFrom = row[5] ? +row[5].replace(/[^\d.-]/g, '') : undefined
-  return {
-    code: row[0],
-    title: row[1],
-    price,
-    reducedFrom,
-    publisher: row[6] ? row[6] : 'UNKNOWN'
-  }
-}
-
-/**
- * Check to see if we have the minimum set of fields:
- *   * code
- *   * price
- *   * title
- */
-function hasMinimumFields(rowData: string[]): boolean {
-  const requiredFields = [0, 1, 3];
-  return requiredFields.reduce((v, idx) => v && !!rowData[idx], true);
-}
 
 const sortByIssueNumber = function(a: S3Object, b: S3Object): number {
   const issueA = a.Key.match(/\d+/)
@@ -79,7 +53,7 @@ const getObject = async function(key:string): Promise<any> {
   }).promise()
 
   const items = parseCsv(rawData.Body!.toString())
-    .map(toLineItem)
+    .map(previewsItemBuilder)
     .filter(Boolean)
     .sort((a, b) => {
       const firstCode = +a!.code.split('/')[1]

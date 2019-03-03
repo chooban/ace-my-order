@@ -110,7 +110,7 @@ const Row = memo(({ row, classes, style }: RowProps) => {
   return (
     <div className={classes.row} style={style}>
       <div className={classes.cellTitle}>{row.title}</div>
-      <div className={classes.cellPrice}>{row.price > 0 ? '£' + row.price: '\u2014' }</div>
+      <div className={classes.cellPrice}>{row.price > 0 ? '£' + row.price.toFixed(2) : '\u2014' }</div>
       <Hidden xsDown>
         <div>{row.publisher}</div>
       </Hidden>
