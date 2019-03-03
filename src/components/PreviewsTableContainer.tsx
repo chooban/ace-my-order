@@ -10,7 +10,7 @@ const initialItems:PreviewsItem[] = []
 
 export default function PreviewsTablesContainer() {
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [items, setItems] = useState(initialItems)
 
@@ -37,6 +37,7 @@ export default function PreviewsTablesContainer() {
   }
 
   if (error) {
+    console.error(error)
     return (<p>Error. Sorry</p>)
   }
 
