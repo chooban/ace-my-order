@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import TextField from '@material-ui/core/TextField'
 
 import SearchContext from '../search-context'

@@ -1,11 +1,9 @@
 /// <reference path="../typings/ace-my-order.d.ts" />
 
-import React, { PureComponent, useState, CSSProperties, memo } from 'react'
+import React, { useState, CSSProperties, memo } from 'react'
 import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
-import { unstable_useMediaQuery as useMediaQuery } from '@material-ui/core/useMediaQuery'
-import Hidden from '@material-ui/core/Hidden';
+import Hidden from '@material-ui/core/Hidden'
 import Paper from '@material-ui/core/Paper'
-import { compose } from 'recompose'
 import { FixedSizeList as List, areEqual } from 'react-window'
 
 import SearchContext from '../search-context'
@@ -59,16 +57,16 @@ const styles = (theme: any) => {
 
 function searchCatalogue(searchTerm: string, catalogue: PreviewsItem[]) {
   const publisherOrTitleMatches = (regex: RegExp) =>
-    (d: PreviewsItem) => regex.test(`${d.title} ${d.publisher}`);
+    (d: PreviewsItem) => regex.test(`${d.title} ${d.publisher}`)
 
-  const terms = searchTerm.split(' ');
+  const terms = searchTerm.split(' ')
   const regex = terms
     .map((t) => `(?=.*${t})`)
-    .reduce((a, b) => a + b, '');
+    .reduce((a, b) => a + b, '')
 
-  const re = new RegExp(regex, 'i');
+  const re = new RegExp(regex, 'i')
 
-  return catalogue.filter(publisherOrTitleMatches(re));
+  return catalogue.filter(publisherOrTitleMatches(re))
 }
 
 function PreviewsTable(props: PreviewsTableProps) {
@@ -91,10 +89,10 @@ function PreviewsTable(props: PreviewsTableProps) {
                 width={'95%'}
                 style={{marginLeft: 'auto', marginRight: 'auto'}}
               >
-              {({ index, style }: any) => {
-                const row = catalogue[index]
-                return (<Row row={row} style={style} classes={classes} />)
-              }}
+                {({ index, style }: any) => {
+                  const row = catalogue[index]
+                  return (<Row row={row} style={style} classes={classes} />)
+                }}
               </List>
             </div>
           )

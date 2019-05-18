@@ -38,7 +38,7 @@ const titleFormat = (title: string) => (
  */
 function hasMinimumFields(rowData: string[]): boolean {
   const requiredFields = [0, 1, 3];
-  return requiredFields.reduce((v, idx) => v && !!rowData[idx], true);
+  return requiredFields.reduce((v, idx) => v && !!rowData[idx], Boolean(true));
 }
 
 export { builder }

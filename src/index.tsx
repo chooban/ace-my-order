@@ -7,9 +7,6 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const theme = createMuiTheme({
-  typography: {
-    useNextVariants: true,
-  }
 })
 
 function Root() {
