@@ -12,6 +12,7 @@
     "@types/react": "16.8.17",
     "@types/react-dom": "16.8.4",
     "@types/react-window": "^1.8.0",
+    "@welldone-software/why-did-you-render": "^3.0.9",
     "aws-sdk": "^2.458.0",
     "dotenv": "^8.0.0",
     "react": "^16.8.6",

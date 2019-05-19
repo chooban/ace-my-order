@@ -7,6 +7,8 @@ import Paper from '@material-ui/core/Paper'
 import { FixedSizeList as List, areEqual } from 'react-window'
 
 import SearchContext from '../search-context'
+import PreviewPanel from './PreviewsPreview'
+
 import { PreviewsItem } from "ace-my-order"
 
 const styles = (theme: any) => {
@@ -20,6 +22,13 @@ const styles = (theme: any) => {
       overflowX: 'auto',
       marginLeft: 'auto',
       marginRight: 'auto',
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'start'
+    },
+    contentPanel: {
+      width: '40%',
+      textAlign: 'left'
     },
     column: {
       display: 'flex',
@@ -31,7 +40,6 @@ const styles = (theme: any) => {
       [theme.breakpoints.down('xs')]: {
         gridTemplateColumns: 'auto 80px',
       },
-      border: '1px solid red',
       height: '50px'
     },
     cellTitle: {
@@ -40,6 +48,9 @@ const styles = (theme: any) => {
       },
       textAlign: 'left',
       paddingLeft: '0.5em',
+      '& span:hover': {
+        cursor: 'pointer',
+      }
     },
     cellPublisher: {
       [theme.breakpoints.down('md')]: {
@@ -71,6 +82,7 @@ function searchCatalogue(searchTerm: string, catalogue: PreviewsItem[]) {
 
 function PreviewsTable(props: PreviewsTableProps) {
   const { classes, rows } = props
+  const [selectedItem, setSelectedItem] = useState<PreviewsItem | undefined>(undefined)
 
   return (
     <Paper className={classes.root}>
@@ -81,40 +93,41 @@ function PreviewsTable(props: PreviewsTableProps) {
             : rows
 
           return (
-            <div className={classes.root}>
-              <List
-                height={600}
-                itemCount={catalogue.length}
-                itemSize={50}
-                width={'95%'}
-                style={{marginLeft: 'auto', marginRight: 'auto'}}
-              >
-                {({ index, style }: any) => {
-                  const row = catalogue[index]
-                  return (<Row row={row} style={style} classes={classes} />)
-                }}
-              </List>
-            </div>
+            <List
+              height={600}
+              itemCount={catalogue.length}
+              itemSize={50}
+              width={'60%'}
+              style={{marginLeft: 'auto', marginRight: 'auto'}}
+            >
+              {({ index, style }: any) => {
+                const row = catalogue[index]
+                return (<Row row={row} style={style} classes={classes} setSelectedItem={setSelectedItem}/>)
+              }}
+            </List>
           )
         }}
       </SearchContext.Consumer>
+      <div className={classes.contentPanel}>
+        {selectedItem
+          ? <PreviewPanel item={selectedItem} />
+          : <p>Please select an item</p>
+        }
+      </div>
     </Paper>
   )
 }
 
-const Row = memo(({ row, classes, style }: RowProps) => {
-  const [expanded, setExpanded] = useState(false)
-
-  return (
-    <div className={classes.row} style={style}>
-      <div className={classes.cellTitle}>{row.title}</div>
-      <div className={classes.cellPrice}>{row.price > 0 ? '£' + row.price.toFixed(2) : '\u2014' }</div>
-      <Hidden xsDown>
-        <div>{row.publisher}</div>
-      </Hidden>
-    </div>
-  )
-}, areEqual)
+const Row = memo(({ row, classes, style, setSelectedItem }: RowProps) => (
+  <div className={classes.row} style={style}>
+    <div className={classes.cellTitle} onClick={() => setSelectedItem(row)}><span>{row.title}</span></div>
+    <div className={classes.cellPrice}>{row.price > 0 ? '£' + row.price.toFixed(2) : '\u2014' }</div>
+    <Hidden xsDown>
+      <div>{row.publisher}</div>
+    </Hidden>
+  </div>
+)
+, areEqual)
 
 interface PreviewsTableProps extends WithStyles<typeof styles> {
   rows: PreviewsItem[]
@@ -122,7 +135,10 @@ interface PreviewsTableProps extends WithStyles<typeof styles> {
 
 interface RowProps extends WithStyles<typeof styles> {
   row: PreviewsItem,
-  style: CSSProperties
+  style: CSSProperties,
+  setSelectedItem: (arg0: PreviewsItem) => void
 }
+
+PreviewsTable.whyDidYouRender = false
 
 export default withStyles(styles, { withTheme: true })(PreviewsTable)
