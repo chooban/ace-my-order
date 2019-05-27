@@ -43,6 +43,6 @@ function PreviewsTableContainer() {
   return (<PreviewsTable rows={items} />)
 }
 
-PreviewsTableContainer.whyDidYouRender = true
+PreviewsTableContainer.whyDidYouRender = false
 
-export default React.memo(PreviewsTableContainer)
+export default PreviewsTableContainer

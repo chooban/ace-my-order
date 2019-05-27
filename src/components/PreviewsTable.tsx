@@ -139,6 +139,6 @@ interface RowProps extends WithStyles<typeof styles> {
   setSelectedItem: (arg0: PreviewsItem) => void
 }
 
-PreviewsTable.whyDidYouRender = false
+PreviewsTable.whyDidYouRender = true
 
-export default withStyles(styles, { withTheme: true })(PreviewsTable)
+export default memo(withStyles(styles, { withTheme: true })(PreviewsTable))

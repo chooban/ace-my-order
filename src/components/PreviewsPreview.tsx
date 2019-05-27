@@ -22,6 +22,6 @@ function PreviewPanel(props: PreviewPanelProps) {
   )
 }
 
-PreviewPanel.whyDidYouRender = false
+PreviewPanel.whyDidYouRender = true
 
-export default React.memo(PreviewPanel)
+export default PreviewPanel
