@@ -1,6 +1,6 @@
 /// <reference path="../typings/ace-my-order.d.ts" />
 
-import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda';
+import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda'
 import * as AWS from 'aws-sdk'
 import { builder as previewsItemBuilder } from './lib/previews-item-builder'
 import { PreviewsItem } from 'ace-my-order'
@@ -26,13 +26,13 @@ const params = {
 }
 
 function parseCsv(text: string): any[] {
-  const lines = text.split(/\r\n|\n|\r/g);
+  const lines = text.split(/\r\n|\n|\r/g)
   const stripSpace = (textToStrip: string) => {
-    if (!textToStrip) return null;
-    return textToStrip.replace(/^"\s*/, '').replace(/\s*"$/, '');
-  };
+    if (!textToStrip) return null
+    return textToStrip.replace(/^"\s*/, '').replace(/\s*"$/, '')
+  }
 
-  return lines.map((rawData) => rawData.split(',').map(stripSpace));
+  return lines.map((rawData) => rawData.split(',').map(stripSpace))
 }
 
 
@@ -84,7 +84,6 @@ const handler: Handler = async (
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(items)
     }
-    return
   } catch (e) {
     console.error(e)
     return {

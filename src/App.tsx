@@ -1,21 +1,17 @@
 /// <reference path="./typings/ace-my-order.d.ts" />
 
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import { hot } from 'react-hot-loader'
 
 import PreviewsTable from './components/PreviewsTableContainer'
 import { SearchBox } from './components/SearchBox'
 import SearchContext from './search-context'
-import { useDebounce } from './use-debounce'
 
-import logo from './logo.svg'
 import './App.css'
-
-import { PreviewsItem } from 'ace-my-order'
 
 function App() {
   const [searchValue, setSearchValue] = useState('')
-  const updateSearch = useDebounce(searchValue, 250)
 
   return (
     <div className="App">
@@ -30,4 +26,4 @@ function App() {
   )
 }
 
-export default App
+export default hot(module)(App)

@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper'
 import { FixedSizeList as List, areEqual } from 'react-window'
 
 import SearchContext from '../search-context'
-import PreviewPanel from './PreviewsPreview'
+import PreviewPanel from './PreviewPanel'
 
 import { PreviewsItem } from "ace-my-order"
 
@@ -18,7 +18,6 @@ const styles = (theme: any) => {
         width: '100vw'
       },
       width: '75vw',
-      marginTop: 3,
       overflowX: 'auto',
       marginLeft: 'auto',
       marginRight: 'auto',
@@ -27,7 +26,7 @@ const styles = (theme: any) => {
       alignItems: 'start'
     },
     contentPanel: {
-      width: '40%',
+      width: '60%',
       textAlign: 'left'
     },
     column: {
@@ -98,12 +97,11 @@ function PreviewsTable(props: PreviewsTableProps) {
               itemCount={catalogue.length}
               itemSize={50}
               width={'60%'}
-              style={{marginLeft: 'auto', marginRight: 'auto'}}
+              style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '14px'}}
             >
-              {({ index, style }: any) => {
-                const row = catalogue[index]
-                return (<Row row={row} style={style} classes={classes} setSelectedItem={setSelectedItem}/>)
-              }}
+              {({ index, style }: any) =>
+                (<Row row={catalogue[index]} style={style} classes={classes} setSelectedItem={setSelectedItem}/>)
+              }
             </List>
           )
         }}
