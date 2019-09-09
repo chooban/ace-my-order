@@ -5,8 +5,15 @@ import sharp from 'sharp'
 
 import { previewsCodeToUrl } from './lib/previews-code-to-url'
 
+const cache = new Map<string, string>()
+
 async function getCoverDetails(issueNumber: number, itemNumber: string) {
   const { url, urlPrefix } = previewsCodeToUrl(issueNumber, itemNumber)
+  const cacheKey = `${issueNumber}:${itemNumber}`
+
+  if (cache.has(cacheKey)) {
+    return cache.get(cacheKey)
+  }
 
   const details = await fetch(url)
     .then((response) => {
@@ -45,10 +52,13 @@ async function getCoverDetails(issueNumber: number, itemNumber: string) {
         .webp()
         .toBuffer()
     })
-    .then(webpBuffer => {
-      return "data:image/webp;base64," + webpBuffer.toString('base64')
+    .then(webpBuffer => "data:image/webp;base64," + webpBuffer.toString('base64'))
+    .then(data => {
+      cache.set(cacheKey, data)
+      return data
     })
 }
+
 const handler: Handler = async(event: APIGatewayEvent) => {
   if (!(event.queryStringParameters && event.queryStringParameters.code)) {
     return {

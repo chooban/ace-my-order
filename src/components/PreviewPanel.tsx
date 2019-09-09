@@ -25,6 +25,12 @@ const styles = (theme: any) => {
         marginBottom: '3px'
       }
     },
+    description: {
+      '& br': {
+        display: 'block',
+        content: ' '
+      }
+    }
   })
 }
 
@@ -32,29 +38,33 @@ interface PreviewPanelProps extends WithStyles<typeof styles> {
   item: PreviewsItem
 }
 
+interface PreviewsDetails {
+  description: string,
+  creators: string,
+  url: string
+}
 function PreviewPanel({ classes, item }: PreviewPanelProps) {
-  const res = useFetch(`.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
+  const res = useFetch<PreviewsDetails>(`.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
 
   if (res.error) {
     console.error({ e: res.error })
     return (<div><p>Item not found</p></div>)
-  } else if (!res.response) {
-    return (<div><p>Loading...</p></div>)
   }
-  const data: any = res.response
+
+  const data = res.response
 
   return (
     <div className={classes.root}>
       <p className={classes.title}>{item.title}{' '}
-        <a className={classes.link} target="_blank" rel="noopener noreferrer" href={data.url}>
+        <a className={classes.link} target="_blank" rel="noopener noreferrer" href={data ? data.url : undefined}>
           <img alt="Open Previews site" src="/static/open_in_new24px.svg" />
         </a>
       </p>
-      <p>
+      <p className={classes.description}>
         <CoverImage item={item} />
-        {parse(data.description)}
+        {data ? parse(data.description) : 'Loading...'}
       </p>
-      <p>{parse(data.creators)}</p>
+      <p>{data ? parse(data.creators) : ''}</p>
     </div>
   )
 }

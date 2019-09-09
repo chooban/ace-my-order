@@ -1,46 +1,22 @@
 /// <reference path="../typings/ace-my-order.d.ts" />
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PreviewsTable from './PreviewsTable'
+import { useFetch } from '../hooks/use-fetch'
 
 import { PreviewsItem } from "ace-my-order"
 
-const initialItems:PreviewsItem[] = []
-
 function PreviewsTableContainer() {
+  const res = useFetch<PreviewsItem[]>('.netlify/functions/latest')
 
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
-  const [items, setItems] = useState(initialItems)
-
-  useEffect(() => {
-    fetch('.netlify/functions/latest')
-      .then(response => {
-        if (response.status === 200) {
-          return response.json()
-        }
-        throw new Error()
-      })
-      .then(items => {
-        setLoading(false)
-        setItems(items)
-      })
-      .catch(e => {
-        setError(true)
-        setLoading(false)
-      })
-  }, [])
-
-  if (loading) {
+  if (res.error) {
+    console.error(res.error)
+    return <p>Error. Sorry</p>
+  } else if (!res.response) {
     return (<p>Loading...</p>)
   }
 
-  if (error) {
-    console.error(error)
-    return (<p>Error. Sorry</p>)
-  }
-
-  return (<PreviewsTable rows={items} />)
+  return (<PreviewsTable rows={res.response} />)
 }
 
 PreviewsTableContainer.whyDidYouRender = false
