@@ -23,14 +23,13 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.1",
-    "react-virtualized": "^9.21.1",
     "react-window": "^1.8.5",
     "sharp": "^0.23.0",
     "typescript": "3.6.2"
   },
   "scripts": {
     "start": "concurrently -n lambda,react npm:start-lambda npm:start-react -c \"blue,magenta\"",
-    "build": "react-app-rewired build && netlify-lambda build src/lambda/",
+    "build": "react-app-rewired build && netlify-lambda build --config ./webpack.functions.js src/lambda/",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start-lambda": "netlify-lambda serve --config ./webpack.functions.js ./src/lambda/",
