@@ -1,12 +1,21 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField'
+import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
 
 import SearchContext from '../search-context'
 
-export const SearchBox = () => (
+const styles = () => {
+  return createStyles({
+    root: {
+      textAlign: 'center'
+    }
+  })
+}
+
+const SearchBox = ({ classes }: WithStyles<typeof styles>) => (
   <SearchContext.Consumer>
     {({ updateSearch }) => (
-      <div className="search-box">
+      <div className={classes.root}>
         <TextField
           id="outlined-search"
           label="Search"
@@ -20,3 +29,7 @@ export const SearchBox = () => (
     )}
   </SearchContext.Consumer>
 )
+
+const styledSearchBox = withStyles(styles, { withTheme: true })(SearchBox)
+
+export { styledSearchBox as SearchBox }

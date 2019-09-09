@@ -28,7 +28,9 @@ const styles = (theme: any) => {
     },
     contentPanel: {
       width: '60%',
-      textAlign: 'left'
+      textAlign: 'left',
+      height: '600px',
+      overflowY: 'scroll'
     },
     column: {
       display: 'flex',
@@ -36,7 +38,7 @@ const styles = (theme: any) => {
     },
     row: {
       display: 'grid',
-      gridTemplateColumns: 'auto 120px 120px',
+      gridTemplateColumns: 'auto 80px',
       [theme.breakpoints.down('xs')]: {
         gridTemplateColumns: 'auto 80px',
       },
@@ -121,9 +123,9 @@ const Row = memo(({ row, classes, style, setSelectedItem }: RowProps) => (
   <div className={classes.row} style={style}>
     <div className={classes.cellTitle} onClick={() => setSelectedItem(row)}><span>{row.title}</span></div>
     <div className={classes.cellPrice}>{row.price > 0 ? '£' + row.price.toFixed(2) : '\u2014' }</div>
-    <Hidden xsDown>
+    {/* <Hidden xsDown>
       <div>{row.publisher}</div>
-    </Hidden>
+    </Hidden> */}
   </div>
 )
 , areEqual)
