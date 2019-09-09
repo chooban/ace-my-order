@@ -2,12 +2,13 @@
 
 import React, { useState, CSSProperties, memo } from 'react'
 import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
-import Hidden from '@material-ui/core/Hidden'
+// import Hidden from '@material-ui/core/Hidden'
 import Paper from '@material-ui/core/Paper'
 import { FixedSizeList as List, areEqual } from 'react-window'
 
 import SearchContext from '../search-context'
 import PreviewPanel from './PreviewPanel'
+import { useClientRect } from '../hooks/use-client-rect'
 
 import { PreviewsItem } from "ace-my-order"
 
@@ -18,6 +19,7 @@ const styles = (theme: any) => {
         width: '100vw'
       },
       width: '75vw',
+      height: '85vh',
       maxWidth: '1000px',
       overflowX: 'auto',
       marginLeft: 'auto',
@@ -82,12 +84,15 @@ function searchCatalogue(searchTerm: string, catalogue: PreviewsItem[]) {
   return catalogue.filter(publisherOrTitleMatches(re))
 }
 
+const contentRef = React.createRef<HTMLDivElement>()
+
 function PreviewsTable(props: PreviewsTableProps) {
   const { classes, rows } = props
   const [selectedItem, setSelectedItem] = useState<PreviewsItem | undefined>(undefined)
+  const contentRect = useClientRect(contentRef)
 
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} ref={contentRef}>
       <SearchContext.Consumer>
         {({ searchValue }) => {
           const catalogue = searchValue.length > 3
@@ -96,7 +101,7 @@ function PreviewsTable(props: PreviewsTableProps) {
 
           return (
             <List
-              height={600}
+              height={Math.round(contentRect.height)}
               itemCount={catalogue.length}
               itemSize={50}
               width={'60%'}
