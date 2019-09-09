@@ -1,9 +1,9 @@
 /// <reference path="../typings/ace-my-order.d.ts" />
 
-import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda'
+import { Handler, Context, APIGatewayEvent } from 'aws-lambda'
 import * as AWS from 'aws-sdk'
 import { builder as previewsItemBuilder } from './lib/previews-item-builder'
-import { PreviewsItem } from 'ace-my-order'
+// import { PreviewsItem } from 'ace-my-order'
 
 type S3Object = {
   Key: string | ''
@@ -74,7 +74,7 @@ const handler: Handler = async (
       return { statusCode: 200, body: '' }
     }
 
-    const issues = <S3Object[]> data.Contents.slice()
+    const issues = data.Contents.slice() as S3Object[]
     issues.sort(sortByIssueNumber)
 
     const items = await getObject(issues[0].Key || '')

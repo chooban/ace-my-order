@@ -8,8 +8,6 @@ import PreviewsTable from './components/PreviewsTableContainer'
 import { SearchBox } from './components/SearchBox'
 import SearchContext from './search-context'
 
-import './App.css'
-
 function App() {
   const [searchValue, setSearchValue] = useState('')
 

@@ -18,6 +18,7 @@ const styles = (theme: any) => {
         width: '100vw'
       },
       width: '75vw',
+      maxWidth: '1000px',
       overflowX: 'auto',
       marginLeft: 'auto',
       marginRight: 'auto',
