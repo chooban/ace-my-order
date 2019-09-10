@@ -7,6 +7,7 @@ fs.readdirSync('node_modules')
     nodeModules[mod] = 'commonjs ' + mod
   })
 
+console.log(!!process.env.NODE_ENV)
 module.exports = {
-  externals: nodeModules
+  externals: !!!process.env.NODE_ENV ? nodeModules : {}
 }
