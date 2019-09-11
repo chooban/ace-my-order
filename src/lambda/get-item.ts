@@ -47,7 +47,7 @@ async function getItemInformation(issueNumber: number, itemNumber: string) {
         url: previewsCodeToUrl(issueNumber, itemNumber),
         description,
         creators,
-        coverImage
+        coverImage: coverImage.substr(0, coverImage.lastIndexOf('?'))
       }
     })
     .catch((err) => {

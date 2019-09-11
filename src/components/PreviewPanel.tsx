@@ -3,7 +3,7 @@
 import React from 'react'
 import { withStyles, WithStyles, createStyles } from '@material-ui/styles'
 import parse from 'html-react-parser'
-import { PreviewsItem } from 'ace-my-order'
+import { PreviewsItem, PreviewsOnlineDetails } from 'ace-my-order'
 import CoverImage from './CoverImage'
 
 import { useFetch } from '../hooks/use-fetch'
@@ -38,13 +38,8 @@ interface PreviewPanelProps extends WithStyles<typeof styles> {
   item: PreviewsItem
 }
 
-interface PreviewsDetails {
-  description: string,
-  creators: string,
-  url: string
-}
 function PreviewPanel({ classes, item }: PreviewPanelProps) {
-  const res = useFetch<PreviewsDetails>(`.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
+  const res = useFetch<PreviewsOnlineDetails>(`.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
 
   if (res.error) {
     console.error({ e: res.error })
@@ -60,11 +55,17 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
           <img alt="Open Previews site" src="/static/open_in_new24px.svg" />
         </a>
       </p>
-      <p className={classes.description}>
-        <CoverImage item={item} />
-        {data ? parse(data.description) : 'Loading...'}
-      </p>
-      <p>{data ? parse(data.creators) : ''}</p>
+      {data === null ? (
+        <p className={classes.description}>
+          <p>Loading...</p>
+        </p>
+      ) : (
+        <div className={classes.description}>
+          <CoverImage item={data} />
+          {parse(data.description)}
+          {parse(data.creators)}
+        </div>
+      )}
     </div>
   )
 }
