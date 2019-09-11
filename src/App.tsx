@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { hot } from 'react-hot-loader'
 
 import PreviewsTable from './components/PreviewsTableContainer'
-import { SearchBox } from './components/SearchBox'
+import { Header } from './components/Header'
 import SearchContext from './search-context'
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
       <React.Fragment>
         <CssBaseline />
         <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
-          <SearchBox />
+          <Header />
           <PreviewsTable />
         </SearchContext.Provider>
       </React.Fragment>

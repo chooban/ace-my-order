@@ -57,14 +57,16 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
       </p>
       {data === null ? (
         <p className={classes.description}>
-          <p>Loading...</p>
+          Loading...
         </p>
       ) : (
-        <div className={classes.description}>
-          <CoverImage item={data} />
-          {parse(data.description)}
-          {parse(data.creators)}
-        </div>
+        <>
+          <div className={classes.description}>
+            <CoverImage item={data} />
+            {parse(data.description)}
+          </div>
+          <p>{parse(data.creators)}</p>
+        </>
       )}
     </div>
   )
