@@ -2,32 +2,15 @@
 
 import React, { useState, CSSProperties, memo } from 'react'
 import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
-// import Hidden from '@material-ui/core/Hidden'
-import Paper from '@material-ui/core/Paper'
 import { FixedSizeList as List, areEqual } from 'react-window'
 
 import SearchContext from '../search-context'
 import PreviewPanel from './PreviewPanel'
-import { useClientRect } from '../hooks/use-client-rect'
 
 import { PreviewsItem } from "ace-my-order"
 
 const styles = (theme: any) => {
   return createStyles({
-    root: {
-      [theme.breakpoints.down('sm')]: {
-        width: '100vw'
-      },
-      width: '75vw',
-      height: '85vh',
-      maxWidth: '1000px',
-      overflowX: 'auto',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'start'
-    },
     contentPanel: {
       width: '60%',
       textAlign: 'left',
@@ -51,7 +34,6 @@ const styles = (theme: any) => {
         textOverflow: 'ellipsis',
       },
       textAlign: 'left',
-      paddingLeft: '0.5em',
       '& span:hover': {
         cursor: 'pointer',
       }
@@ -84,15 +66,12 @@ function searchCatalogue(searchTerm: string, catalogue: PreviewsItem[]) {
   return catalogue.filter(publisherOrTitleMatches(re))
 }
 
-const contentRef = React.createRef<HTMLDivElement>()
-
 function PreviewsTable(props: PreviewsTableProps) {
-  const { classes, rows } = props
+  const { classes, rows, height } = props
   const [selectedItem, setSelectedItem] = useState<PreviewsItem | undefined>(undefined)
-  const contentRect = useClientRect(contentRef)
 
   return (
-    <Paper className={classes.root} ref={contentRef}>
+    <>
       <SearchContext.Consumer>
         {({ searchValue }) => {
           const catalogue = searchValue.length > 3
@@ -101,7 +80,7 @@ function PreviewsTable(props: PreviewsTableProps) {
 
           return (
             <List
-              height={Math.round(contentRect.height)}
+              height={Math.round(height)}
               itemCount={catalogue.length}
               itemSize={50}
               width={'60%'}
@@ -120,7 +99,7 @@ function PreviewsTable(props: PreviewsTableProps) {
           : <p>Please select an item</p>
         }
       </div>
-    </Paper>
+    </>
   )
 }
 
@@ -128,14 +107,12 @@ const Row = memo(({ row, classes, style, setSelectedItem }: RowProps) => (
   <div className={classes.row} style={style}>
     <div className={classes.cellTitle} onClick={() => setSelectedItem(row)}><span>{row.title}</span></div>
     <div className={classes.cellPrice}>{row.price > 0 ? '£' + row.price.toFixed(2) : '\u2014' }</div>
-    {/* <Hidden xsDown>
-      <div>{row.publisher}</div>
-    </Hidden> */}
   </div>
 )
 , areEqual)
 
 interface PreviewsTableProps extends WithStyles<typeof styles> {
+  height: number
   rows: PreviewsItem[]
 }
 

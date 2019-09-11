@@ -4,8 +4,9 @@ import React, { useState } from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { hot } from 'react-hot-loader'
 
-import PreviewsTable from './components/PreviewsTableContainer'
+import { PreviewsTableContainer as Main} from './components/PreviewsTableContainer'
 import { Header } from './components/Header'
+import { Footer } from './components/Footer'
 import SearchContext from './search-context'
 
 function App() {
@@ -17,8 +18,9 @@ function App() {
         <CssBaseline />
         <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
           <Header />
-          <PreviewsTable />
+          <Main />
         </SearchContext.Provider>
+        <Footer />
       </React.Fragment>
     </div>
   )

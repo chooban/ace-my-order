@@ -4,7 +4,6 @@ import React from 'react'
 import { withStyles, WithStyles, createStyles } from '@material-ui/styles'
 import parse from 'html-react-parser'
 import { PreviewsItem, PreviewsOnlineDetails } from 'ace-my-order'
-import CoverImage from './CoverImage'
 
 import { useFetch } from '../hooks/use-fetch'
 
@@ -30,6 +29,14 @@ const styles = (theme: any) => {
         display: 'block',
         content: ' '
       }
+    },
+    cover: {
+      width: '10vw',
+      minWidth: '100px',
+      maxWidth: '200px',
+      minHeight: '230px',
+      float: 'left',
+      marginRight: '7px'
     }
   })
 }
@@ -57,12 +64,13 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
       </p>
       {data === null ? (
         <p className={classes.description}>
+          <img alt="Cover" className={classes.cover} src='/static/1x1.png'/>
           Loading...
         </p>
       ) : (
         <>
           <div className={classes.description}>
-            <CoverImage item={data} />
+            <img alt="Cover" className={classes.cover} src={data.coverImage} />
             {parse(data.description)}
           </div>
           <p>{parse(data.creators)}</p>
