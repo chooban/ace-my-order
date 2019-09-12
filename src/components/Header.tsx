@@ -2,6 +2,7 @@ import React from 'react'
 import TextField from '@material-ui/core/TextField'
 import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
+import { Link } from 'react-router-dom'
 
 import SearchContext from '../search-context'
 
@@ -13,11 +14,15 @@ const styles = () => {
       marginBottom: '7px',
       display: 'flex',
       flexDirection: 'row',
-      alignContent: 'center',
+      alignItems: 'center',
       padding: '0 7px 0 7px'
     },
     title: {
-      whiteSpace: 'nowrap'
+      whiteSpace: 'nowrap',
+      textDecoration: 'none',
+      fontSize: '3em',
+      fontWeight: 500,
+      color: '#000'
     },
     search: {
       marginLeft: 'auto'
@@ -27,7 +32,7 @@ const styles = () => {
 
 const Header = ({ classes }: WithStyles<typeof styles>) => (
   <Paper className={classes.root}>
-    <div><h1 className={classes.title}>My Ace Order</h1></div>
+    <Link className={classes.title} to={'/'}>My Ace Order</Link>
     <SearchContext.Consumer>
       {({ updateSearch }) => (
         <TextField

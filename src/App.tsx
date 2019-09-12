@@ -2,8 +2,12 @@
 
 import React, { useState } from 'react'
 import { hot } from 'react-hot-loader'
+import { BrowserRouter as Router, Route } from "react-router-dom"
 
-import { PreviewsTableContainer as Main} from './components/PreviewsTableContainer'
+import { PreviewsTableContainer } from './components/PreviewsTableContainer'
+import { About } from './components/About'
+import { Privacy } from './components/Privacy'
+import { Contact } from './components/Contact'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import SearchContext from './search-context'
@@ -35,13 +39,16 @@ function App({ classes }: WithStyles<typeof styles>) {
 
   return (
     <div className={classes.root}>
-      <React.Fragment>
+      <Router>
         <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
           <Header />
-          <Main />
+          <Route exact path="/" component={PreviewsTableContainer} />
+          <Route path="/about" component={About} />
+          <Route path="/privacy" component={Privacy} />
+          <Route path="/contact" component={Contact} />
         </SearchContext.Provider>
         <Footer />
-      </React.Fragment>
+      </Router>
     </div>
   )
 }
