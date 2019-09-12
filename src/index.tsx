@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
 import './index.css'
@@ -17,6 +18,7 @@ if (process.env.NODE_ENV !== 'production') {
 function Root() {
   return (
     <MuiThemeProvider theme={theme}>
+      <CssBaseline />
       <App />
     </MuiThemeProvider>
   )

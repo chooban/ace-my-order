@@ -8,10 +8,7 @@ import SearchContext from '../search-context'
 const styles = () => {
   return createStyles({
     root: {
-      width: '75vw',
-      maxWidth: '1000px',
-      marginLeft: 'auto',
-      marginRight: 'auto',
+      width: '100%',
       marginTop: '7px',
       marginBottom: '7px',
       display: 'flex',

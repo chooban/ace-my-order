@@ -3,6 +3,7 @@
 import React, { useState, CSSProperties, memo } from 'react'
 import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
 import { FixedSizeList as List, areEqual } from 'react-window'
+import Hidden from '@material-ui/core/Hidden'
 
 import SearchContext from '../search-context'
 import PreviewPanel from './PreviewPanel'
@@ -14,7 +15,6 @@ const styles = (theme: any) => {
     contentPanel: {
       width: '60%',
       textAlign: 'left',
-      height: '600px',
       overflowY: 'scroll'
     },
     column: {
@@ -25,7 +25,7 @@ const styles = (theme: any) => {
       display: 'grid',
       gridTemplateColumns: 'auto 80px',
       [theme.breakpoints.down('xs')]: {
-        gridTemplateColumns: 'auto 80px',
+        gridTemplateColumns: 'auto',
       },
       height: '50px'
     },
@@ -83,8 +83,11 @@ function PreviewsTable(props: PreviewsTableProps) {
               height={Math.round(height)}
               itemCount={catalogue.length}
               itemSize={50}
-              width={'60%'}
-              style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '14px'}}
+              width={'40%'}
+              style={{
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
             >
               {({ index, style }: any) =>
                 (<Row row={catalogue[index]} style={style} classes={classes} setSelectedItem={setSelectedItem}/>)
@@ -96,7 +99,7 @@ function PreviewsTable(props: PreviewsTableProps) {
       <div className={classes.contentPanel}>
         {selectedItem
           ? <PreviewPanel item={selectedItem} />
-          : <p>Please select an item</p>
+          : <p style={{marginTop: 0}}>Please select an item</p>
         }
       </div>
     </>
@@ -106,7 +109,9 @@ function PreviewsTable(props: PreviewsTableProps) {
 const Row = memo(({ row, classes, style, setSelectedItem }: RowProps) => (
   <div className={classes.row} style={style}>
     <div className={classes.cellTitle} onClick={() => setSelectedItem(row)}><span>{row.title}</span></div>
-    <div className={classes.cellPrice}>{row.price > 0 ? '£' + row.price.toFixed(2) : '\u2014' }</div>
+    <Hidden xsDown>
+      <div className={classes.cellPrice}>{row.price > 0 ? '£' + row.price.toFixed(2) : '\u2014' }</div>
+    </Hidden>
   </div>
 )
 , areEqual)

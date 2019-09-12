@@ -6,8 +6,7 @@ import Paper from '@material-ui/core/Paper'
 const styles = () => {
   return createStyles({
     root: {
-      width: '75vw',
-      maxWidth: '1000px',
+      width: '100%',
       marginLeft: 'auto',
       marginRight: 'auto',
       marginTop: '7px',

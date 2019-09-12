@@ -5,7 +5,7 @@ import { withStyles, WithStyles, createStyles } from '@material-ui/styles'
 import parse from 'html-react-parser'
 import { PreviewsItem, PreviewsOnlineDetails } from 'ace-my-order'
 
-import { useFetch } from '../hooks/use-fetch'
+import { useFetch } from '../hooks/'
 
 const styles = (theme: any) => {
   return createStyles({
@@ -14,6 +14,7 @@ const styles = (theme: any) => {
       paddingLeft: '7px',
     },
     title: {
+      marginTop: 0,
       fontWeight: 700
     },
     link: {
@@ -34,7 +35,7 @@ const styles = (theme: any) => {
       width: '10vw',
       minWidth: '100px',
       maxWidth: '200px',
-      minHeight: '230px',
+      minHeight: '150px',
       float: 'left',
       marginRight: '7px'
     }
@@ -50,7 +51,7 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
 
   if (res.error) {
     console.error({ e: res.error })
-    return (<div><p>Item not found</p></div>)
+    return (<div><p className={classes.title}>Item not found</p></div>)
   }
 
   const data = res.response

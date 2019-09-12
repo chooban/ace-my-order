@@ -4,20 +4,15 @@ import React from 'react'
 import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import PreviewsTable from './PreviewsTable'
-import { useFetch } from '../hooks/use-fetch'
-import { useClientRect } from '../hooks/use-client-rect'
+import { useFetch, useClientRect } from '../hooks/'
 
 import { PreviewsItem } from "ace-my-order"
 
 const styles = (theme:any) => {
   return createStyles({
     root: {
-      [theme.breakpoints.down('sm')]: {
-        width: '100vw'
-      },
-      width: '75vw',
-      height: '83vh',
-      maxWidth: '1000px',
+      width: '100%',
+      height: '100%',
       overflowX: 'auto',
       marginLeft: 'auto',
       marginRight: 'auto',
@@ -25,6 +20,7 @@ const styles = (theme:any) => {
       flexDirection: 'row',
       alignItems: 'start',
       paddingLeft: '0.5em',
+      paddingTop: '14px',
     },
 
   })

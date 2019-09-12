@@ -1,21 +1,41 @@
 /// <reference path="./typings/ace-my-order.d.ts" />
 
 import React, { useState } from 'react'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import { hot } from 'react-hot-loader'
 
 import { PreviewsTableContainer as Main} from './components/PreviewsTableContainer'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import SearchContext from './search-context'
+import { createStyles, withStyles, WithStyles } from '@material-ui/core'
 
-function App() {
+const styles = (theme: any) => {
+  return createStyles({
+    root: {
+      [theme.breakpoints.down('sm')]: {
+        width: '100vw',
+        minWidth: '550px'
+      },
+      width: '75vw',
+      height: '100vh',
+      maxWidth: '1000px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      '> div': {
+        flex: 1
+      }
+    }
+  })
+}
+
+function App({ classes }: WithStyles<typeof styles>) {
   const [searchValue, setSearchValue] = useState('')
 
   return (
-    <div className="App">
+    <div className={classes.root}>
       <React.Fragment>
-        <CssBaseline />
         <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
           <Header />
           <Main />
@@ -26,4 +46,6 @@ function App() {
   )
 }
 
-export default hot(module)(App)
+const styled = withStyles(styles, { withTheme: true })(App)
+
+export default hot(module)(styled)
