@@ -2,10 +2,12 @@
 
 import React from 'react'
 import { withStyles, WithStyles, createStyles } from '@material-ui/styles'
+import Button from '@material-ui/core/Button'
 import parse from 'html-react-parser'
 import { PreviewsItem, PreviewsOnlineDetails } from 'ace-my-order'
 
 import { useFetch } from '../hooks/'
+import { useOrder, OrderActionType } from '../contexts/order-context'
 
 const styles = (theme: any) => {
   return createStyles({
@@ -38,7 +40,10 @@ const styles = (theme: any) => {
       minHeight: '150px',
       float: 'left',
       marginRight: '7px'
-    }
+    },
+    button: {
+      margin: theme.spacing(1),
+    },
   })
 }
 
@@ -48,6 +53,9 @@ interface PreviewPanelProps extends WithStyles<typeof styles> {
 
 function PreviewPanel({ classes, item }: PreviewPanelProps) {
   const res = useFetch<PreviewsOnlineDetails>(`.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
+  const [{ order }, dispatch] = useOrder()
+
+  console.log({ order })
 
   if (res.error) {
     console.error({ e: res.error })
@@ -75,6 +83,24 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
             {parse(data.description)}
           </div>
           <p>{parse(data.creators)}</p>
+          <div>
+            <Button
+              variant="contained"
+              className={classes.button}
+              color="primary"
+              onClick={() => dispatch({ type: OrderActionType.Add, payload: null})}
+            >
+              Add to order
+            </Button>
+            <Button
+              variant="contained"
+              className={classes.button}
+              color="secondary"
+              onClick={() => dispatch({ type: OrderActionType.Remove, payload: null})}
+            >
+              Remove from order
+            </Button>
+          </div>
         </>
       )}
     </div>

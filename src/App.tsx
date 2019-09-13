@@ -10,7 +10,8 @@ import { Privacy } from './components/Privacy'
 import { Contact } from './components/Contact'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
-import SearchContext from './search-context'
+import SearchContext from './contexts/search-context'
+import { OrderProvider } from './contexts/order-context'
 import { createStyles, withStyles, WithStyles } from '@material-ui/core'
 
 const styles = (theme: any) => {
@@ -40,13 +41,15 @@ function App({ classes }: WithStyles<typeof styles>) {
   return (
     <div className={classes.root}>
       <Router>
-        <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
-          <Header />
-          <Route exact path="/" component={PreviewsTableContainer} />
-          <Route path="/about" component={About} />
-          <Route path="/privacy" component={Privacy} />
-          <Route path="/contact" component={Contact} />
-        </SearchContext.Provider>
+        <OrderProvider>
+          <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
+            <Header />
+            <Route exact path="/" component={PreviewsTableContainer} />
+            <Route path="/about" component={About} />
+            <Route path="/privacy" component={Privacy} />
+            <Route path="/contact" component={Contact} />
+          </SearchContext.Provider>
+        </OrderProvider>
         <Footer />
       </Router>
     </div>

@@ -5,7 +5,7 @@ import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
 import { FixedSizeList as List, areEqual } from 'react-window'
 import Hidden from '@material-ui/core/Hidden'
 
-import SearchContext from '../search-context'
+import SearchContext from '../contexts/search-context'
 import PreviewPanel from './PreviewPanel'
 
 import { PreviewsItem } from "ace-my-order"
