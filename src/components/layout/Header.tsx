@@ -2,7 +2,7 @@ import React from 'react'
 import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import { Link } from 'react-router-dom'
-import { useOrder } from '../contexts/order-context'
+import { useOrder } from '../../contexts/order-context'
 
 const styles = () => {
   return createStyles({
@@ -52,14 +52,16 @@ const styles = () => {
 
 const Header = ({ classes }: WithStyles<typeof styles>) => {
   const [{ order }] = useOrder()
-  console.log(`Header ${order.length}`)
+
   return (
     <Paper className={classes.root}>
       <Link className={classes.title} to={'/'}>My Ace Order</Link>
       <div className={classes.cartContainer}>
-        <i className={`material-icons ${classes.cart} ${order.length ? classes.hasItems: ''}` }>
+        <Link to="/cart">
+          <i className={`material-icons ${classes.cart} ${order.length ? classes.hasItems: ''}` }>
         shopping_cart
-        </i>
+          </i>
+        </Link>
       </div>
     </Paper>
   )}

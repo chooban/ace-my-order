@@ -53,9 +53,7 @@ interface PreviewPanelProps extends WithStyles<typeof styles> {
 
 function PreviewPanel({ classes, item }: PreviewPanelProps) {
   const res = useFetch<PreviewsOnlineDetails>(`.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
-  const [{ order }, dispatch] = useOrder()
-
-  console.log({ order })
+  const dispatch = useOrder()[1]
 
   if (res.error) {
     console.error({ e: res.error })

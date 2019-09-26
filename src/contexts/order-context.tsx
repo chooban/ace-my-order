@@ -1,10 +1,10 @@
 /// <reference path="../typings/ace-my-order.d.ts" />
 
-import React, {createContext, useContext, useReducer, Dispatch} from 'react'
+import React, {createContext, useContext, useReducer, useEffect, Dispatch} from 'react'
 
 import { PreviewsItem } from 'ace-my-order'
 
-const initialState = {
+const state = {
   order: [] as PreviewsItem[]
 }
 
@@ -18,7 +18,7 @@ interface Action {
   payload: PreviewsItem
 }
 
-type OrderState = typeof initialState
+type OrderState = typeof state
 
 const orderReducer = (state: OrderState, action: Action): OrderState => {
   switch(action.type) {
@@ -36,16 +36,26 @@ const orderReducer = (state: OrderState, action: Action): OrderState => {
 }
 
 interface StateProviderProps {
+  initialState: OrderState,
+  onUpdate: any,
   children: React.ReactNode
 }
 
-const StateContext  = createContext<[OrderState, Dispatch<Action>]>([initialState, () => {}])
+const StateContext = createContext<[OrderState, Dispatch<Action>]>([state, () => {}])
 
-const OrderProvider = ({children}: StateProviderProps) => (
-  <StateContext.Provider value={useReducer(orderReducer, initialState)}>
-    {children}
-  </StateContext.Provider>
-)
+const OrderProvider = ({children, initialState, onUpdate}: StateProviderProps) => {
+  const [state, dispatch] = useReducer(orderReducer, initialState)
+
+  useEffect(() => {
+    onUpdate(state)
+  }, [onUpdate, state])
+
+  return (
+    <StateContext.Provider value={[state, dispatch]}>
+      {children}
+    </StateContext.Provider>
+  )
+}
 
 const useOrder = () => useContext(StateContext)
 

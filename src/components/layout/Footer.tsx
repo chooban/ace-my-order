@@ -13,9 +13,9 @@ const styles = () => {
       marginTop: '7px',
       marginBottom: '7px',
       padding: '0 7px 0 7px',
-      textAlign: 'center',
+      textAlign: 'center'
     },
-    copyright: {
+    smaller: {
       fontSize: '12px'
     }
   })
@@ -24,12 +24,21 @@ const styles = () => {
 const Footer = ({ classes }: WithStyles<typeof styles>) => (
   <Paper className={classes.root}>
     <p>
-      <Link to="/">Home</Link>
-      {' '}• <Link to="/about">About</Link>
-      {' '}• <Link to="/privacy">Privacy</Link>
-      {' '}• <Link to="/contact">Contact</Link>
+      <Link to="/">Home</Link> • <Link to="/about">About</Link> • <Link to="/privacy">Privacy</Link>{' '}
+      • <Link to="/contact">Contact</Link>
     </p>
-    <p className={classes.copyright}>All names, trademarks and images are copyright their respective owners.</p>
+    <p className={classes.smaller}>
+      All names, trademarks and images are copyright their respective owners.<br />
+
+      favicons made by{' '}
+      <a href="https://www.flaticon.com/authors/freepik" title="Freepik">
+        Freepik
+      </a>{' '}
+      from{' '}
+      <a href="https://www.flaticon.com/" title="Flaticon">
+        www.flaticon.com
+      </a>
+    </p>
   </Paper>
 )
 
