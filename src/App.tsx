@@ -45,11 +45,11 @@ function App({ classes }: WithStyles<typeof styles>) {
           <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
             <Header />
             <Route exact path="/" component={PreviewsTableContainer} />
-            <Route path="/about" component={About} />
-            <Route path="/privacy" component={Privacy} />
-            <Route path="/contact" component={Contact} />
           </SearchContext.Provider>
         </OrderProvider>
+        <Route path="/about" component={About} />
+        <Route path="/privacy" component={Privacy} />
+        <Route path="/contact" component={Contact} />
         <Footer />
       </Router>
     </div>

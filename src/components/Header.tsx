@@ -1,10 +1,8 @@
 import React from 'react'
-import TextField from '@material-ui/core/TextField'
 import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import { Link } from 'react-router-dom'
-
-import SearchContext from '../contexts/search-context'
+import { useOrder } from '../contexts/order-context'
 
 const styles = () => {
   return createStyles({
@@ -22,32 +20,49 @@ const styles = () => {
       textDecoration: 'none',
       fontSize: '3em',
       fontWeight: 500,
-      color: '#000'
+      color: '#000',
+      margin: '5px 0'
     },
-    search: {
-      marginLeft: 'auto'
+    cartContainer: {
+      marginLeft: 'auto',
+    },
+    cart: {
+      '&::after': {
+        content: "''",
+        display: 'inline-block',
+        position: 'relative',
+        top: '-15px',
+        right: '10px',
+        width: '12px',
+        height: '12px',
+        '-moz-border-radius': '12px',
+        '-webkit-border-radius': '12px',
+        borderRadius: '12px',
+        backgroundColor: 'red',
+        visibility: 'hidden'
+      },
+    },
+    hasItems: {
+      '&::after': {
+        visibility: 'visible'
+      }
     }
   })
 }
 
-const Header = ({ classes }: WithStyles<typeof styles>) => (
-  <Paper className={classes.root}>
-    <Link className={classes.title} to={'/'}>My Ace Order</Link>
-    <SearchContext.Consumer>
-      {({ updateSearch }) => (
-        <TextField
-          id="outlined-search"
-          label="Search"
-          type="search"
-          className={classes.search}
-          margin="normal"
-          variant="outlined"
-          onChange={e => updateSearch(e.currentTarget.value)}
-        />
-      )}
-    </SearchContext.Consumer>
-  </Paper>
-)
+const Header = ({ classes }: WithStyles<typeof styles>) => {
+  const [{ order }] = useOrder()
+  console.log(`Header ${order.length}`)
+  return (
+    <Paper className={classes.root}>
+      <Link className={classes.title} to={'/'}>My Ace Order</Link>
+      <div className={classes.cartContainer}>
+        <i className={`material-icons ${classes.cart} ${order.length ? classes.hasItems: ''}` }>
+        shopping_cart
+        </i>
+      </div>
+    </Paper>
+  )}
 
 const styled = withStyles(styles, { withTheme: true })(Header)
 

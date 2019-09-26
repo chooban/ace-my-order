@@ -1,6 +1,7 @@
 /// <reference path="../typings/ace-my-order.d.ts" />
 
 import React, { useState, CSSProperties, memo } from 'react'
+import TextField from '@material-ui/core/TextField'
 import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
 import { FixedSizeList as List, areEqual } from 'react-window'
 import Hidden from '@material-ui/core/Hidden'
@@ -12,10 +13,19 @@ import { PreviewsItem } from "ace-my-order"
 
 const styles = (theme: any) => {
   return createStyles({
+    listingPanel: {
+      width: '40%',
+      display: 'flex',
+      flexDirection: 'column'
+    },
     contentPanel: {
       width: '60%',
       textAlign: 'left',
-      overflowY: 'scroll'
+      overflowY: 'scroll',
+      paddingLeft: '5px'
+    },
+    search: {
+      marginBottom: '10px'
     },
     column: {
       display: 'flex',
@@ -73,26 +83,39 @@ function PreviewsTable(props: PreviewsTableProps) {
   return (
     <>
       <SearchContext.Consumer>
-        {({ searchValue }) => {
+        {({ searchValue, updateSearch }) => {
           const catalogue = searchValue.length > 3
             ? searchCatalogue(searchValue, rows)
             : rows
 
           return (
-            <List
-              height={Math.round(height)}
-              itemCount={catalogue.length}
-              itemSize={50}
-              width={'40%'}
-              style={{
-                marginLeft: 'auto',
-                marginRight: 'auto',
-              }}
-            >
-              {({ index, style }: any) =>
-                (<Row row={catalogue[index]} style={style} classes={classes} setSelectedItem={setSelectedItem}/>)
-              }
-            </List>
+            <>
+              <div className={classes.listingPanel}>
+                <TextField
+                  id="outlined-search"
+                  label="Filter"
+                  type="search"
+                  className={classes.search}
+                  margin="none"
+                  variant="outlined"
+                  onChange={e => updateSearch(e.currentTarget.value)}
+                />
+                <List
+                  height={Math.round(height)}
+                  itemCount={catalogue.length}
+                  itemSize={50}
+                  width={'100%'}
+                  style={{
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                  }}
+                >
+                  {({ index, style }: any) =>
+                    (<Row row={catalogue[index]} style={style} classes={classes} setSelectedItem={setSelectedItem}/>)
+                  }
+                </List>
+              </div>
+            </>
           )
         }}
       </SearchContext.Consumer>

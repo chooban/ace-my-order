@@ -88,7 +88,7 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
               variant="contained"
               className={classes.button}
               color="primary"
-              onClick={() => dispatch({ type: OrderActionType.Add, payload: null})}
+              onClick={() => dispatch({ type: OrderActionType.Add, payload: item})}
             >
               Add to order
             </Button>
@@ -96,7 +96,7 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
               variant="contained"
               className={classes.button}
               color="secondary"
-              onClick={() => dispatch({ type: OrderActionType.Remove, payload: null})}
+              onClick={() => dispatch({ type: OrderActionType.Remove, payload: item})}
             >
               Remove from order
             </Button>
