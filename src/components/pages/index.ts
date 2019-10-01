@@ -1,4 +1,4 @@
-import { About} from './About'
+import { About } from './About'
 import { Contact } from './Contact'
 import { Privacy } from './Privacy'
 

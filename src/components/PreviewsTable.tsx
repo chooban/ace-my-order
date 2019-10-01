@@ -122,7 +122,7 @@ function PreviewsTable(props: PreviewsTableProps) {
       <div className={classes.contentPanel}>
         {selectedItem
           ? <PreviewPanel item={selectedItem} />
-          : <p style={{marginTop: 0}}>Please select an item</p>
+          : <p style={{ marginTop: 0 }}>Please select an item</p>
         }
       </div>
     </>

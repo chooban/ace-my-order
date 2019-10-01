@@ -33,6 +33,6 @@ function Cart({ classes }: WithStyles<typeof styles>) {
 
 Cart.whyDidYouRender = true
 
-const StyledCart = withStyles(styles, { withTheme: true})(Cart)
+const StyledCart = withStyles(styles, { withTheme: true })(Cart)
 
 export { StyledCart as Cart }

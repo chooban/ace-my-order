@@ -70,6 +70,6 @@ function Privacy({ classes }: WithStyles<typeof styles>) {
   )
 }
 
-const styled = withStyles(styles, { withTheme: true})(Privacy)
+const styled = withStyles(styles, { withTheme: true })(Privacy)
 
 export { styled as Privacy }

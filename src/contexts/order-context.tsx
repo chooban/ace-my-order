@@ -1,6 +1,6 @@
 /// <reference path="../typings/ace-my-order.d.ts" />
 
-import React, {createContext, useContext, useReducer, useEffect, Dispatch} from 'react'
+import React, { createContext, useContext, useReducer, useEffect, Dispatch } from 'react'
 
 import { PreviewsItem } from 'ace-my-order'
 
@@ -43,7 +43,7 @@ interface StateProviderProps {
 
 const StateContext = createContext<[OrderState, Dispatch<Action>]>([state, () => {}])
 
-const OrderProvider = ({children, initialState, onUpdate}: StateProviderProps) => {
+const OrderProvider = ({ children, initialState, onUpdate }: StateProviderProps) => {
   const [state, dispatch] = useReducer(orderReducer, initialState)
 
   useEffect(() => {

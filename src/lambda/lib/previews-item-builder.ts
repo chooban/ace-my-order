@@ -17,7 +17,7 @@ function builder(row: string[]): PreviewsItem | null {
   }
 }
 
-const firstLowerCaseLetter = /(^|[^a-zA-Z\u00C0-\u017F'])([a-zA-Z\u00C0-\u017F])/g;
+const firstLowerCaseLetter = /(^|[^a-zA-Z\u00C0-\u017F'])([a-zA-Z\u00C0-\u017F])/g
 const capitalize = (s: string) => s.toLowerCase().replace(firstLowerCaseLetter, (m) => m.toUpperCase())
 
 const titleFormat = (title: string) => (
@@ -37,8 +37,8 @@ const titleFormat = (title: string) => (
  *   * title
  */
 function hasMinimumFields(rowData: string[]): boolean {
-  const requiredFields = [0, 1, 3];
-  return requiredFields.reduce((v, idx) => v && !!rowData[idx], Boolean(true));
+  const requiredFields = [0, 1, 3]
+  return requiredFields.reduce((v, idx) => v && !!rowData[idx], Boolean(true))
 }
 
 export { builder }
