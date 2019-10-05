@@ -1,18 +1,18 @@
 /// <reference path="./typings/ace-my-order.d.ts" />
 
-import React, { useState, useEffect } from 'react'
+import { createStyles, WithStyles,withStyles } from '@material-ui/core'
+import { PreviewsItem } from "ace-my-order"
+import React, { useState } from 'react'
 import { hot } from 'react-hot-loader'
 import { BrowserRouter as Router, Route } from "react-router-dom"
-import { createStyles, withStyles, WithStyles } from '@material-ui/core'
 
-import { About, Contact, Privacy } from './components/pages/'
-import { Header, Footer } from './components/layout/'
-
-import { PreviewsTableContainer } from './components/PreviewsTableContainer'
 import { Cart } from './components/Cart'
-
-import SearchContext from './contexts/search-context'
+import { Footer,Header } from './components/layout/'
+import { About, Contact, Privacy } from './components/pages/'
+import { PreviewsTableContainer } from './components/PreviewsTableContainer'
 import { OrderProvider } from './contexts/order-context'
+import SearchContext from './contexts/search-context'
+import { useFetch } from './hooks'
 
 const styles = (theme: any) => {
   return createStyles({
@@ -37,19 +37,16 @@ const styles = (theme: any) => {
 
 function App({ classes }: WithStyles<typeof styles>) {
   const [searchValue, setSearchValue] = useState('')
-  const [order, setOrder] = useState({ order: [] })
-
-  useEffect(() => {
-    console.log('Order changed')
-  }, [order])
+  const { error, response } = useFetch<PreviewsItem[]>('.netlify/functions/latest')
 
   return (
     <div className={classes.root}>
       <Router>
-        <OrderProvider initialState={order} onUpdate={setOrder}>
+        <OrderProvider>
           <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
             <Header />
-            <Route exact path="/" component={PreviewsTableContainer} />
+            <Route exact path="/"
+              render={(props) => <PreviewsTableContainer {...props} data={response} />} />
           </SearchContext.Provider>
           <Route path="/cart" component={Cart} />
         </OrderProvider>

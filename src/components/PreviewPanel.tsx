@@ -1,13 +1,13 @@
 /// <reference path="../typings/ace-my-order.d.ts" />
 
-import React from 'react'
-import { withStyles, WithStyles, createStyles } from '@material-ui/styles'
 import Button from '@material-ui/core/Button'
-import parse from 'html-react-parser'
+import { createStyles, WithStyles, withStyles } from '@material-ui/styles'
 import { PreviewsItem, PreviewsOnlineDetails } from 'ace-my-order'
+import parse from 'html-react-parser'
+import React from 'react'
 
+import { OrderActionType, useOrder } from '../contexts/order-context'
 import { useFetch } from '../hooks/'
-import { useOrder, OrderActionType } from '../contexts/order-context'
 
 const styles = (theme: any) => {
   return createStyles({
@@ -53,7 +53,7 @@ interface PreviewPanelProps extends WithStyles<typeof styles> {
 
 function PreviewPanel({ classes, item }: PreviewPanelProps) {
   const res = useFetch<PreviewsOnlineDetails>(`.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
-  const dispatch = useOrder()[1]
+  const [, dispatch] = useOrder()
 
   if (res.error) {
     console.error({ e: res.error })

@@ -1,7 +1,12 @@
 {
   "extends": "react-app",
+  "plugins": ["simple-import-sort"],
   "rules": {
     "indent": ["warn", 2, { "SwitchCase": 1 }],
-    "semi": [1, "never"]
+    "semi": [1, "never"],
+    "object-curly-spacing": [2, "always"],
+    "sort-imports": "off",
+    "import/order": "off",
+    "simple-import-sort/sort": "error"
   }
 }

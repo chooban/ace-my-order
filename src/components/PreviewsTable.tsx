@@ -1,15 +1,14 @@
 /// <reference path="../typings/ace-my-order.d.ts" />
 
-import React, { useState, CSSProperties, memo } from 'react'
-import TextField from '@material-ui/core/TextField'
-import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
-import { FixedSizeList as List, areEqual } from 'react-window'
 import Hidden from '@material-ui/core/Hidden'
+import { createStyles,WithStyles, withStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
+import { PreviewsItem } from "ace-my-order"
+import React, { CSSProperties, memo,useState } from 'react'
+import { areEqual,FixedSizeList as List } from 'react-window'
 
 import SearchContext from '../contexts/search-context'
 import PreviewPanel from './PreviewPanel'
-
-import { PreviewsItem } from "ace-my-order"
 
 const styles = (theme: any) => {
   return createStyles({
@@ -152,4 +151,4 @@ interface RowProps extends WithStyles<typeof styles> {
 
 PreviewsTable.whyDidYouRender = true
 
-export default memo(withStyles(styles, { withTheme: true })(PreviewsTable))
+export default withStyles(styles, { withTheme: true })(memo(PreviewsTable))

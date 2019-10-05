@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect,useState } from 'react'
 
 function useFetch<T>(url: string, params?: RequestInit) {
   const [response, setResponse] = useState<T|null>(null)

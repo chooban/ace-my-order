@@ -1,12 +1,12 @@
 /// <reference path="../typings/ace-my-order.d.ts" />
 
-import React from 'react'
-import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
-import PreviewsTable from './PreviewsTable'
-import { useFetch, useClientRect } from '../hooks/'
-
+import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles'
 import { PreviewsItem } from "ace-my-order"
+import React, { memo } from 'react'
+
+import { useClientRect } from '../hooks/'
+import PreviewsTable from './PreviewsTable'
 
 const styles = (theme:any) => {
   return createStyles({
@@ -27,18 +27,15 @@ const styles = (theme:any) => {
 }
 
 const contentRef = React.createRef<HTMLDivElement>()
-function PreviewsTableContainer({ classes }: WithStyles<typeof styles>) {
-  const res = useFetch<PreviewsItem[]>('.netlify/functions/latest')
+
+function PreviewsTableContainer({ classes, data }: WithStyles<typeof styles> & { data: PreviewsItem[] | null}) {
   const contentRect = useClientRect(contentRef)
 
-  let content = undefined
-  if (res.error) {
-    console.error(res.error)
-    content = (<p>Error. Sorry</p>)
-  } else if (res.isLoading) {
+  let content
+  if (!data) {
     content = (<p>Loading...</p>)
-  } else if (res.response) {
-    content = (<PreviewsTable rows={res.response} height={contentRect.height}/>)
+  } else {
+    content = (<PreviewsTable rows={data} height={contentRect.height}/>)
   }
 
   return (
@@ -50,6 +47,6 @@ function PreviewsTableContainer({ classes }: WithStyles<typeof styles>) {
 
 PreviewsTableContainer.whyDidYouRender = false
 
-const styled = withStyles(styles, { withTheme: true })(PreviewsTableContainer)
+const styled = memo(withStyles(styles, { withTheme: true })(PreviewsTableContainer))
 
 export { styled as PreviewsTableContainer }

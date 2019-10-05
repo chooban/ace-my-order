@@ -1,10 +1,10 @@
 /// <reference path="../typings/ace-my-order.d.ts" />
 
-import React, { createContext, useContext, useReducer, useEffect, Dispatch } from 'react'
-
 import { PreviewsItem } from 'ace-my-order'
+import React, { createContext, Dispatch,useContext } from 'react'
+import { useLocalStorageReducer } from 'react-storage-hooks'
 
-const state = {
+const initialState = {
   order: [] as PreviewsItem[]
 }
 
@@ -18,7 +18,7 @@ interface Action {
   payload: PreviewsItem
 }
 
-type OrderState = typeof state
+type OrderState = typeof initialState
 
 const orderReducer = (state: OrderState, action: Action): OrderState => {
   switch(action.type) {
@@ -35,29 +35,23 @@ const orderReducer = (state: OrderState, action: Action): OrderState => {
   }
 }
 
-interface StateProviderProps {
-  initialState: OrderState,
-  onUpdate: any,
+interface OrderProviderProps {
   children: React.ReactNode
 }
 
-const StateContext = createContext<[OrderState, Dispatch<Action>]>([state, () => {}])
+const OrderContext = createContext<[OrderState, Dispatch<Action>]>([initialState, () => {}])
 
-const OrderProvider = ({ children, initialState, onUpdate }: StateProviderProps) => {
-  const [state, dispatch] = useReducer(orderReducer, initialState)
-
-  useEffect(() => {
-    onUpdate(state)
-  }, [onUpdate, state])
+const OrderProvider = ({ children }: OrderProviderProps) => {
+  const [order, dispatch] = useLocalStorageReducer('order', orderReducer, initialState)
 
   return (
-    <StateContext.Provider value={[state, dispatch]}>
+    <OrderContext.Provider value={[order, dispatch]}>
       {children}
-    </StateContext.Provider>
+    </OrderContext.Provider>
   )
 }
 
-const useOrder = () => useContext(StateContext)
+const useOrder = () => useContext(OrderContext)
 
 export {
   OrderProvider,

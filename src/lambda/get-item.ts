@@ -1,6 +1,6 @@
-import { Handler, APIGatewayEvent } from 'aws-lambda'
-import fetch from 'node-fetch'
+import { APIGatewayEvent,Handler } from 'aws-lambda'
 import cheerio from 'cheerio'
+import fetch from 'node-fetch'
 
 import { previewsCodeToUrl } from './lib/previews-code-to-url'
 

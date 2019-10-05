@@ -1,7 +1,8 @@
-import React from 'react'
-import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
+import { createStyles,WithStyles, withStyles } from '@material-ui/core/styles'
+import React from 'react'
 import { Link } from 'react-router-dom'
+
 import { useOrder } from '../../contexts/order-context'
 
 const styles = () => {
