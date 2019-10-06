@@ -7,8 +7,22 @@ import { PreviewsItem } from "ace-my-order"
 import React, { CSSProperties, memo,useState } from 'react'
 import { areEqual,FixedSizeList as List } from 'react-window'
 
+import { useOrder } from '../contexts/order-context'
 import SearchContext from '../contexts/search-context'
+import { searchCatalogue } from './lib/search-catalogue'
 import PreviewPanel from './PreviewPanel'
+
+interface PreviewsTableProps extends WithStyles<typeof styles> {
+  height: number
+  rows: PreviewsItem[]
+}
+
+interface RowProps extends WithStyles<typeof styles> {
+  row: PreviewsItem,
+  style: CSSProperties,
+  setSelectedItem: (arg0: PreviewsItem) => void,
+  inCart: boolean
+}
 
 const styles = (theme: any) => {
   return createStyles({
@@ -36,48 +50,70 @@ const styles = (theme: any) => {
       [theme.breakpoints.down('xs')]: {
         gridTemplateColumns: 'auto',
       },
-      height: '50px'
+      '&:hover': {
+        cursor: 'pointer',
+        backgroundColor: 'lightgray',
+        verticalAlign: 'middle'
+      }
     },
     cellTitle: {
-      [theme.breakpoints.down('md')]: {
-        textOverflow: 'ellipsis',
-      },
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-end',
+    },
+    '&:hover': {
+      cursor: 'pointer',
+    },
+    cellTitleContents: {
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
       textAlign: 'left',
-      '& span:hover': {
-        cursor: 'pointer',
+      fontWeight: 500,
+      '& > span': {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+      },
+      '&::after': {
+        content: "'done'",
+        color: 'green',
+        fontWeight: 'bold',
+        fontFamily: 'Material Icons',
+        position: 'relative',
+        left: '5px',
+        visibility: 'hidden'
+      },
+    },
+    inCart: {
+      '&::after': {
+        visibility: 'visible'
       }
     },
     cellPublisher: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      fontSize: 'smaller',
       [theme.breakpoints.down('md')]: {
         textOverflow: 'ellipsis',
-        width: '30vw'
       },
-      marginRight: '0.5em',
     },
     cellPrice: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-end',
       marginLeft: '0.5em',
-      marginRight: '0.5em'
-    }
+      marginRight: '0.5em',
+      verticalAlign: 'bottom'
+    },
   })
-}
-
-function searchCatalogue(searchTerm: string, catalogue: PreviewsItem[]) {
-  const publisherOrTitleMatches = (regex: RegExp) =>
-    (d: PreviewsItem) => regex.test(`${d.title} ${d.publisher}`)
-
-  const terms = searchTerm.split(' ')
-  const regex = terms
-    .map((t) => `(?=.*${t})`)
-    .reduce((a, b) => a + b, '')
-
-  const re = new RegExp(regex, 'i')
-
-  return catalogue.filter(publisherOrTitleMatches(re))
 }
 
 function PreviewsTable(props: PreviewsTableProps) {
   const { classes, rows, height } = props
   const [selectedItem, setSelectedItem] = useState<PreviewsItem | undefined>(undefined)
+  const [{ order }] = useOrder()
 
   return (
     <>
@@ -110,7 +146,13 @@ function PreviewsTable(props: PreviewsTableProps) {
                   }}
                 >
                   {({ index, style }: any) =>
-                    (<Row row={catalogue[index]} style={style} classes={classes} setSelectedItem={setSelectedItem}/>)
+                    (<Row
+                      row={catalogue[index]}
+                      style={style}
+                      classes={classes}
+                      setSelectedItem={setSelectedItem}
+                      inCart={order.some((i) => i.code === catalogue[index].code)}
+                    />)
                   }
                 </List>
               </div>
@@ -128,26 +170,18 @@ function PreviewsTable(props: PreviewsTableProps) {
   )
 }
 
-const Row = memo(({ row, classes, style, setSelectedItem }: RowProps) => (
-  <div className={classes.row} style={style}>
-    <div className={classes.cellTitle} onClick={() => setSelectedItem(row)}><span>{row.title}</span></div>
+const Row = memo(({ row, classes, style, setSelectedItem, inCart }: RowProps) => (
+  <div className={classes.row} style={style} onClick={() => setSelectedItem(row)}>
+    <div className={classes.cellTitle}>
+      <span className={`${classes.cellTitleContents} ${inCart ? classes.inCart : ''}`}>{row.title}</span>
+    </div>
     <Hidden xsDown>
       <div className={classes.cellPrice}>{row.price > 0 ? '£' + row.price.toFixed(2) : '\u2014' }</div>
     </Hidden>
+    <div className={classes.cellPublisher}>{row.publisher}</div>
   </div>
 )
 , areEqual)
-
-interface PreviewsTableProps extends WithStyles<typeof styles> {
-  height: number
-  rows: PreviewsItem[]
-}
-
-interface RowProps extends WithStyles<typeof styles> {
-  row: PreviewsItem,
-  style: CSSProperties,
-  setSelectedItem: (arg0: PreviewsItem) => void
-}
 
 PreviewsTable.whyDidYouRender = true
 
