@@ -46,7 +46,7 @@ const styles = (theme: any) => {
     },
     row: {
       display: 'grid',
-      gridTemplateColumns: 'auto 80px',
+      gridTemplateColumns: 'auto 10px 80px',
       [theme.breakpoints.down('xs')]: {
         gridTemplateColumns: 'auto',
       },
@@ -58,11 +58,10 @@ const styles = (theme: any) => {
     },
     cellTitle: {
       display: 'flex',
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
       flexDirection: 'column',
       justifyContent: 'flex-end',
-    },
-    '&:hover': {
-      cursor: 'pointer',
     },
     cellTitleContents: {
       overflow: 'hidden',
@@ -70,25 +69,17 @@ const styles = (theme: any) => {
       textOverflow: 'ellipsis',
       textAlign: 'left',
       fontWeight: 500,
-      '& > span': {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-      },
-      '&::after': {
-        content: "'done'",
-        color: 'green',
-        fontWeight: 'bold',
-        fontFamily: 'Material Icons',
-        position: 'relative',
-        left: '5px',
-        visibility: 'hidden'
-      },
     },
     inCart: {
-      '&::after': {
-        visibility: 'visible'
-      }
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-end',
+      content: "'done'",
+      color: 'green',
+      fontWeight: 'bold',
+      fontFamily: 'Material Icons',
+      position: 'relative',
+      visibility: 'hidden'
     },
     cellPublisher: {
       display: 'flex',
@@ -103,9 +94,9 @@ const styles = (theme: any) => {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'flex-end',
-      marginLeft: '0.5em',
       marginRight: '0.5em',
-      verticalAlign: 'bottom'
+      verticalAlign: 'bottom',
+      textAlign: 'right'
     },
   })
 }
@@ -173,8 +164,14 @@ function PreviewsTable(props: PreviewsTableProps) {
 const Row = memo(({ row, classes, style, setSelectedItem, inCart }: RowProps) => (
   <div className={classes.row} style={style} onClick={() => setSelectedItem(row)}>
     <div className={classes.cellTitle}>
-      <span className={`${classes.cellTitleContents} ${inCart ? classes.inCart : ''}`}>{row.title}</span>
+      <span className={classes.cellTitleContents}>{row.title}</span>
     </div>
+    <i
+      className={`materical-icons ${classes.inCart}`}
+      style={inCart ? { visibility: 'visible' }: {}}
+    >
+      done
+    </i>
     <Hidden xsDown>
       <div className={classes.cellPrice}>{row.price > 0 ? '£' + row.price.toFixed(2) : '\u2014' }</div>
     </Hidden>
