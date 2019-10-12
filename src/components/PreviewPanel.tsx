@@ -1,5 +1,3 @@
-/// <reference path="../typings/ace-my-order.d.ts" />
-
 import Button from '@material-ui/core/Button'
 import { createStyles, WithStyles, withStyles } from '@material-ui/styles'
 import { PreviewsItem, PreviewsOnlineDetails } from 'ace-my-order'

@@ -1,5 +1,3 @@
-/// <reference path="../typings/ace-my-order.d.ts" />
-
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import DeleteIcon from '@material-ui/icons/Delete'

@@ -11,15 +11,15 @@
     "@types/cheerio": "^0.22.13",
     "@types/es6-promise": "^3.3.0",
     "@types/jest": "24.0.18",
-    "@types/node": "12.7.11",
+    "@types/node": "12.7.12",
     "@types/node-fetch": "^2.5.2",
     "@types/react": "16.9.5",
     "@types/react-dom": "16.9.1",
     "@types/react-router": "^5.1.1",
     "@types/react-window": "^1.8.1",
     "@types/sharp": "^0.22.3",
-    "@welldone-software/why-did-you-render": "^3.3.5",
-    "aws-sdk": "^2.542.0",
+    "@welldone-software/why-did-you-render": "^3.3.7",
+    "aws-sdk": "^2.548.0",
     "cheerio": "^1.0.0-rc.3",
     "dotenv": "^8.1.0",
     "eslint-plugin-simple-import-sort": "^4.0.0",
@@ -31,7 +31,7 @@
     "react-scripts": "3.2.0",
     "react-storage-hooks": "3.0.3",
     "react-window": "^1.8.5",
-    "typescript": "3.6.3"
+    "typescript": "3.6.4"
   },
   "scripts": {
     "start": "concurrently -n lambda,react npm:start-lambda npm:start-react -c \"blue,magenta\"",
@@ -51,15 +51,15 @@
   "devDependencies": {
     "@babel/plugin-transform-object-assign": "^7.2.0",
     "@babel/preset-typescript": "^7.6.0",
-    "@hot-loader/react-dom": "^16.9.0",
+    "@hot-loader/react-dom": "^16.10.2",
     "@types/react-router-dom": "^5.1.0",
     "@types/react-virtualized": "^9.21.4",
     "@types/recompose": "^0.30.7",
-    "concurrently": "^4.1.2",
+    "concurrently": "^5.0.0",
     "html-react-parser": "^0.9.1",
     "netlify-lambda": "^1.6.3",
     "react-app-rewire-hot-loader": "^2.0.1",
     "react-app-rewired": "^2.1.3",
-    "react-hot-loader": "^4.12.14"
+    "react-hot-loader": "^4.12.15"
   }
 }

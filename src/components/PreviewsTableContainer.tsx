@@ -1,5 +1,3 @@
-/// <reference path="../typings/ace-my-order.d.ts" />
-
 import Paper from '@material-ui/core/Paper'
 import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles'
 import { PreviewsItem } from "ace-my-order"

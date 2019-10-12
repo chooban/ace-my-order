@@ -1,5 +1,3 @@
-/// <reference path="../typings/ace-my-order.d.ts" />
-
 import Hidden from '@material-ui/core/Hidden'
 import { createStyles,WithStyles, withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'

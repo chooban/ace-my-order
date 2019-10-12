@@ -1,5 +1,3 @@
-/// <reference path="../../typings/ace-my-order.d.ts" />
-
 import { PreviewsItem } from "ace-my-order"
 
 function searchCatalogue(searchTerm: string, catalogue: PreviewsItem[]) {
