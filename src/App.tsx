@@ -1,5 +1,3 @@
-/// <reference path="./typings/ace-my-order.d.ts" />
-
 import { createStyles, WithStyles,withStyles } from '@material-ui/core'
 import { PreviewsItem } from "ace-my-order"
 import React, { useState } from 'react'

@@ -1,14 +1,8 @@
-/// <reference path="../typings/ace-my-order.d.ts" />
-
 import { APIGatewayEvent,Context, Handler } from 'aws-lambda'
 import * as AWS from 'aws-sdk'
 
 import { builder as previewsItemBuilder } from './lib/previews-item-builder'
 // import { PreviewsItem } from 'ace-my-order'
-
-type S3Object = {
-  Key: string | ''
-}
 
 require('dotenv').config()
 
@@ -37,9 +31,9 @@ function parseCsv(text: string): any[] {
 }
 
 
-const sortByIssueNumber = function(a: S3Object, b: S3Object): number {
-  const issueA = a.Key.match(/\d+/)
-  const issueB = b.Key.match(/\d+/)
+const sortByIssueNumber = function(a: AWS.S3.Object, b: AWS.S3.Object): number {
+  const issueA = a.Key!.match(/\d+/)
+  const issueB = b.Key!.match(/\d+/)
 
   if (issueA && issueB) {
     return +issueB[0] - +issueA[0]
@@ -75,7 +69,7 @@ const handler: Handler = async (
       return { statusCode: 200, body: '' }
     }
 
-    const issues = data.Contents.slice() as S3Object[]
+    const issues = data.Contents.slice()
     issues.sort(sortByIssueNumber)
 
     const items = await getObject(issues[0].Key || '')

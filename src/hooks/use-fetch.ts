@@ -5,8 +5,8 @@ function useFetch<T>(url: string, params?: RequestInit) {
   const [error, setError] = useState<string|null>(null)
   const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
-    const abortController =new AbortController()
-    const signal =abortController.signal
+    const abortController = new AbortController()
+    const signal = abortController.signal
 
     setResponse(null)
     setError(null)

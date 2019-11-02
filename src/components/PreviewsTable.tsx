@@ -10,18 +10,6 @@ import SearchContext from '../contexts/search-context'
 import { searchCatalogue } from './lib/search-catalogue'
 import PreviewPanel from './PreviewPanel'
 
-interface PreviewsTableProps extends WithStyles<typeof styles> {
-  height: number
-  rows: PreviewsItem[]
-}
-
-interface RowProps extends WithStyles<typeof styles> {
-  row: PreviewsItem,
-  style: CSSProperties,
-  setSelectedItem: (arg0: PreviewsItem) => void,
-  inCart: boolean
-}
-
 const styles = (theme: any) => {
   return createStyles({
     listingPanel: {
@@ -99,7 +87,12 @@ const styles = (theme: any) => {
   })
 }
 
-function PreviewsTable(props: PreviewsTableProps) {
+interface PreviewsTableProps extends WithStyles<typeof styles> {
+  height: number
+  rows: PreviewsItem[]
+}
+
+const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
   const { classes, rows, height } = props
   const [selectedItem, setSelectedItem] = useState<PreviewsItem | undefined>(undefined)
   const [{ order }] = useOrder()
@@ -159,7 +152,14 @@ function PreviewsTable(props: PreviewsTableProps) {
   )
 }
 
-const Row = memo(({ row, classes, style, setSelectedItem, inCart }: RowProps) => (
+interface RowProps extends WithStyles<typeof styles> {
+  row: PreviewsItem,
+  style: CSSProperties,
+  setSelectedItem: (arg0: PreviewsItem) => void,
+  inCart: boolean
+}
+
+const Row: React.FunctionComponent<RowProps> = memo(({ row, classes, style, setSelectedItem, inCart }) => (
   <div className={classes.row} style={style} onClick={() => setSelectedItem(row)}>
     <div className={classes.cellTitle}>
       <span className={classes.cellTitleContents}>{row.title}</span>
@@ -178,6 +178,6 @@ const Row = memo(({ row, classes, style, setSelectedItem, inCart }: RowProps) =>
 )
 , areEqual)
 
-PreviewsTable.whyDidYouRender = true
+const TableWithStyles = withStyles(styles, { withTheme: true })(memo(PreviewsTable))
 
-export default withStyles(styles, { withTheme: true })(memo(PreviewsTable))
+export default TableWithStyles

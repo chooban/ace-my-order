@@ -4,7 +4,7 @@ import { PreviewsItem, PreviewsOnlineDetails } from 'ace-my-order'
 import parse from 'html-react-parser'
 import React from 'react'
 
-import { OrderActionType, useOrder } from '../contexts/order-context'
+import { useOrder } from '../contexts/order-context'
 import { useFetch } from '../hooks/'
 
 const styles = (theme: any) => {
@@ -26,6 +26,7 @@ const styles = (theme: any) => {
       }
     },
     description: {
+      minHeight: '100px',
       '& br': {
         display: 'block',
         content: ' '
@@ -39,8 +40,12 @@ const styles = (theme: any) => {
       float: 'left',
       marginRight: '7px'
     },
+    buttons: {
+      clear: 'both'
+    },
     button: {
       margin: theme.spacing(1),
+      marginLeft: 0
     },
   })
 }
@@ -51,7 +56,9 @@ interface PreviewPanelProps extends WithStyles<typeof styles> {
 
 function PreviewPanel({ classes, item }: PreviewPanelProps) {
   const res = useFetch<PreviewsOnlineDetails>(`.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
-  const [, dispatch] = useOrder()
+  const [{ order }, { addToOrder, removeFromOrder }] = useOrder()
+
+  const inCart = order.some(i => i.code === item.code)
 
   if (res.error) {
     console.error({ e: res.error })
@@ -77,25 +84,26 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
           <div className={classes.description}>
             <img alt="Cover" className={classes.cover} src={data.coverImage} />
             {parse(data.description)}
+            {data.creators &&
+              <p>{parse(data.creators)}</p>
+            }
           </div>
-          <p>{parse(data.creators)}</p>
-          <div>
-            <Button
-              variant="contained"
-              className={classes.button}
-              color="primary"
-              onClick={() => dispatch({ type: OrderActionType.Add, payload: item })}
-            >
-              Add to order
-            </Button>
-            <Button
-              variant="contained"
-              className={classes.button}
-              color="secondary"
-              onClick={() => dispatch({ type: OrderActionType.Remove, payload: item })}
-            >
-              Remove from order
-            </Button>
+          <div className={classes.buttons}>
+            {inCart ?
+              <Button
+                variant="contained"
+                className={classes.button}
+                color="secondary"
+                onClick={() => removeFromOrder(item)}
+              >Remove from order</Button>
+              :
+              <Button
+                variant="contained"
+                className={classes.button}
+                color="primary"
+                onClick={() => addToOrder(item)}
+              >Add to order</Button>
+            }
           </div>
         </>
       )}
@@ -105,4 +113,4 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
 
 PreviewPanel.whyDidYouRender = true
 
-export default withStyles(styles, { withTheme: true })(PreviewPanel)
+export default React.memo(withStyles(styles, { withTheme: true })(PreviewPanel))
