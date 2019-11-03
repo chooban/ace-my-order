@@ -3,7 +3,7 @@ import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles'
 import { PreviewsItem } from "ace-my-order"
 import React, { memo } from 'react'
 
-import { useClientRect } from '../hooks/'
+import { useClientRect } from '../../hooks'
 import PreviewsTable from './PreviewsTable'
 
 const styles = (theme:any) => {
@@ -11,7 +11,6 @@ const styles = (theme:any) => {
     root: {
       width: '100%',
       height: '100%',
-      overflowX: 'auto',
       marginLeft: 'auto',
       marginRight: 'auto',
       display: 'flex',
@@ -19,6 +18,7 @@ const styles = (theme:any) => {
       alignItems: 'start',
       paddingLeft: '0.5em',
       paddingTop: '14px',
+      overflow: 'hidden'
     },
 
   })
@@ -33,7 +33,7 @@ function PreviewsTableContainer({ classes, data }: WithStyles<typeof styles> & {
   if (!data) {
     content = (<p>Loading...</p>)
   } else {
-    content = (<PreviewsTable rows={data} height={contentRect.height}/>)
+    content = (<PreviewsTable rows={data} height={Math.round(contentRect.height)}/>)
   }
 
   return (

@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom"
 import { Cart } from './components/Cart'
 import { Footer,Header } from './components/layout/'
 import { About, Contact, Privacy } from './components/pages/'
-import { PreviewsTableContainer } from './components/PreviewsTableContainer'
+import { PreviewsTableContainer } from './components/previews-table/PreviewsTableContainer'
 import { OrderProvider } from './contexts/order-context'
 import SearchContext from './contexts/search-context'
 import { useFetch } from './hooks'
@@ -17,7 +17,6 @@ const styles = (theme: any) => {
     root: {
       [theme.breakpoints.down('sm')]: {
         width: '100vw',
-        minWidth: '550px'
       },
       width: '75vw',
       height: '100vh',
@@ -35,7 +34,7 @@ const styles = (theme: any) => {
 
 function App({ classes }: WithStyles<typeof styles>) {
   const [searchValue, setSearchValue] = useState('')
-  const { error, response } = useFetch<PreviewsItem[]>('.netlify/functions/latest')
+  const { response } = useFetch<PreviewsItem[]>('.netlify/functions/latest')
 
   return (
     <div className={classes.root}>

@@ -26,7 +26,6 @@ const styles = (theme: any) => {
       }
     },
     description: {
-      minHeight: '100px',
       '& br': {
         display: 'block',
         content: ' '
@@ -36,7 +35,6 @@ const styles = (theme: any) => {
       width: '10vw',
       minWidth: '100px',
       maxWidth: '200px',
-      minHeight: '150px',
       float: 'left',
       marginRight: '7px'
     },
