@@ -3,22 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@material-ui/core": "^4.5.2",
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
+    "@material-ui/core": "^4.6.0",
     "@material-ui/icons": "^4.5.1",
-    "@material-ui/styles": "^4.5.2",
-    "@types/aws-lambda": "^8.10.34",
+    "@material-ui/styles": "^4.6.0",
+    "@types/aws-lambda": "^8.10.35",
     "@types/cheerio": "^0.22.13",
     "@types/es6-promise": "^3.3.0",
-    "@types/jest": "24.0.21",
-    "@types/node": "12.12.5",
+    "@types/jest": "24.0.22",
+    "@types/node": "12.12.7",
     "@types/node-fetch": "^2.5.3",
     "@types/react": "16.9.11",
-    "@types/react-dom": "16.9.3",
+    "@types/react-dom": "16.9.4",
     "@types/react-router": "^5.1.2",
     "@types/react-window": "^1.8.1",
-    "@welldone-software/why-did-you-render": "^3.3.8",
-    "aws-sdk": "^2.562.0",
+    "@welldone-software/why-did-you-render": "^3.3.9",
+    "aws-sdk": "^2.568.0",
     "cheerio": "^1.0.0-rc.3",
     "dotenv": "^8.2.0",
     "eslint-plugin-simple-import-sort": "^4.0.0",
@@ -30,7 +30,7 @@
     "react-scripts": "3.2.0",
     "react-storage-hooks": "3.0.3",
     "react-window": "^1.8.5",
-    "typescript": "3.6.4"
+    "typescript": "3.7.2"
   },
   "scripts": {
     "start": "concurrently -n lambda,react npm:start-lambda npm:start-react -c \"blue,magenta\"",
@@ -49,19 +49,19 @@
   ],
   "devDependencies": {
     "@babel/plugin-transform-object-assign": "^7.2.0",
-    "@babel/preset-typescript": "^7.6.0",
-    "@hot-loader/react-dom": "^16.10.2",
+    "@babel/preset-typescript": "^7.7.2",
+    "@hot-loader/react-dom": "^16.11.0",
     "@types/react-router-dom": "^5.1.2",
     "@types/react-virtualized": "^9.21.5",
     "@types/recompose": "^0.30.7",
     "concurrently": "^5.0.0",
-    "html-react-parser": "^0.9.1",
+    "html-react-parser": "^0.9.2",
     "netlify-lambda": "^1.6.3",
     "react-app-rewire-hot-loader": "^2.0.1",
-    "react-app-rewired": "^2.1.4",
-    "react-hot-loader": "^4.12.15"
+    "react-app-rewired": "^2.1.5",
+    "react-hot-loader": "^4.12.16"
   },
   "resolutions": {
-    "set-value": "^2.0.1"
+    "set-value": "^3.0.1"
   }
 }
