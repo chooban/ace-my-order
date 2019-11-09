@@ -42,8 +42,11 @@ function App({ classes }: WithStyles<typeof styles>) {
         <OrderProvider>
           <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
             <Header />
-            <Route exact path="/"
-              render={(props) => <PreviewsTableContainer {...props} data={response} />} />
+            <Route
+              exact
+              path="/"
+              render={(props) => <PreviewsTableContainer {...props} data={response} />}
+            />
           </SearchContext.Provider>
           <Route path="/cart" component={Cart} />
         </OrderProvider>

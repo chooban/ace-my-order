@@ -1,24 +1,23 @@
 import { WithStyles, withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import { PreviewsItem } from "ace-my-order"
-import React, { memo, useState } from 'react'
+import React, { memo } from 'react'
 import { FixedSizeList } from 'react-window'
 
 import { useOrder } from '../../contexts/order-context'
 import SearchContext from '../../contexts/search-context'
 import { searchCatalogue } from '../lib/search-catalogue'
-import PreviewPanel from '../PreviewPanel'
 import { Row } from './PreviewsRow'
 import { styles } from './styles'
 
 interface PreviewsTableProps extends WithStyles<typeof styles> {
   height: number
   rows: PreviewsItem[]
+  setSelectedItem: (i: PreviewsItem) => void
 }
 
 const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
-  const { classes, rows, height } = props
-  const [selectedItem, setSelectedItem] = useState<PreviewsItem | undefined>(undefined)
+  const { classes, rows, height, setSelectedItem } = props
   const [{ order }] = useOrder()
 
   return (
@@ -40,6 +39,7 @@ const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
                   margin="none"
                   variant="outlined"
                   onChange={e => updateSearch(e.currentTarget.value)}
+                  value={searchValue}
                 />
                 <FixedSizeList
                   height={height - 80}
@@ -67,12 +67,6 @@ const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
           )
         }}
       </SearchContext.Consumer>
-      <div className={classes.contentPanel}>
-        {selectedItem
-          ? <PreviewPanel item={selectedItem} />
-          : <p style={{ marginTop: 0 }}>Please select an item</p>
-        }
-      </div>
     </>
   )
 }

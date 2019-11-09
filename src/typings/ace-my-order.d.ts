@@ -16,7 +16,10 @@ declare module "ace-my-order" {
   export interface PreviewsOnlineDetails {
     description: string,
     creators: string,
-    url: string,
+    url: {
+      url: string,
+      urlPrefix: string
+    },
     coverImage: string
   }
 

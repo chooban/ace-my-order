@@ -1,9 +1,11 @@
 import Paper from '@material-ui/core/Paper'
-import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles'
+import { createStyles, useTheme, WithStyles, withStyles } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { PreviewsItem } from "ace-my-order"
-import React, { memo } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 
 import { useClientRect } from '../../hooks'
+import PreviewPanel from './PreviewPanel'
 import PreviewsTable from './PreviewsTable'
 
 const styles = (theme:any) => {
@@ -20,6 +22,14 @@ const styles = (theme:any) => {
       paddingTop: '14px',
       overflow: 'hidden'
     },
+    contentPanel: {
+      [theme.breakpoints.down('xs')]: {
+        width: '100%',
+      },
+      width: '60%',
+      textAlign: 'left',
+      paddingLeft: '5px'
+    },
 
   })
 }
@@ -28,17 +38,56 @@ const contentRef = React.createRef<HTMLDivElement>()
 
 function PreviewsTableContainer({ classes, data }: WithStyles<typeof styles> & { data: PreviewsItem[] | null}) {
   const contentRect = useClientRect(contentRef)
+  const [selectedItem, setSelectedItem] = useState<PreviewsItem | undefined>(undefined)
+  const theme = useTheme()
+  const isPresumedMobile = useMediaQuery(theme.breakpoints.down('xs'))
 
-  let content
+  const unsetSelectedItem = useCallback(
+    () => setSelectedItem(undefined),
+    [setSelectedItem]
+  )
+
   if (!data) {
-    content = (<p>Loading...</p>)
-  } else {
-    content = (<PreviewsTable rows={data} height={Math.round(contentRect.height)}/>)
+    return (
+      <Paper className={classes.root} ref={contentRef}>
+        <p>Loading...</p>
+      </Paper>
+    )
+  }
+
+  if (isPresumedMobile) {
+    return (
+      <Paper className={classes.root} ref={contentRef}>
+        {selectedItem
+          ? <div className={classes.contentPanel}>
+            <PreviewPanel
+              item={selectedItem}
+              unselectItem={unsetSelectedItem}
+            />
+          </div>
+          : <PreviewsTable
+            rows={data}
+            setSelectedItem={setSelectedItem}
+            height={Math.round(contentRect.height)}
+          />
+        }
+      </Paper>
+    )
   }
 
   return (
     <Paper className={classes.root} ref={contentRef}>
-      {content}
+      <PreviewsTable
+        rows={data}
+        setSelectedItem={(i: PreviewsItem) => setSelectedItem(i)}
+        height={Math.round(contentRect.height)}
+      />
+      <div className={classes.contentPanel}>
+        <PreviewPanel
+          item={selectedItem}
+          unselectItem={unsetSelectedItem}
+        />
+      </div>
     </Paper>
   )
 }

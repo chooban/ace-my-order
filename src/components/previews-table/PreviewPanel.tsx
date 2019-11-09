@@ -1,17 +1,28 @@
 import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import ArrowBack from '@material-ui/icons/ArrowBack'
 import { createStyles, WithStyles, withStyles } from '@material-ui/styles'
 import { PreviewsItem, PreviewsOnlineDetails } from 'ace-my-order'
 import parse from 'html-react-parser'
 import React from 'react'
 
-import { useOrder } from '../contexts/order-context'
-import { useFetch } from '../hooks/'
+import { useOrder } from '../../contexts/order-context'
+import { useFetch } from '../../hooks'
 
 const styles = (theme: any) => {
   return createStyles({
     root: {
       paddingRight: '7px',
       paddingLeft: '7px',
+    },
+    dismiss: {
+      display: 'none',
+      padding: 0,
+      paddingRight: 12,
+      right: 0,
+      [theme.breakpoints.down('xs')]: {
+        display: 'unset',
+      },
     },
     title: {
       marginTop: 0,
@@ -48,11 +59,17 @@ const styles = (theme: any) => {
   })
 }
 
-interface PreviewPanelProps extends WithStyles<typeof styles> {
-  item: PreviewsItem
+interface WrapperProps extends WithStyles<typeof styles> {
+  item?: PreviewsItem
+  unselectItem?: () => void
 }
 
-function PreviewPanel({ classes, item }: PreviewPanelProps) {
+interface PreviewPanelProps extends WithStyles<typeof styles> {
+  item: PreviewsItem,
+  unselectItem?: () => void
+}
+
+function PreviewPanel({ classes, item, unselectItem }:PreviewPanelProps) {
   const res = useFetch<PreviewsOnlineDetails>(`.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
   const [{ order }, { addToOrder, removeFromOrder }] = useOrder()
 
@@ -67,8 +84,17 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
 
   return (
     <div className={classes.root}>
-      <p className={classes.title}>{item.title}{' '}
-        <a className={classes.link} target="_blank" rel="noopener noreferrer" href={data ? data.url : undefined}>
+      <p className={classes.title}>
+        <IconButton className={classes.dismiss} onClick={unselectItem}>
+          <ArrowBack color='action'/>
+        </IconButton>
+        {item.title}{' '}
+        <a
+          className={classes.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          href={data ? data.url.url : undefined}
+        >
           <img alt="Open Previews site" src="/static/open_in_new24px.svg" />
         </a>
       </p>
@@ -111,4 +137,11 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
 
 PreviewPanel.whyDidYouRender = true
 
-export default React.memo(withStyles(styles, { withTheme: true })(PreviewPanel))
+const PreviewPanelWrapper: React.FC<WrapperProps> = (props) => {
+  if (!props.item) {
+    return <p style={{ marginTop: 0 }}>Please select an item</p>
+  }
+  return <PreviewPanel item={props.item} {...props} />
+}
+
+export default React.memo(withStyles(styles, { withTheme: true })(PreviewPanelWrapper))

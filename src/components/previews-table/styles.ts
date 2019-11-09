@@ -10,14 +10,6 @@ const styles = (theme: any) => {
       display: 'flex',
       flexDirection: 'column'
     },
-    contentPanel: {
-      [theme.breakpoints.down('xs')]: {
-        display: 'none'
-      },
-      width: '60%',
-      textAlign: 'left',
-      paddingLeft: '5px'
-    },
     search: {
       marginBottom: '10px'
     },
