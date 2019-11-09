@@ -58,6 +58,11 @@ const styles = (theme:any) => {
       '&:hover': {
         cursor: 'pointer'
       }
+    },
+    lineItem: {
+      '& > div': {
+        whiteSpace: 'nowrap'
+      }
     }
   })
 }
@@ -132,7 +137,7 @@ function Cart({ classes }: Props) {
           <div>Price</div>
         </div>
         {order.map((a) => (
-          <div key={a.code}>
+          <div key={a.code} className={classes.lineItem}>
             <div>{a.code}
               <AssignmentIcon
                 className={classes.copyIcon}
