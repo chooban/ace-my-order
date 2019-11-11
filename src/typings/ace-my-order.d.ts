@@ -20,7 +20,8 @@ declare module "ace-my-order" {
       url: string,
       urlPrefix: string
     },
-    coverImage: string
+    coverImage: string,
+    coverThumbnail: string
   }
 
 }

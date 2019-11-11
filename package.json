@@ -55,7 +55,7 @@
     "@types/react-virtualized": "^9.21.5",
     "@types/recompose": "^0.30.7",
     "concurrently": "^5.0.0",
-    "html-react-parser": "^0.9.2",
+    "html-react-parser": "^0.10.0",
     "netlify-lambda": "^1.6.3",
     "react-app-rewire-hot-loader": "^2.0.1",
     "react-app-rewired": "^2.1.5",

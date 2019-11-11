@@ -43,11 +43,13 @@ async function getItemInformation(issueNumber: number, itemNumber: string) {
         .trim()
         .replace(/\s\s+/g, ' ')
 
+      const coverImageURL = coverImage.substr(0, coverImage.lastIndexOf('?'))
       return {
         url: previewsCodeToUrl(issueNumber, itemNumber),
         description,
         creators,
-        coverImage: coverImage.substr(0, coverImage.lastIndexOf('?'))
+        coverImage: coverImageURL,
+        coverThumbnail: coverImageURL.replace('CatalogImage', 'CatalogThumbnail')
       }
     })
     .catch((err) => {

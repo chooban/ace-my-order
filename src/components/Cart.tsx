@@ -1,4 +1,5 @@
 import Button from '@material-ui/core/Button'
+import Hidden from '@material-ui/core/Hidden'
 import Paper from '@material-ui/core/Paper'
 import AssignmentIcon from '@material-ui/icons/Assignment'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -19,25 +20,20 @@ const styles = (theme:any) => {
       padding: '0.5em',
     },
     cartTable: {
-      display: 'table',
-      width: '100%',
       maxWidth: '600px',
       marginBottom: '1em',
-      '&>div:first-of-type': {
-        display: 'table-row',
-        '& div': {
-          display: 'table-cell',
-          verticalAlign: 'middle',
-          fontWeight: 'bold'
-        }
-      },
-      '& div': {
-        display: 'table-row',
-        '& div': {
-          display: 'table-cell',
-          verticalAlign: 'middle'
-        }
+      marginLeft: 'auto',
+      marginRight: 'auto'
+    },
+    cartRow: {
+      display: 'grid',
+      gridTemplateColumns: '100px auto 50px 30px',
+      [theme.breakpoints.down('sm')]: {
+        gridTemplateColumns: 'auto 50px 30px',
       }
+    },
+    cartHeader: {
+      fontWeight: 'bold'
     },
     buttonRow: {
       display: 'flex',
@@ -60,9 +56,6 @@ const styles = (theme:any) => {
       }
     },
     lineItem: {
-      '& > div': {
-        whiteSpace: 'nowrap'
-      }
     }
   })
 }
@@ -131,21 +124,26 @@ function Cart({ classes }: Props) {
       <h1>Order Contents</h1>
 
       <div className={classes.cartTable}>
-        <div id={'header'}>
-          <div>Previews</div>
+        <div className={`${classes.cartRow} ${classes.cartHeader}`} id={'header'}>
+          <Hidden smDown>
+            <div>Previews</div>
+          </Hidden>
           <div>Title</div>
           <div>Price</div>
+          <div>&nbsp;</div>
         </div>
         {order.map((a) => (
-          <div key={a.code} className={classes.lineItem}>
-            <div>{a.code}
-              <AssignmentIcon
-                className={classes.copyIcon}
-                data-id={a.code}
-                onClick={copyClicked}
-              />
-            </div>
-            <div>{a.title}</div>
+          <div key={a.code} className={classes.cartRow}>
+            <Hidden smDown>
+              <div>{a.code}
+                <AssignmentIcon
+                  className={classes.copyIcon}
+                  data-id={a.code}
+                  onClick={copyClicked}
+                />
+              </div>
+            </Hidden>
+            <div><Link to={`/item/${encodeURIComponent(a.code)}`}>{a.title}</Link></div>
             <div>{formatAsGBP(a.price).value}</div>
             <div>
               <DeleteIcon

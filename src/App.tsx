@@ -8,6 +8,7 @@ import { Cart } from './components/Cart'
 import { Footer,Header } from './components/layout/'
 import { About, Contact, Privacy } from './components/pages/'
 import { PreviewsTableContainer } from './components/previews-table/PreviewsTableContainer'
+import CatalogueContext from './contexts/catalogue-context'
 import { OrderProvider } from './contexts/order-context'
 import SearchContext from './contexts/search-context'
 import { useFetch } from './hooks'
@@ -34,21 +35,24 @@ const styles = (theme: any) => {
 
 function App({ classes }: WithStyles<typeof styles>) {
   const [searchValue, setSearchValue] = useState('')
-  const { response } = useFetch<PreviewsItem[]>('.netlify/functions/latest')
+  const { response } = useFetch<PreviewsItem[]>('/.netlify/functions/latest')
 
+  console.log({ response })
   return (
     <div className={classes.root}>
       <Router>
         <OrderProvider>
-          <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
-            <Header />
-            <Route
-              exact
-              path="/"
-              render={(props) => <PreviewsTableContainer {...props} data={response} />}
-            />
-          </SearchContext.Provider>
-          <Route path="/cart" component={Cart} />
+          <CatalogueContext.Provider value={{ catalogue: response || [] }}>
+            <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
+              <Header />
+              <Route path="/cart" component={Cart} />
+              <Route
+                exact
+                path={["/", "/item/:slug"]}
+                render={(props) => <PreviewsTableContainer {...props}/>}
+              />
+            </SearchContext.Provider>
+          </CatalogueContext.Provider>
         </OrderProvider>
         <Route path="/about" component={About} />
         <Route path="/privacy" component={Privacy} />

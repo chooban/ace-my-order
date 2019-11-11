@@ -2,6 +2,7 @@ import { WithStyles, withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import { PreviewsItem } from "ace-my-order"
 import React, { memo } from 'react'
+import { useHistory } from 'react-router-dom'
 import { FixedSizeList } from 'react-window'
 
 import { useOrder } from '../../contexts/order-context'
@@ -13,12 +14,16 @@ import { styles } from './styles'
 interface PreviewsTableProps extends WithStyles<typeof styles> {
   height: number
   rows: PreviewsItem[]
-  setSelectedItem: (i: PreviewsItem) => void
 }
 
 const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
-  const { classes, rows, height, setSelectedItem } = props
+  const { classes, rows, height } = props
   const [{ order }] = useOrder()
+  const history = useHistory()
+
+  const setSelectedItem = (i: PreviewsItem) => {
+    history.push(`/item/${encodeURIComponent(i.code)}`)
+  }
 
   return (
     <>

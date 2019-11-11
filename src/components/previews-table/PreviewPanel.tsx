@@ -5,6 +5,7 @@ import { createStyles, WithStyles, withStyles } from '@material-ui/styles'
 import { PreviewsItem, PreviewsOnlineDetails } from 'ace-my-order'
 import parse from 'html-react-parser'
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 import { useOrder } from '../../contexts/order-context'
 import { useFetch } from '../../hooks'
@@ -69,9 +70,10 @@ interface PreviewPanelProps extends WithStyles<typeof styles> {
   unselectItem?: () => void
 }
 
-function PreviewPanel({ classes, item, unselectItem }:PreviewPanelProps) {
-  const res = useFetch<PreviewsOnlineDetails>(`.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
+function PreviewPanel({ classes, item }:PreviewPanelProps) {
+  const res = useFetch<PreviewsOnlineDetails>(`/.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
   const [{ order }, { addToOrder, removeFromOrder }] = useOrder()
+  const history = useHistory()
 
   const inCart = order.some(i => i.code === item.code)
 
@@ -85,7 +87,7 @@ function PreviewPanel({ classes, item, unselectItem }:PreviewPanelProps) {
   return (
     <div className={classes.root}>
       <p className={classes.title}>
-        <IconButton className={classes.dismiss} onClick={unselectItem}>
+        <IconButton className={classes.dismiss} onClick={() => history.goBack()}>
           <ArrowBack color='action'/>
         </IconButton>
         {item.title}{' '}
@@ -106,7 +108,7 @@ function PreviewPanel({ classes, item, unselectItem }:PreviewPanelProps) {
       ) : (
         <>
           <div className={classes.description}>
-            <img alt="Cover" className={classes.cover} src={data.coverImage} />
+            <img alt="Cover" className={classes.cover} src={data.coverThumbnail} />
             {parse(data.description)}
             {data.creators &&
               <p>{parse(data.creators)}</p>
