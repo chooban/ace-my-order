@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-function useFetch<T>(url: string, params?: RequestInit) {
+export function useFetch<T>(url: string, params?: RequestInit) {
   const [response, setResponse] = useState<T|null>(null)
   const [error, setError] = useState<string|null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -38,4 +38,3 @@ function useFetch<T>(url: string, params?: RequestInit) {
   }, [params, url])
   return { response, error, isLoading }
 }
-export { useFetch }

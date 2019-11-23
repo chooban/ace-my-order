@@ -70,7 +70,7 @@ interface PreviewPanelProps extends WithStyles<typeof styles> {
   unselectItem?: () => void
 }
 
-function PreviewPanel({ classes, item }:PreviewPanelProps) {
+function PreviewPanel({ classes, item }: PreviewPanelProps) {
   const res = useFetch<PreviewsOnlineDetails>(`/.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
   const [{ order }, { addToOrder, removeFromOrder }] = useOrder()
   const history = useHistory()
@@ -83,6 +83,9 @@ function PreviewPanel({ classes, item }:PreviewPanelProps) {
   }
 
   const data = res.response
+  if (data) {
+    localStorage.setItem(item.code, JSON.stringify(data))
+  }
 
   return (
     <div className={classes.root}>
