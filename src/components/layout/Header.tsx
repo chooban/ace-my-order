@@ -56,7 +56,7 @@ const Header = ({ classes }: WithStyles<typeof styles>) => {
 
   return (
     <Paper className={classes.root}>
-      <Link className={classes.title} to={'/'}>My Ace Order</Link>
+      <Link className={classes.title} to={'/'}>My Ace Order foo</Link>
       <div className={classes.cartContainer}>
         <Link to="/cart">
           <i className={`material-icons ${classes.cart} ${order.length ? classes.hasItems: ''}` }>

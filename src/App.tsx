@@ -37,7 +37,6 @@ function App({ classes }: WithStyles<typeof styles>) {
   const [searchValue, setSearchValue] = useState('')
   const { response } = useFetch<PreviewsItem[]>('/.netlify/functions/latest')
 
-  console.log({ response })
   return (
     <div className={classes.root}>
       <Router>

@@ -10,18 +10,20 @@ import { previewsCodeToUrl } from './lib/previews-code-to-url'
  */
 async function getItemInformation(issueNumber: number, itemNumber: string) {
   const { url, urlPrefix } = previewsCodeToUrl(issueNumber, itemNumber)
-  return fetch(url)
+  console.log(`Fetching ${url}`)
+  return fetch(url, { method: 'GET', redirect: 'follow' })
     .then((response) => {
       if (response.ok) {
-        return response
+        console.log({ redirected: response.redirected, url: response.url })
+        return response.text()
       }
-      else if (response.status === 404) {
+
+      if (response.status === 404) {
         throw new Error('Item not found')
       } else {
         throw new Error('Error')
       }
     })
-    .then((response) => response.text())
     .then((text) => {
       const $ = cheerio.load(text)
 
