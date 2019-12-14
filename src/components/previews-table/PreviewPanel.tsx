@@ -84,20 +84,15 @@ interface PreviewPanelProps extends WithStyles<typeof styles> {
 }
 
 function PreviewPanel({ classes, item }: PreviewPanelProps) {
-  const res = useFetch<PreviewsOnlineDetails>(`/.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
+  const { error, response: data } = useFetch<PreviewsOnlineDetails>(`/.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
   const [{ order }, { addToOrder, removeFromOrder }] = useOrder()
   const history = useHistory()
 
   const inCart = order.some(i => i.code === item.code)
 
-  if (res.error) {
-    console.error({ e: res.error })
+  if (error) {
+    console.error({ error })
     return (<div><p>Item not found</p></div>)
-  }
-
-  const data = res.response
-  if (data) {
-    localStorage.setItem(item.code, JSON.stringify(data))
   }
 
   return (
@@ -133,14 +128,14 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
                   variant="contained"
                   className={classes.button}
                   color="secondary"
-                  onClick={() => removeFromOrder(item)}
+                  onClick={() => removeFromOrder({ ...item, ...data })}
                 >Remove</Button>
                 :
                 <Button
                   variant="contained"
                   className={classes.button}
                   color="primary"
-                  onClick={() => addToOrder(item)}
+                  onClick={() => addToOrder({ ...item, ...data })}
                 >Add</Button>
               }
             </div>

@@ -22,3 +22,5 @@ interface PreviewsOnlineDetails {
   coverImage: string,
   coverThumbnail: string
 }
+
+type CartItem = PreviewsItem & PreviewsOnlineDetails

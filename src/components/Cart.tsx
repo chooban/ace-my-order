@@ -27,13 +27,19 @@ const styles = (theme:any) => {
     cartHeader: {
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'end',
+      justifyContent: 'flex-end',
       borderBottom: 'thin solid lightgray',
       paddingRight: '0.5em'
     },
     cartFooter: {
-      textAlign: 'right',
-      paddingRight: '0.5em'
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      margin: '0.5em 0 0.5em 0',
+      '& div': {
+        padding: '0 0.5em 0.5em 0.5em',
+        borderBottom: 'thin solid lightgray',
+      }
     },
     cartItem: {
       display: 'flex',
@@ -45,9 +51,7 @@ const styles = (theme:any) => {
       '&>.details': {
         display: 'flex',
         flexDirection: 'column',
-        '&>.description': {
-          flexGrow: 1
-        },
+        flexGrow: 1,
         '&>.footer': {
           justifySelf: 'flex-end'
         }
@@ -126,31 +130,26 @@ function Cart({ classes }: Props) {
         <div>Price</div>
       </div>
       {order.map((a) => {
-        const retrievedItem = localStorage.getItem(a.code)
-        if (!retrievedItem) {
-          return null
-        }
-        const deets = JSON.parse(retrievedItem) as PreviewsOnlineDetails
-        if (deets) {
-          return (
-            <div className={classes.cartItem} key={a.code}>
-              <div>
-                <img alt="Cover" src={deets.coverThumbnail} />
-              </div>
-              <div className='details'>
-                <Link to={`/item/${encodeURIComponent(a.code)}`}><b>{a.title}</b></Link>
-                <p className='description'>{he.decode(deets.description.replace(/<[^>]+>/g, '')).substring(0, 150)}&hellip;</p>
-                <div className='footer'>
-                  <Button variant="contained" size="small" color="secondary" onClick={() => removeFromOrder(a)}>Remove</Button>
-                </div>
-              </div>
-              <div>{formatAsGBP(a.price).value}</div>
+        return (
+          <div className={classes.cartItem} key={a.code}>
+            <div>
+              <img alt="Cover" src={a.coverThumbnail} />
             </div>
-          )
-        }
+            <div className='details'>
+              <Link to={`/item/${encodeURIComponent(a.code)}`}><b>{a.title}</b></Link>
+              <p className='description'>{he.decode(a.description.replace(/<[^>]+>/g, '')).substring(0, 150)}&hellip;</p>
+              <div className='footer'>
+                <Button variant="contained" size="small" color="secondary" onClick={() => removeFromOrder(a)}>Remove</Button>
+              </div>
+            </div>
+            <div>{ a.price ? formatAsGBP(a.price).value : '-'}</div>
+          </div>
+        )
       })}
       <div className={classes.cartFooter}>
-        <b>Total ({order.length} items): </b> {formatAsGBP(order.reduce((acc, curr) => acc += curr.price, 0)).value}
+        <div>
+          <b>Total ({order.length} items): </b> {formatAsGBP(order.reduce((acc, curr) => acc += curr.price, 0)).value}
+        </div>
       </div>
 
       <div className={classes.buttonRow}>

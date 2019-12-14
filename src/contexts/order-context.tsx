@@ -2,7 +2,7 @@ import React, { createContext, useContext } from 'react'
 import { useLocalStorageReducer } from 'react-storage-hooks'
 
 const initialState = {
-  order: [] as ReadonlyArray<PreviewsItem>
+  order: [] as ReadonlyArray<CartItem>
 }
 
 enum OrderActionType {
@@ -12,7 +12,7 @@ enum OrderActionType {
 
 interface Action {
   type: OrderActionType,
-  payload: PreviewsItem
+  payload: CartItem
 }
 
 type OrderState = typeof initialState
@@ -47,8 +47,8 @@ interface OrderProviderProps {
 }
 
 interface OrderContextActions {
-  addToOrder: (i: PreviewsItem) => void,
-  removeFromOrder: (i: PreviewsItem) => void
+  addToOrder: (i: CartItem) => void,
+  removeFromOrder: (i: CartItem) => void
 }
 
 const OrderContext = createContext<[OrderState, OrderContextActions]>([initialState, {
