@@ -1,5 +1,4 @@
 import { createStyles, WithStyles,withStyles } from '@material-ui/core'
-import { PreviewsItem } from "ace-my-order"
 import React, { useState } from 'react'
 import { hot } from 'react-hot-loader'
 import { BrowserRouter as Router, Route } from "react-router-dom"

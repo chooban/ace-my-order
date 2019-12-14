@@ -1,5 +1,4 @@
 import { WithStyles } from '@material-ui/core/styles'
-import { PreviewsItem } from "ace-my-order"
 import React, { CSSProperties, memo } from 'react'
 import { useHistory } from 'react-router'
 import { areEqual } from 'react-window'

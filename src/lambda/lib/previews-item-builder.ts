@@ -1,6 +1,3 @@
-/// <reference path="../../typings/ace-my-order.d.ts" />
-import { PreviewsItem } from 'ace-my-order'
-
 function builder(row: string[]): PreviewsItem | null {
   if (!hasMinimumFields(row)) {
     return null

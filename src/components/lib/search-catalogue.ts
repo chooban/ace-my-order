@@ -1,5 +1,3 @@
-import { PreviewsItem } from "ace-my-order"
-
 function searchCatalogue(searchTerm: string, catalogue: PreviewsItem[]) {
   const publisherOrTitleMatches = (regex: RegExp) =>
     (d: PreviewsItem) => regex.test(`${d.title} ${d.publisher}`)

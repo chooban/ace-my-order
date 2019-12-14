@@ -1,4 +1,3 @@
-import { PreviewsItem } from "ace-my-order"
 import React, { useContext } from 'react'
 
 const catalogueContext = React.createContext({

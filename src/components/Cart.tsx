@@ -4,7 +4,6 @@ import Paper from '@material-ui/core/Paper'
 import AssignmentIcon from '@material-ui/icons/Assignment'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { createStyles,WithStyles, withStyles } from '@material-ui/styles'
-import { PreviewsOnlineDetails } from 'ace-my-order'
 import he from 'he'
 import React from 'react'
 import { useHistory } from "react-router"

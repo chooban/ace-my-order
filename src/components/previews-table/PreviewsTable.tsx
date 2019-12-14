@@ -1,6 +1,5 @@
 import { WithStyles, withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
-import { PreviewsItem } from "ace-my-order"
 import React, { memo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { FixedSizeList } from 'react-window'

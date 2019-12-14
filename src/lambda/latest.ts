@@ -2,7 +2,6 @@ import { APIGatewayEvent,Context, Handler } from 'aws-lambda'
 import * as AWS from 'aws-sdk'
 
 import { builder as previewsItemBuilder } from './lib/previews-item-builder'
-// import { PreviewsItem } from 'ace-my-order'
 
 require('dotenv').config()
 

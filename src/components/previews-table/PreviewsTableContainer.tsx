@@ -1,7 +1,6 @@
 import Paper from '@material-ui/core/Paper'
 import { createStyles, useTheme, WithStyles, withStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { PreviewsItem } from "ace-my-order"
 import React, { memo } from 'react'
 import { useRouteMatch } from "react-router-dom"
 

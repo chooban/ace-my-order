@@ -1,4 +1,3 @@
-import { PreviewsItem } from 'ace-my-order'
 
 export function orderToCsv(order: ReadonlyArray<PreviewsItem>) {
   const headers = 'Previews Code,Quantity,Title,Price,Publisher,Comment'

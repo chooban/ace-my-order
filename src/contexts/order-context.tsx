@@ -1,4 +1,3 @@
-import { PreviewsItem } from 'ace-my-order'
 import React, { createContext, useContext } from 'react'
 import { useLocalStorageReducer } from 'react-storage-hooks'
 
