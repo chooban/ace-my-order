@@ -7,6 +7,9 @@
     "object-curly-spacing": [2, "always"],
     "sort-imports": "off",
     "import/order": "off",
-    "simple-import-sort/sort": "error"
+    "simple-import-sort/sort": "error",
+    "quotes": [2, "single"],
+    "comma-spacing": ["error", { "after": true }],
+    "comma-style": ["error", { "last": true }]
   }
 }

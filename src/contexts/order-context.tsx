@@ -56,16 +56,19 @@ const OrderContext = createContext<[OrderState, OrderContextActions]>([initialSt
   removeFromOrder: () => null
 }])
 
+let boundActions: OrderContextActions|undefined = undefined
+
 const OrderProvider = ({ children }: OrderProviderProps) => {
   const [order, dispatch] = useLocalStorageReducer('order', orderReducer, initialState)
 
-  const actions: OrderContextActions = {
+  // Only bind the actions once
+  boundActions = boundActions ? boundActions : boundActions = {
     addToOrder: (i) => dispatch({ type: OrderActionType.Add, payload: i }),
     removeFromOrder: (i) => dispatch({ type: OrderActionType.Remove, payload: i })
   }
 
   return (
-    <OrderContext.Provider value={[order, actions]}>
+    <OrderContext.Provider value={[order, boundActions]}>
       {children}
     </OrderContext.Provider>
   )

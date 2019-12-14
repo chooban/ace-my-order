@@ -1,12 +1,11 @@
 import Button from '@material-ui/core/Button'
 import Hidden from '@material-ui/core/Hidden'
 import Paper from '@material-ui/core/Paper'
+import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles'
 import AssignmentIcon from '@material-ui/icons/Assignment'
-import DeleteIcon from '@material-ui/icons/Delete'
-import { createStyles,WithStyles, withStyles } from '@material-ui/styles'
 import he from 'he'
 import React from 'react'
-import { useHistory } from "react-router"
+import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 
 import { useOrder } from '../contexts/order-context'
@@ -54,7 +53,15 @@ const styles = (theme:any) => {
         flexGrow: 1,
         '&>.footer': {
           justifySelf: 'flex-end'
-        }
+        },
+        '&>.title':{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          '& > svg': {
+            cursor: 'pointer'
+          }
+        },
       },
       borderBottom: 'thin solid lightgray',
     },
@@ -78,12 +85,14 @@ const styles = (theme:any) => {
         cursor: 'pointer'
       }
     },
+    fadeout: {
+      visibility: 'hidden',
+      opacity: 1,
+    },
   })
 }
 
-type Props = WithStyles<typeof styles>
-
-function Cart({ classes }: Props) {
+function Cart({ classes }: WithStyles<typeof styles>) {
   const [{ order }, { removeFromOrder }] = useOrder()
   const history = useHistory()
   const copyToClipboard = useClipboard()
@@ -105,13 +114,21 @@ function Cart({ classes }: Props) {
       return
     }
     copyToClipboard(code)
+    const flash = currentTarget.parentNode?.querySelector('.fadeout') as HTMLElement
+    flash.style.transition = 'all 2s ease-in-out'
+    flash.style.visibility = 'visible'
+    flash.style.opacity = '0'
 
-    //TODO: Some kind of visual feedback to the user
+    flash.addEventListener('transitionend', () => {
+      flash.style.transition = '';
+      flash.style.visibility = 'hidden'
+      flash.style.opacity = '1'
+    })
   }
 
   const submitOrder = () => {
     const output = orderToCsv(order)
-    const blob = new Blob([output], { type: "text/csv;charset=utf-8;" })
+    const blob = new Blob([output], { type: 'text/csv;charset=utf-8;' })
 
     const link = document.createElement('a')
     link.href = URL.createObjectURL(blob)
@@ -136,7 +153,13 @@ function Cart({ classes }: Props) {
               <img alt="Cover" src={a.coverThumbnail} />
             </div>
             <div className='details'>
-              <Link to={`/item/${encodeURIComponent(a.code)}`}><b>{a.title}</b></Link>
+              <div className='title'>
+                <Link to={`/item/${encodeURIComponent(a.code)}`}><b>{a.title}</b></Link>
+                <Hidden xsDown>
+                  <AssignmentIcon fontSize={'small'} data-id={a.code} onClick={copyClicked} />
+                  <span className={`fadeout ${classes.fadeout}`}>Copied to clipboard</span>
+                </Hidden>
+              </div>
               <p className='description'>{he.decode(a.description.replace(/<[^>]+>/g, '')).substring(0, 150)}&hellip;</p>
               <div className='footer'>
                 <Button variant="contained" size="small" color="secondary" onClick={() => removeFromOrder(a)}>Remove</Button>

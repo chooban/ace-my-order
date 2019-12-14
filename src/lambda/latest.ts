@@ -1,4 +1,4 @@
-import { APIGatewayEvent,Context, Handler } from 'aws-lambda'
+import { APIGatewayEvent, Context, Handler } from 'aws-lambda'
 import * as AWS from 'aws-sdk'
 
 import { builder as previewsItemBuilder } from './lib/previews-item-builder'

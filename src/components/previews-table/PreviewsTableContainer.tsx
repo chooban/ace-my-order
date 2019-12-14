@@ -2,7 +2,7 @@ import Paper from '@material-ui/core/Paper'
 import { createStyles, useTheme, WithStyles, withStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import React, { memo } from 'react'
-import { useRouteMatch } from "react-router-dom"
+import { useRouteMatch } from 'react-router-dom'
 
 import { useCatalogue } from '../../contexts/catalogue-context'
 import { useClientRect } from '../../hooks'
@@ -33,7 +33,7 @@ function PreviewsTableContainer({ classes }: WithStyles<typeof styles>) {
   const theme = useTheme()
   const isPresumedMobile = useMediaQuery(theme.breakpoints.down('xs'))
   const { catalogue } = useCatalogue()
-  const match = useRouteMatch("/item/:slug")
+  const match = useRouteMatch('/item/:slug')
 
   if (catalogue.length < 1) {
     return (

@@ -1,10 +1,10 @@
-import { createStyles, WithStyles,withStyles } from '@material-ui/core'
+import { createStyles, WithStyles, withStyles } from '@material-ui/core'
 import React, { useState } from 'react'
 import { hot } from 'react-hot-loader'
-import { BrowserRouter as Router, Route } from "react-router-dom"
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import { Cart } from './components/Cart'
-import { Footer,Header } from './components/layout/'
+import { Footer, Header } from './components/layout/'
 import { About, Contact, Privacy } from './components/pages/'
 import { PreviewsTableContainer } from './components/previews-table/PreviewsTableContainer'
 import CatalogueContext from './contexts/catalogue-context'
@@ -25,9 +25,6 @@ const styles = (theme: any) => {
       marginRight: 'auto',
       display: 'flex',
       flexDirection: 'column',
-      '> div': {
-        flex: 1
-      }
     }
   })
 }
@@ -46,7 +43,7 @@ function App({ classes }: WithStyles<typeof styles>) {
               <Route path="/cart" component={Cart} />
               <Route
                 exact
-                path={["/", "/item/:slug"]}
+                path={['/', '/item/:slug']}
                 render={(props) => <PreviewsTableContainer {...props}/>}
               />
             </SearchContext.Provider>
