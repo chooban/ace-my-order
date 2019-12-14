@@ -12,9 +12,16 @@ import { useFetch } from '../../hooks'
 
 const styles = (theme: any) => {
   return createStyles({
-    root: {
+    panelRoot: {
       paddingRight: '7px',
       paddingLeft: '7px',
+      paddingBottom: '7px',
+      [theme.breakpoints.down('xs')]: {
+        width: '100%',
+        paddingLeft: 0
+      },
+      width: '60%',
+      height: '100%'
     },
     dismiss: {
       display: 'none',
@@ -25,9 +32,17 @@ const styles = (theme: any) => {
         display: 'unset',
       },
     },
-    title: {
+    titleWrapper: {
+      display: 'flex',
+      flexDirection: 'row',
       marginTop: 0,
-      fontWeight: 700
+      marginBottom: '1em',
+      '& :nth-child(2)': {
+        fontWeight: 700,
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
+      }
     },
     link: {
       '& img': {
@@ -37,25 +52,24 @@ const styles = (theme: any) => {
         marginBottom: '3px'
       }
     },
-    description: {
+    panel: {
+      display: 'flex',
+      flexDirection: 'row',
       '& br': {
         display: 'block',
         content: ' '
-      }
+      },
+      height: 'inherit',
+      overflowY: 'scroll'
     },
     cover: {
-      width: '10vw',
-      minWidth: '100px',
-      maxWidth: '200px',
-      float: 'left',
+      flex: '0 0 1em',
+      height: 'auto',
       marginRight: '7px'
     },
-    buttons: {
-      clear: 'both'
-    },
     button: {
-      margin: theme.spacing(1),
-      marginLeft: 0
+      minWidth: '125px',
+      width: '100%',
     },
   })
 }
@@ -79,7 +93,7 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
 
   if (res.error) {
     console.error({ e: res.error })
-    return (<div><p className={classes.title}>Item not found</p></div>)
+    return (<div><p>Item not found</p></div>)
   }
 
   const data = res.response
@@ -88,12 +102,14 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
   }
 
   return (
-    <div className={classes.root}>
-      <p className={classes.title}>
-        <IconButton className={classes.dismiss} onClick={() => history.goBack()}>
+    <div className={classes.panelRoot}>
+      <div className={classes.titleWrapper}>
+        <IconButton className={classes.dismiss} onClick={() => history.push('/')}>
           <ArrowBack color='action'/>
         </IconButton>
-        {item.title}{' '}
+        <span>
+          {item.title}
+        </span>
         <a
           className={classes.link}
           target="_blank"
@@ -102,37 +118,39 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
         >
           <img alt="Open Previews site" src="/static/open_in_new24px.svg" />
         </a>
-      </p>
+      </div>
       {data === null ? (
-        <p className={classes.description}>
+        <p className={classes.panel}>
           <img alt="Cover" className={classes.cover} src='/static/1x1.png'/>
           Loading...
         </p>
       ) : (
         <>
-          <div className={classes.description}>
-            <img alt="Cover" className={classes.cover} src={data.coverThumbnail} />
-            {parse(data.description)}
-            {data.creators &&
+          <div className={classes.panel}>
+            <div className={classes.cover}>
+              <img alt="Cover" src={data.coverThumbnail} />
+              {inCart ?
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  color="secondary"
+                  onClick={() => removeFromOrder(item)}
+                >Remove</Button>
+                :
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  color="primary"
+                  onClick={() => addToOrder(item)}
+                >Add</Button>
+              }
+            </div>
+            <div>
+              {parse(data.description)}
+              {data.creators &&
               <p>{parse(data.creators)}</p>
-            }
-          </div>
-          <div className={classes.buttons}>
-            {inCart ?
-              <Button
-                variant="contained"
-                className={classes.button}
-                color="secondary"
-                onClick={() => removeFromOrder(item)}
-              >Remove from order</Button>
-              :
-              <Button
-                variant="contained"
-                className={classes.button}
-                color="primary"
-                onClick={() => addToOrder(item)}
-              >Add to order</Button>
-            }
+              }
+            </div>
           </div>
         </>
       )}
@@ -144,7 +162,9 @@ PreviewPanel.whyDidYouRender = true
 
 const PreviewPanelWrapper: React.FC<WrapperProps> = (props) => {
   if (!props.item) {
-    return <p style={{ marginTop: 0 }}>Please select an item</p>
+    return (<div className={props.classes.panelRoot}>
+      <p style={{ marginTop: 0 }}>Please select an item</p>
+    </div>)
   }
   return <PreviewPanel item={props.item} {...props} />
 }

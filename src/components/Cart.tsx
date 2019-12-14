@@ -128,25 +128,26 @@ function Cart({ classes }: Props) {
       </div>
       {order.map((a) => {
         const retrievedItem = localStorage.getItem(a.code)
-        if (retrievedItem) {
-          const deets = JSON.parse(retrievedItem) as PreviewsOnlineDetails
-          if (deets) {
-            return (
-              <div className={classes.cartItem} key={a.code}>
-                <div>
-                  <img alt="Cover" src={deets.coverThumbnail} />
-                </div>
-                <div className='details'>
-                  <Link to={`/item/${encodeURIComponent(a.code)}`}><b>{a.title}</b></Link>
-                  <p className='description'>{he.decode(deets.description.replace(/<[^>]+>/g, '')).substring(0, 150)}&hellip;</p>
-                  <div className='footer'>
-                    <Button variant="contained" size="small" color="secondary" onClick={() => removeFromOrder(a)}>Remove</Button>
-                  </div>
-                </div>
-                <div>{formatAsGBP(a.price).value}</div>
+        if (!retrievedItem) {
+          return null
+        }
+        const deets = JSON.parse(retrievedItem) as PreviewsOnlineDetails
+        if (deets) {
+          return (
+            <div className={classes.cartItem} key={a.code}>
+              <div>
+                <img alt="Cover" src={deets.coverThumbnail} />
               </div>
-            )
-          }
+              <div className='details'>
+                <Link to={`/item/${encodeURIComponent(a.code)}`}><b>{a.title}</b></Link>
+                <p className='description'>{he.decode(deets.description.replace(/<[^>]+>/g, '')).substring(0, 150)}&hellip;</p>
+                <div className='footer'>
+                  <Button variant="contained" size="small" color="secondary" onClick={() => removeFromOrder(a)}>Remove</Button>
+                </div>
+              </div>
+              <div>{formatAsGBP(a.price).value}</div>
+            </div>
+          )
         }
       })}
       <div className={classes.cartFooter}>

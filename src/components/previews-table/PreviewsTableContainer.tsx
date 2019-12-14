@@ -24,15 +24,6 @@ const styles = (theme:any) => {
       paddingTop: '14px',
       overflow: 'hidden'
     },
-    contentPanel: {
-      [theme.breakpoints.down('xs')]: {
-        width: '100%',
-      },
-      width: '60%',
-      textAlign: 'left',
-      paddingLeft: '5px'
-    },
-
   })
 }
 
@@ -63,9 +54,7 @@ function PreviewsTableContainer({ classes }: WithStyles<typeof styles>) {
     return (
       <Paper className={classes.root} ref={contentRef}>
         {selectedItem
-          ? <div className={classes.contentPanel}>
-            <PreviewPanel item={selectedItem} />
-          </div>
+          ? <PreviewPanel item={selectedItem} />
           : <PreviewsTable
             rows={catalogue}
             height={Math.round(contentRect.height)}
@@ -81,9 +70,7 @@ function PreviewsTableContainer({ classes }: WithStyles<typeof styles>) {
         rows={catalogue}
         height={Math.round(contentRect.height)}
       />
-      <div className={classes.contentPanel}>
-        <PreviewPanel item={selectedItem} />
-      </div>
+      <PreviewPanel item={selectedItem} />
     </Paper>
   )
 }
