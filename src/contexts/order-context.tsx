@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react'
+import React, { createContext, useContext, useCallback } from 'react'
 import { useLocalStorageReducer } from 'react-storage-hooks'
 
 const initialState = {
@@ -56,19 +56,18 @@ const OrderContext = createContext<[OrderState, OrderContextActions]>([initialSt
   removeFromOrder: () => null
 }])
 
-let boundActions: OrderContextActions|undefined = undefined
-
 const OrderProvider = ({ children }: OrderProviderProps) => {
   const [order, dispatch] = useLocalStorageReducer('order', orderReducer, initialState)
 
   // Only bind the actions once
-  boundActions = boundActions ? boundActions : boundActions = {
-    addToOrder: (i) => dispatch({ type: OrderActionType.Add, payload: i }),
-    removeFromOrder: (i) => dispatch({ type: OrderActionType.Remove, payload: i })
-  }
+  const addToOrder = useCallback((i) => dispatch({ type: OrderActionType.Add, payload: i }), [dispatch])
+  const removeFromOrder = useCallback((i) => dispatch({ type: OrderActionType.Remove, payload: i }), [dispatch])
+  const valueFactory = useCallback(() => {
+    return [order, { addToOrder, removeFromOrder }]
+  }, [order, addToOrder, removeFromOrder])
 
   return (
-    <OrderContext.Provider value={[order, boundActions]}>
+    <OrderContext.Provider value={valueFactory() as [OrderState, OrderContextActions]}>
       {children}
     </OrderContext.Provider>
   )
