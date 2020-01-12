@@ -44,7 +44,7 @@ const styles = (theme: any) => {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'flex-end',
-      content: "'done'",
+      content: '\'done\'',
       color: 'green',
       fontWeight: 'bold',
       fontFamily: 'Material Icons',

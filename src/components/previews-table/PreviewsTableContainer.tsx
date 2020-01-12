@@ -2,8 +2,8 @@ import Paper from '@material-ui/core/Paper'
 import { createStyles, useTheme, WithStyles, withStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import React, { memo } from 'react'
-import { useRouteMatch } from 'react-router-dom'
 
+// import { useRouteMatch } from 'react-router-dom'
 import { useCatalogue } from '../../contexts/catalogue-context'
 import { useClientRect } from '../../hooks'
 import PreviewPanel from './PreviewPanel'
@@ -33,21 +33,13 @@ function PreviewsTableContainer({ classes }: WithStyles<typeof styles>) {
   const theme = useTheme()
   const isPresumedMobile = useMediaQuery(theme.breakpoints.down('xs'))
   const { catalogue } = useCatalogue()
-  const match = useRouteMatch('/item/:slug')
-
-  if (catalogue.length < 1) {
-    return (
-      <Paper className={classes.root} ref={contentRef}>
-        <p>Loading...</p>
-      </Paper>
-    )
-  }
+  // const match = useRouteMatch('/item/:slug')
 
   let selectedItem: PreviewsItem|undefined = undefined
-  if (match && match.params.slug) {
-    const codeToFind = decodeURIComponent(match.params.slug)
-    selectedItem = catalogue.find(i => i.code === codeToFind)
-  }
+  // if (match && match.params.slug) {
+  //   const codeToFind = decodeURIComponent(match.params.slug)
+  //   selectedItem = catalogue.find(i => i.code === codeToFind)
+  // }
 
   if (isPresumedMobile) {
     return (
@@ -78,4 +70,5 @@ PreviewsTableContainer.whyDidYouRender = false
 
 const styled = memo(withStyles(styles, { withTheme: true })(PreviewsTableContainer))
 
-export { styled as PreviewsTableContainer }
+// export { styled as PreviewsTableContainer }
+export default styled

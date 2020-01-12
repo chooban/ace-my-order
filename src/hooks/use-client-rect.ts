@@ -1,5 +1,5 @@
 // source: https://gist.github.com/morajabi/523d7a642d8c0a2f71fcfa0d8b3d2846
-import { useCallback, useLayoutEffect, useState } from "react"
+import { useCallback, useLayoutEffect, useState } from 'react'
 
 type RectResult = {
   bottom: number;
@@ -42,7 +42,7 @@ export function useClientRect<T extends HTMLElement>(
     handleResize()
 
     // @ts-ignore
-    if (typeof ResizeObserver === "function") {
+    if (typeof ResizeObserver === 'function') {
       // @ts-ignore
       let resizeObserver = new ResizeObserver(() => handleResize())
       resizeObserver.observe(element)
@@ -52,8 +52,8 @@ export function useClientRect<T extends HTMLElement>(
         resizeObserver = null
       }
     } else {
-      window.addEventListener("resize", handleResize) // Browser support, remove freely
-      return () => window.removeEventListener("resize", handleResize)
+      window.addEventListener('resize', handleResize) // Browser support, remove freely
+      return () => window.removeEventListener('resize', handleResize)
     }
   }, [handleResize, ref])
 

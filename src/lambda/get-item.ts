@@ -1,4 +1,4 @@
-import { APIGatewayEvent,Handler } from 'aws-lambda'
+import { APIGatewayEvent, Handler } from 'aws-lambda'
 import cheerio from 'cheerio'
 import fetch from 'node-fetch'
 

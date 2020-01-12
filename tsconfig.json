@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "lib": [
       "dom",
       "dom.iterable",
@@ -28,6 +28,9 @@
     "typings"
   ],
   "exclude": [
-    "src/setupProxy.js"
+    "src/setupProxy.js",
+    "node_modules",
+    "public",
+    ".cache"
   ]
 }

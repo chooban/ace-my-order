@@ -2,9 +2,9 @@ import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import { createStyles, WithStyles, withStyles } from '@material-ui/styles'
+import { navigate } from 'gatsby'
 import parse from 'html-react-parser'
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 
 import { useOrder } from '../../contexts/order-context'
 import { useFetch } from '../../hooks'
@@ -84,11 +84,10 @@ interface PreviewPanelProps extends WithStyles<typeof styles> {
 }
 
 function PreviewPanel({ classes, item }: PreviewPanelProps) {
-  const { error, response: data } = useFetch<PreviewsOnlineDetails>(`/.netlify/functions/get-item?code=${encodeURIComponent(item.code)}`)
+  const { error, response: data } = useFetch<PreviewsOnlineDetails>(`/.netlify/functions/get-item?code=${encodeURIComponent(item.previewsCode)}`)
   const [{ order }, { addToOrder, removeFromOrder }] = useOrder()
-  const history = useHistory()
 
-  const inCart = order.some(i => i.code === item.code)
+  const inCart = order.some(i => i.previewsCode === item.previewsCode)
 
   if (error) {
     console.error({ error })
@@ -98,7 +97,7 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
   return (
     <div className={classes.panelRoot}>
       <div className={classes.titleWrapper}>
-        <IconButton className={classes.dismiss} onClick={() => history.push('/')}>
+        <IconButton className={classes.dismiss} onClick={() => navigate('/')}>
           <ArrowBack color='action'/>
         </IconButton>
         <span>

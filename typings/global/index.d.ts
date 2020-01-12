@@ -2,11 +2,13 @@
  * Details supplied by Ace
  */
 interface PreviewsItem {
-  code: string,
+  previewsCode: string,
   title: string,
   price: number,
   reducedFrom?: number,
-  publisher: string
+  publisher: string,
+  previews: PreviewsOnlineDetails,
+  slug: string
 }
 
 /**

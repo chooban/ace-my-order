@@ -1,7 +1,7 @@
 import Paper from '@material-ui/core/Paper'
-import { createStyles,WithStyles, withStyles } from '@material-ui/core/styles'
+import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles'
+import { Link } from 'gatsby'
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 const styles = () => {
   return createStyles({
@@ -23,7 +23,7 @@ const styles = () => {
 const Footer = ({ classes }: WithStyles<typeof styles>) => (
   <Paper className={classes.root}>
     <p>
-      <Link to="/">Home</Link> • <Link to="/about">About</Link> • <Link to="/privacy">Privacy</Link>{' '}
+      <Link to="/app">Home</Link> • <Link to="/about">About</Link> • <Link to="/privacy">Privacy</Link>{' '}
       • <Link to="/contact">Contact</Link>
     </p>
     <p className={classes.smaller}>

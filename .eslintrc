@@ -10,6 +10,6 @@
     "simple-import-sort/sort": "error",
     "quotes": [2, "single"],
     "comma-spacing": ["error", { "after": true }],
-    "comma-style": ["error", { "last": true }]
+    "comma-style": "error"
   }
 }

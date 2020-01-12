@@ -1,25 +1,10 @@
-import Paper from '@material-ui/core/Paper'
-import { createStyles,WithStyles, withStyles } from '@material-ui/core/styles'
 import React from 'react'
 
-const styles = () => {
-  return createStyles({
-    root: {
-      width: '100%',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      marginTop: '7px',
-      marginBottom: '7px',
-      alignContent: 'center',
-      padding: '0 7px 0 7px',
-      flexGrow: 1
-    },
-  })
-}
+import { Page } from '../components/layout'
 
-function Privacy({ classes }: WithStyles<typeof styles>) {
+function Privacy() {
   return (
-    <Paper className={classes.root}>
+    <Page>
       <h3>Privacy Policy</h3>
       <h4>What is this Privacy Policy for?</h4>
       <p>This privacy policy is for this website
@@ -39,13 +24,13 @@ function Privacy({ classes }: WithStyles<typeof styles>) {
 
       <h4>Personal Identification Information</h4>
       <p>We may collect personal identification information from Users in a variety of ways, including, but not limited
-      to:<br />
+      to:</p>
       <ul>
         <li>When users register on the site</li>
         <li>When Registered Users visit the site</li>
         <li>When Registered Users make use of features of the site</li>
       </ul>
-      Users may, however, visit our Site anonymously.</p>
+      <p>Users may, however, visit our Site anonymously.</p>
 
       <p>We will collect personal identification information from Users only if they voluntarily submit such information to us.
       Users can always refuse to supply personally identification information, except that it may prevent them from engaging
@@ -66,10 +51,8 @@ function Privacy({ classes }: WithStyles<typeof styles>) {
       <h4>Your acceptance of these terms</h4>
       <p>By using this Site, you signify your acceptance of this policy and terms of service. If you do not agree to this policy,
       please do not use our Site.</p>
-    </Paper>
+    </Page>
   )
 }
 
-const styled = withStyles(styles, { withTheme: true })(Privacy)
-
-export { styled as Privacy }
+export default Privacy

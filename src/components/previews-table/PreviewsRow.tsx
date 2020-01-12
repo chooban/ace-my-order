@@ -1,6 +1,6 @@
 import { WithStyles } from '@material-ui/core/styles'
+// import { navigate } from 'gatsby'
 import React, { CSSProperties, memo } from 'react'
-import { useHistory } from 'react-router'
 import { areEqual } from 'react-window'
 
 import { styles } from './styles'
@@ -12,10 +12,11 @@ interface RowProps extends WithStyles<typeof styles> {
   inCart: boolean
 }
 
-const Row: React.FunctionComponent<RowProps> = memo(({ row, classes, style, setSelectedItem, inCart }) => {
-  const history = useHistory()
+const Row: React.FunctionComponent<RowProps> = memo(({ row, classes, style, inCart, setSelectedItem }) => {
 
-  const navigateToItem = () => history.push(`/item/${encodeURIComponent(row.code)}`)
+  // const navigateToItem = () => navigate(`/app/item/${encodeURIComponent(row.previewsCode)}`)
+
+  const navigateToItem = () => setSelectedItem(row)
 
   return (
     <div

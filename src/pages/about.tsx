@@ -1,25 +1,10 @@
-import Paper from '@material-ui/core/Paper'
-import { createStyles,WithStyles, withStyles } from '@material-ui/core/styles'
 import React from 'react'
 
-const styles = () => {
-  return createStyles({
-    root: {
-      width: '100%',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      marginTop: '7px',
-      marginBottom: '7px',
-      alignContent: 'center',
-      padding: '0 7px 0 7px',
-      flexGrow: 1
-    },
-  })
-}
+import { Page } from '../components/layout'
 
-function About({ classes }: WithStyles<typeof styles>) {
+function About() {
   return (
-    <Paper className={classes.root}>
+    <Page>
       <h2>About</h2>
       <p>The site is aimed at people who use the services of Ace Comics to
       order their comic books. Specifically, if for those of us who order
@@ -50,11 +35,9 @@ function About({ classes }: WithStyles<typeof styles>) {
 
       <p>I'll probably add new features at some point, but let me know if there's a
       killer feature you'd like.</p>
-    </Paper>
+    </Page>
   )
 
 }
 
-const styled = withStyles(styles, { withTheme: true })(About)
-
-export { styled as About }
+export default About

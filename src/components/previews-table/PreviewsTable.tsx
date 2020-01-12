@@ -1,12 +1,12 @@
 import { WithStyles, withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
+import { navigate } from 'gatsby'
 import React, { memo } from 'react'
-import { useHistory } from 'react-router-dom'
 import { FixedSizeList } from 'react-window'
 
 import { useOrder } from '../../contexts/order-context'
 import SearchContext from '../../contexts/search-context'
-import { searchCatalogue } from '../lib/search-catalogue'
+import { searchCatalogue } from '../../lib/search-catalogue'
 import { Row } from './PreviewsRow'
 import { styles } from './styles'
 
@@ -18,10 +18,9 @@ interface PreviewsTableProps extends WithStyles<typeof styles> {
 const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
   const { classes, rows, height } = props
   const [{ order }] = useOrder()
-  const history = useHistory()
 
   const setSelectedItem = (i: PreviewsItem) => {
-    history.push(`/item/${encodeURIComponent(i.code)}`)
+    navigate(i.slug)
   }
 
   return (
@@ -62,7 +61,7 @@ const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
                       style={style}
                       classes={classes}
                       setSelectedItem={setSelectedItem}
-                      inCart={order.some((i) => i.code === catalogue[index].code)}
+                      inCart={order.some((i) => i.previewsCode === catalogue[index].previewsCode)}
                     />)
                   }
                 </FixedSizeList>

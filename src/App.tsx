@@ -3,10 +3,9 @@ import React, { useState } from 'react'
 import { hot } from 'react-hot-loader'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import { Cart } from './components/Cart'
+import Cart from './components/cart'
 import { Footer, Header } from './components/layout/'
-import { About, Contact, Privacy } from './components/pages/'
-import { PreviewsTableContainer } from './components/previews-table/PreviewsTableContainer'
+import PreviewsTableContainer from './components/previews-table/PreviewsTableContainer'
 import CatalogueContext from './contexts/catalogue-context'
 import { OrderProvider } from './contexts/order-context'
 import SearchContext from './contexts/search-context'
@@ -49,9 +48,6 @@ function App({ classes }: WithStyles<typeof styles>) {
             </SearchContext.Provider>
           </CatalogueContext.Provider>
         </OrderProvider>
-        <Route path="/about" component={About} />
-        <Route path="/privacy" component={Privacy} />
-        <Route path="/contact" component={Contact} />
         <Footer />
       </Router>
     </div>

@@ -1,7 +1,7 @@
 import Paper from '@material-ui/core/Paper'
-import { createStyles,WithStyles, withStyles } from '@material-ui/core/styles'
+import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles'
+import { Link } from 'gatsby'
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import { useOrder } from '../../contexts/order-context'
 
@@ -29,7 +29,7 @@ const styles = () => {
     },
     cart: {
       '&::after': {
-        content: "''",
+        content: '\'\'',
         display: 'inline-block',
         position: 'relative',
         top: '-15px',
@@ -58,7 +58,7 @@ const Header = ({ classes }: WithStyles<typeof styles>) => {
     <Paper className={classes.root}>
       <Link className={classes.title} to={'/'}>My Ace Order</Link>
       <div className={classes.cartContainer}>
-        <Link to="/cart">
+        <Link to="/app/cart">
           <i className={`material-icons ${classes.cart} ${order.length ? classes.hasItems: ''}` }>
         shopping_cart
           </i>

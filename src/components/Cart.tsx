@@ -1,28 +1,19 @@
 import Button from '@material-ui/core/Button'
 import Hidden from '@material-ui/core/Hidden'
-import Paper from '@material-ui/core/Paper'
 import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles'
 import AssignmentIcon from '@material-ui/icons/Assignment'
+import { RouteComponentProps } from '@reach/router'
+import { Link, navigate } from 'gatsby'
 import he from 'he'
 import React from 'react'
-import { useHistory } from 'react-router'
-import { Link } from 'react-router-dom'
 
 import { useOrder } from '../contexts/order-context'
-import { useClipboard } from '../hooks/'
-import { formatAsGBP } from './lib/format-as-gbp'
-import { orderToCsv } from './lib/order-to-csv'
+import { useClipboard } from '../hooks'
+import { formatAsGBP } from '../lib/format-as-gbp'
+import { orderToCsv } from '../lib/order-to-csv'
 
 const styles = (theme:any) => {
   return createStyles({
-    root: {
-      width: '100%',
-      padding: '0.5em',
-      '&>h1': {
-        margin: 0,
-        marginTop: '0.5em'
-      }
-    },
     cartHeader: {
       display: 'flex',
       flexDirection: 'row',
@@ -92,16 +83,13 @@ const styles = (theme:any) => {
   })
 }
 
-function Cart({ classes }: WithStyles<typeof styles>) {
+function Cart({ classes }: WithStyles<typeof styles> & RouteComponentProps) {
   const [{ order }, { removeFromOrder }] = useOrder()
-  const history = useHistory()
   const copyToClipboard = useClipboard()
 
   if (order.length === 0) {
     return (
-      <Paper className={classes.root}>
-        <p>Nothing added to your cart. Please <Link to="/">go back</Link> and add something.</p>
-      </Paper>
+      <p>Nothing added to your cart. Please <Link to="/">go back</Link> and add something.</p>
     )
   }
 
@@ -120,7 +108,7 @@ function Cart({ classes }: WithStyles<typeof styles>) {
     flash.style.opacity = '0'
 
     flash.addEventListener('transitionend', () => {
-      flash.style.transition = '';
+      flash.style.transition = ''
       flash.style.visibility = 'hidden'
       flash.style.opacity = '1'
     })
@@ -140,7 +128,7 @@ function Cart({ classes }: WithStyles<typeof styles>) {
   }
 
   return (
-    <Paper className={classes.root}>
+    <>
       <h1>Order Contents</h1>
 
       <div className={classes.cartHeader}>
@@ -176,14 +164,11 @@ function Cart({ classes }: WithStyles<typeof styles>) {
       </div>
 
       <div className={classes.buttonRow}>
-        <Button variant="contained" color="primary" onClick={() => history.push('/')}>Continue shopping</Button>
+        <Button variant="contained" color="primary" onClick={() => navigate('/')}>Continue shopping</Button>
         <Button variant="contained" color="secondary" onClick={submitOrder}>Export order</Button>
       </div>
-    </Paper>
+    </>
   )
 }
 
-Cart.whyDidYouRender = true
-
-const StyledCart = withStyles(styles, { withTheme: true })(Cart)
-export { StyledCart as Cart }
+export default withStyles(styles, { withTheme: true })(Cart)
