@@ -20,9 +20,6 @@ const AceItem = {
   },
   reducedFrom: {
     resolve: ({ reducedFrom }) => reducedFrom.length > 0 ? Number(reducedFrom) : null
-  },
-  slug: {
-    resolve: ({ previewsCode }) => `item/${previewsCode.replace('/', '-')}`
   }
 }
 

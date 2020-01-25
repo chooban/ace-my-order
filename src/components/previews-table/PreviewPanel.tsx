@@ -84,15 +84,15 @@ interface PreviewPanelProps extends WithStyles<typeof styles> {
 }
 
 function PreviewPanel({ classes, item }: PreviewPanelProps) {
-  const { error, response: data } = useFetch<PreviewsOnlineDetails>(`/.netlify/functions/get-item?code=${encodeURIComponent(item.previewsCode)}`)
+  // const { error, response: data } = useFetch<PreviewsOnlineDetails>(`/.netlify/functions/get-item?code=${encodeURIComponent(item.previewsCode)}`)
   const [{ order }, { addToOrder, removeFromOrder }] = useOrder()
 
   const inCart = order.some(i => i.previewsCode === item.previewsCode)
 
-  if (error) {
-    console.error({ error })
-    return (<div><p>Item not found</p></div>)
-  }
+  // if (error) {
+  //   console.error({ error })
+  //   return (<div><p>Item not found</p></div>)
+  // }
 
   return (
     <div className={classes.panelRoot}>
@@ -103,50 +103,50 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
         <span>
           {item.title}
         </span>
-        <a
+        {/* <a
           className={classes.link}
           target="_blank"
           rel="noopener noreferrer"
           href={data ? data.url.url : undefined}
         >
           <img alt="Open Previews site" src="/static/open_in_new24px.svg" />
-        </a>
+        </a> */}
       </div>
-      {data === null ? (
+      {/* {data === null ? (
         <p className={classes.panel}>
           <img alt="Cover" className={classes.cover} src='/static/1x1.png'/>
           Loading...
         </p>
-      ) : (
-        <>
-          <div className={classes.panel}>
-            <div className={classes.cover}>
-              <img alt="Cover" src={data.coverThumbnail} />
-              {inCart ?
-                <Button
-                  variant="contained"
-                  className={classes.button}
-                  color="secondary"
-                  onClick={() => removeFromOrder({ ...item, ...data })}
-                >Remove</Button>
-                :
-                <Button
-                  variant="contained"
-                  className={classes.button}
-                  color="primary"
-                  onClick={() => addToOrder({ ...item, ...data })}
-                >Add</Button>
-              }
-            </div>
-            <div>
-              {parse(data.description)}
-              {data.creators &&
-              <p>{parse(data.creators)}</p>
-              }
-            </div>
+      ) : ( */}
+      <>
+        <div className={classes.panel}>
+          <div className={classes.cover}>
+            {/* <img alt="Cover" src={item.coverThumbnail} /> */}
+            {/* {inCart ?
+              <Button
+                variant="contained"
+                className={classes.button}
+                color="secondary"
+                onClick={() => removeFromOrder({ ...item, ...data })}
+              >Remove</Button>
+              :
+              <Button
+                variant="contained"
+                className={classes.button}
+                color="primary"
+                onClick={() => addToOrder({ ...item, ...data })}
+              >Add</Button>
+            } */}
           </div>
-        </>
-      )}
+          <div>
+            {parse(item.previews.description)}
+            {item.previews.creators &&
+              <p>{parse(item.previews.creators)}</p>
+            }
+          </div>
+        </div>
+      </>
+      {/* )} */}
     </div>
   )
 }

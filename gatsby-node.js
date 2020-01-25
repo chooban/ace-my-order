@@ -22,6 +22,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       reducedFrom: Float
       publisher: String
       slug: String
+      previews: PreviewsItem @link(from: "previews___NODE")
     }
   `
   createTypes(typeDefs)
@@ -34,7 +35,7 @@ exports.createResolvers = ({ createResolvers }) => {
 exports.onCreateNode = ({ node }) => {
   if (node.internal.type === 'AceItem') {
     node.slug = `item/${node.previewsCode.replace('/', '-')}`
-    node.previews = previewsCodeToCatalogueId(node.previewsCode)
+    node.previews___NODE = previewsCodeToCatalogueId(node.previewsCode)
   }
 }
 

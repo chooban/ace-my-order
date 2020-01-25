@@ -23,15 +23,14 @@ function getRect<T extends HTMLElement>(element?: T): RectResult {
   return rect
 }
 
-export function useClientRect<T extends HTMLElement>(
-  ref: React.RefObject<T>
-): RectResult {
+export function useClientRect<T extends HTMLElement>(ref: React.RefObject<T>): RectResult {
   const [rect, setRect] = useState<RectResult>(
     ref && ref.current ? getRect(ref.current) : getRect()
   )
 
   const handleResize = useCallback(() => {
     if (!ref.current) return
+    console.log(getRect(ref.current))
     setRect(getRect(ref.current)) // Update client rect
   }, [ref])
 

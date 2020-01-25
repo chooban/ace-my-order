@@ -3,14 +3,11 @@ import React from 'react'
 
 import { Page } from '../components/layout'
 import PreviewsTableContainer from '../components/previews-table/PreviewsTableContainer'
-import CatalogueContext from '../contexts/catalogue-context'
 
 const Index: React.FC = ({ data }: any) => {
   return (
     <Page>
-      <CatalogueContext.Provider value={{ catalogue: data.allAceItem.nodes }}>
-        <PreviewsTableContainer />
-      </CatalogueContext.Provider>
+      <PreviewsTableContainer />
     </Page>
   )
 }

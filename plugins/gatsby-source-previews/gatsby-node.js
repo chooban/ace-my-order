@@ -1,14 +1,8 @@
 const fetch = require('node-fetch')
-const sourceUrl = 'https://www.previewsworld.com/Catalog?mode=OrderForm'
 const cheerio = require('cheerio')
-const path = require('path')
 const fs = require('fs')
-const { promisify } = require('util')
-const asyncFileExists = promisify(fs.exists)
-const asyncFileRead = promisify(fs.readFile)
-const asyncFileWrite = promisify(fs.writeFile)
-
-const urlPrefix = 'https://www.previewsworld.com'
+const path = require('path')
+const workerPool = require('workerpool')
 
 function ensureDirectoryExists(dirname) {
   console.log(`Checking for ${dirname}`)
@@ -22,6 +16,7 @@ function ensureDirectoryExists(dirname) {
 function parsePreviewsData(itemText) {
   const $ = cheerio.load(itemText)
 
+  const urlPrefix = 'https://www.previewsworld.com'
   const coverImage = urlPrefix + $('img#MainContentImage').attr('src')
   const coverImageURL = coverImage.substr(0, coverImage.lastIndexOf('?'))
 
@@ -44,32 +39,13 @@ function parsePreviewsData(itemText) {
   }
 }
 
-function timerify(fn, skip) {
-  return async (args) => {
-    if (skip) {
-      return fn(args)
-    }
-    const start = new Date()
-    const hrstart = process.hrtime()
-
-    const result = await fn(args)
-
-    const end = new Date() - start
-    const hrend = process.hrtime(hrstart)
-
-    console.info('Execution time: %dms', end)
-    console.info('Execution time (hr): %ds %dms', hrend[0], hrend[1] / 1000000)
-
-    return result
-  }
-}
-
-exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }, { savepath }) => {
-  const { createNode } = actions
+exports.sourceNodes = async ({ actions, createContentDigest }, { savepath }) => {
   ensureDirectoryExists(savepath)
-  const parsePreviews = timerify(parsePreviewsData, true)
 
-  return fetch(sourceUrl, { method: 'GET', redirect: 'follow' })
+  const { createNode } = actions
+
+  const sourceUrl = 'https://www.previewsworld.com/Catalog?mode=OrderForm&batch=JAN20'
+  const catalogueIds = await fetch(sourceUrl, { method: 'GET', redirect: 'follow' })
     .then((response) => {
       if (response.ok) {
         return response.text()
@@ -77,49 +53,47 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }, { s
 
       if (response.status === 404) {
         throw new Error('Item not found')
-      } else {
-        throw new Error('Error')
       }
+      throw new Error('Error')
     })
     .then(async (text) => {
       const $ = cheerio.load(text)
 
-      const ids = $('td.dmdNo').find('a').map(function(i, el) {
+      return $('td.dmdNo').find('a').map(function(i, el) {
         const id = $(this).text()
         return id
       }).toArray()
+    })
 
-      return ids.reduce(async (acc, id) => {
-        await acc
-        const fileName = path.join(savepath, `${id}.html`)
-        return asyncFileExists(fileName)
-          .then(exists => {
-            return exists
-              ? asyncFileRead(fileName)
-              : fetch(`${urlPrefix}/Catalog/${id}`, { method: 'GET', redirect: 'follow' } )
-                .then(r => r.text())
-                .then(fileContents => {
-                  const $ = cheerio.load(fileContents)
-                  const pageContent = $('#PageContent')
-                  return asyncFileWrite(fileName, pageContent).then(() => pageContent)
-                })
-                .catch(e => {
-                  console.log(e)
-                  throw e
-                })
-          })
-          .then(async (itemText) => {
-            const nodeContents = await parsePreviews(itemText)
-            createNode({
-              id,
-              ...nodeContents,
-              internal: {
-                type: 'PreviewsItem',
-                contentDigest: createContentDigest(nodeContents.description)
-              }
-            })
-          })
-      }, Promise.resolve())
+  const pool = workerPool.pool(__dirname + '/fetcher.js')
+
+  const catalogueFetches = catalogueIds.map(id => {
+    const fileName = path.join(savepath, `${id}.html`)
+    return pool.exec('fetchPreviews', [id, fileName])
+  })
+
+  const monitorInterval = setInterval(() => {
+    console.log(pool.stats())
+  }, 5000)
+
+  return Promise.all(catalogueFetches)
+    .then(datum => {
+      datum.forEach(data => {
+        // console.log(`Parsing ${data.id}`)
+        const nodeContents = parsePreviewsData(data.itemText)
+        createNode({
+          id: data.id,
+          ...nodeContents,
+          internal: {
+            type: 'PreviewsItem',
+            contentDigest: createContentDigest(nodeContents.description)
+          }
+        })
+      })
+    })
+    .then(() => {
+      clearInterval(monitorInterval)
+      pool.terminate()
     })
 }
 

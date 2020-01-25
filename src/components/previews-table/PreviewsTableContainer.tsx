@@ -1,10 +1,11 @@
 import Paper from '@material-ui/core/Paper'
 import { createStyles, useTheme, WithStyles, withStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { graphql, useStaticQuery } from 'gatsby'
 import React, { memo } from 'react'
 
 // import { useRouteMatch } from 'react-router-dom'
-import { useCatalogue } from '../../contexts/catalogue-context'
+// import { useCatalogue } from '../../contexts/catalogue-context'
 import { useClientRect } from '../../hooks'
 import PreviewPanel from './PreviewPanel'
 import PreviewsTable from './PreviewsTable'
@@ -13,7 +14,7 @@ const styles = (theme:any) => {
   return createStyles({
     root: {
       width: '100%',
-      height: '100%',
+      height: '100vh',
       marginLeft: 'auto',
       marginRight: 'auto',
       display: 'flex',
@@ -26,20 +27,28 @@ const styles = (theme:any) => {
   })
 }
 
+const query = graphql`
+  query {
+    allAceItem {
+      nodes {
+        id
+        title
+        previewsCode
+        price
+        publisher
+        slug
+      }
+    }
+  }
+`
+
 const contentRef = React.createRef<HTMLDivElement>()
 
-function PreviewsTableContainer({ classes }: WithStyles<typeof styles>) {
+function PreviewsTableContainer({ classes, selectedItem }: any) {
   const contentRect = useClientRect(contentRef)
   const theme = useTheme()
   const isPresumedMobile = useMediaQuery(theme.breakpoints.down('xs'))
-  const { catalogue } = useCatalogue()
-  // const match = useRouteMatch('/item/:slug')
-
-  let selectedItem: PreviewsItem|undefined = undefined
-  // if (match && match.params.slug) {
-  //   const codeToFind = decodeURIComponent(match.params.slug)
-  //   selectedItem = catalogue.find(i => i.code === codeToFind)
-  // }
+  const data = useStaticQuery(query)
 
   if (isPresumedMobile) {
     return (
@@ -47,7 +56,7 @@ function PreviewsTableContainer({ classes }: WithStyles<typeof styles>) {
         {selectedItem
           ? <PreviewPanel item={selectedItem} />
           : <PreviewsTable
-            rows={catalogue}
+            rows={data.allAceItem.nodes}
             height={Math.round(contentRect.height)}
           />
         }
@@ -58,7 +67,7 @@ function PreviewsTableContainer({ classes }: WithStyles<typeof styles>) {
   return (
     <Paper className={classes.root} ref={contentRef}>
       <PreviewsTable
-        rows={catalogue}
+        rows={data.allAceItem.nodes}
         height={Math.round(contentRect.height)}
       />
       <PreviewPanel item={selectedItem} />
@@ -70,5 +79,4 @@ PreviewsTableContainer.whyDidYouRender = false
 
 const styled = memo(withStyles(styles, { withTheme: true })(PreviewsTableContainer))
 
-// export { styled as PreviewsTableContainer }
 export default styled
