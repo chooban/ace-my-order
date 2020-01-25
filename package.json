@@ -43,7 +43,7 @@
   "scripts": {
     "gatsby:build": "gatsby build",
     "gatsby:develop": "gatsby develop",
-    "build": "react-app-rewired build && netlify-lambda build --config ./webpack.functions.js src/lambda/",
+    "build": "gatsby build && netlify-lambda build --config ./webpack.functions.js src/lambda/",
     "dev": "netlify dev",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .ts,.tsx ./src/",
