@@ -6,6 +6,7 @@ import { navigate } from 'gatsby'
 import parse from 'html-react-parser'
 import React from 'react'
 
+import { AceItem } from '../../../typings/autogen'
 import { useOrder } from '../../contexts/order-context'
 import { useFetch } from '../../hooks'
 
@@ -74,12 +75,12 @@ const styles = (theme: any) => {
 }
 
 interface WrapperProps extends WithStyles<typeof styles> {
-  item?: PreviewsItem
+  item?: AceItem
   unselectItem?: () => void
 }
 
 interface PreviewPanelProps extends WithStyles<typeof styles> {
-  item: PreviewsItem,
+  item: AceItem,
   unselectItem?: () => void
 }
 
@@ -121,7 +122,7 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
       <>
         <div className={classes.panel}>
           <div className={classes.cover}>
-            <img alt="Cover" src={item.coverThumbnail} />
+            <img alt="Cover" src={item.previews?.coverThumbnail ?? undefined} />
             {/* {inCart ?
               <Button
                 variant="contained"
@@ -139,9 +140,9 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
             } */}
           </div>
           <div>
-            {parse(item.previews.description)}
-            {item.previews.creators &&
-              <p>{parse(item.previews.creators)}</p>
+            {parse(item.previews?.description ?? '')}
+            {item.previews?.creators &&
+              <p>{parse(item.previews?.creators)}</p>
             }
           </div>
         </div>

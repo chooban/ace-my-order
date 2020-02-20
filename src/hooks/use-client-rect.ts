@@ -30,7 +30,6 @@ export function useClientRect<T extends HTMLElement>(ref: React.RefObject<T>): R
 
   const handleResize = useCallback(() => {
     if (!ref.current) return
-    console.log(getRect(ref.current))
     setRect(getRect(ref.current)) // Update client rect
   }, [ref])
 

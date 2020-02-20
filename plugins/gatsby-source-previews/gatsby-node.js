@@ -44,7 +44,7 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { savepath }) => 
 
   const { createNode } = actions
 
-  const sourceUrl = 'https://www.previewsworld.com/Catalog?mode=OrderForm&batch=JAN20'
+  const sourceUrl = 'https://www.previewsworld.com/Catalog?mode=OrderForm'
   const catalogueIds = await fetch(sourceUrl, { method: 'GET', redirect: 'follow' })
     .then((response) => {
       if (response.ok) {

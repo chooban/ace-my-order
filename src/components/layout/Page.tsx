@@ -4,8 +4,9 @@ import { createStyles, withStyles } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Paper from '@material-ui/core/Paper'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import React from 'react'
+import React, { useState } from 'react'
 
+import SearchContext from '../../contexts/search-context'
 import theme from '../../theme'
 import { Footer } from './Footer'
 import { Header } from './Header'
@@ -38,14 +39,18 @@ const styles = (theme: any) => {
 }
 
 function Page({ classes, children }: any) {
+  const [searchValue, setSearchValue] = useState('')
+
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
       <div className={classes.root}>
-        <Header />
-        <Paper className={classes.page}>
-          {children}
-        </Paper>
+        <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
+          <Header />
+          <Paper className={classes.page}>
+            {children}
+          </Paper>
+        </SearchContext.Provider>
         <Footer/>
       </div>
     </MuiThemeProvider>

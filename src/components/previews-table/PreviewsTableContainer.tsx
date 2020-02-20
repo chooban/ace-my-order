@@ -49,7 +49,7 @@ function PreviewsTableContainer({ classes, selectedItem }: any) {
   const contentRect = useClientRect(contentRef)
   const theme = useTheme()
   const isPresumedMobile = useMediaQuery(theme.breakpoints.down('xs'))
-  const data = useStaticQuery<AllItemsQuery>(query)
+  const { allAceItem } = useStaticQuery<AllItemsQuery>(query)
 
   if (isPresumedMobile) {
     return (
@@ -57,7 +57,7 @@ function PreviewsTableContainer({ classes, selectedItem }: any) {
         {selectedItem
           ? <PreviewPanel item={selectedItem} />
           : <PreviewsTable
-            rows={data.allAceItem.nodes as AceItem[]}
+            rows={allAceItem.nodes as AceItem[]}
             height={Math.round(contentRect.height)}
           />
         }
@@ -68,7 +68,7 @@ function PreviewsTableContainer({ classes, selectedItem }: any) {
   return (
     <Paper className={classes.root} ref={contentRef}>
       <PreviewsTable
-        rows={data.allAceItem.nodes as AceItem[]}
+        rows={allAceItem.nodes as AceItem[]}
         height={Math.round(contentRect.height)}
       />
       <PreviewPanel item={selectedItem} />
