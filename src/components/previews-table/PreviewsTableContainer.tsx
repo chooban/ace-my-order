@@ -1,9 +1,10 @@
 import Paper from '@material-ui/core/Paper'
-import { createStyles, useTheme, WithStyles, withStyles } from '@material-ui/core/styles'
+import { createStyles, useTheme, withStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { graphql, useStaticQuery } from 'gatsby'
 import React, { memo } from 'react'
 
+import { AceItem, AllItemsQuery } from '../../../typings/autogen'
 // import { useRouteMatch } from 'react-router-dom'
 // import { useCatalogue } from '../../contexts/catalogue-context'
 import { useClientRect } from '../../hooks'
@@ -28,7 +29,7 @@ const styles = (theme:any) => {
 }
 
 const query = graphql`
-  query {
+  query AllItems {
     allAceItem {
       nodes {
         id
@@ -48,7 +49,7 @@ function PreviewsTableContainer({ classes, selectedItem }: any) {
   const contentRect = useClientRect(contentRef)
   const theme = useTheme()
   const isPresumedMobile = useMediaQuery(theme.breakpoints.down('xs'))
-  const data = useStaticQuery(query)
+  const data = useStaticQuery<AllItemsQuery>(query)
 
   if (isPresumedMobile) {
     return (
@@ -56,7 +57,7 @@ function PreviewsTableContainer({ classes, selectedItem }: any) {
         {selectedItem
           ? <PreviewPanel item={selectedItem} />
           : <PreviewsTable
-            rows={data.allAceItem.nodes}
+            rows={data.allAceItem.nodes as AceItem[]}
             height={Math.round(contentRect.height)}
           />
         }
@@ -67,7 +68,7 @@ function PreviewsTableContainer({ classes, selectedItem }: any) {
   return (
     <Paper className={classes.root} ref={contentRef}>
       <PreviewsTable
-        rows={data.allAceItem.nodes}
+        rows={data.allAceItem.nodes as AceItem[]}
         height={Math.round(contentRect.height)}
       />
       <PreviewPanel item={selectedItem} />

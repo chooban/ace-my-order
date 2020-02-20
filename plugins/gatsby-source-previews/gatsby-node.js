@@ -32,7 +32,7 @@ function parsePreviewsData(itemText) {
     .replace(/\s\s+/g, ' ')
 
   return {
-    coverImageURL,
+    coverThumbnail: coverImageURL,
     title: pageTitle,
     description,
     creators
@@ -79,7 +79,6 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { savepath }) => 
   return Promise.all(catalogueFetches)
     .then(datum => {
       datum.forEach(data => {
-        // console.log(`Parsing ${data.id}`)
         const nodeContents = parsePreviewsData(data.itemText)
         createNode({
           id: data.id,

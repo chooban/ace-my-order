@@ -1,6 +1,8 @@
-function searchCatalogue(searchTerm: string, catalogue: PreviewsItem[]) {
+import { AceItem } from '../../typings/autogen/'
+
+function searchCatalogue(searchTerm: string, catalogue: AceItem[]) {
   const publisherOrTitleMatches = (regex: RegExp) =>
-    (d: PreviewsItem) => regex.test(`${d.title} ${d.publisher}`)
+    (d: AceItem) => regex.test(`${d.title} ${d.publisher}`)
 
   const terms = searchTerm.split(' ')
   const regex = terms

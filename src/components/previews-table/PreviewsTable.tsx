@@ -4,6 +4,7 @@ import { navigate } from 'gatsby'
 import React, { memo } from 'react'
 import { FixedSizeList } from 'react-window'
 
+import { AceItem } from '../../../typings/autogen'
 import { useOrder } from '../../contexts/order-context'
 import SearchContext from '../../contexts/search-context'
 import { searchCatalogue } from '../../lib/search-catalogue'
@@ -12,7 +13,7 @@ import { styles } from './styles'
 
 interface PreviewsTableProps extends WithStyles<typeof styles> {
   height: number
-  rows: PreviewsItem[]
+  rows: AceItem[]
 }
 
 const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {

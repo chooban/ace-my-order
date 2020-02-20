@@ -121,7 +121,7 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
       <>
         <div className={classes.panel}>
           <div className={classes.cover}>
-            {/* <img alt="Cover" src={item.coverThumbnail} /> */}
+            <img alt="Cover" src={item.coverThumbnail} />
             {/* {inCart ?
               <Button
                 variant="contained"

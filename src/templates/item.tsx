@@ -19,7 +19,7 @@ const ItemPage: React.FC = ({ data }: any) => {
 }
 
 export const query = graphql`
-  query($previewsCode: String!) {
+  query ItemPage($previewsCode: String!) {
     aceItem(previewsCode: { eq: $previewsCode }) {
       previewsCode
       price
@@ -28,6 +28,7 @@ export const query = graphql`
       previews {
         description
         creators
+        coverThumbnail
       }
     }
   }
