@@ -12,13 +12,7 @@ interface OwnProps {
 const ItemPage: React.FC<OwnProps> = ({ data }) => {
   return (
     <Page>
-      {/* <CatalogueContext.Provider value={{ catalogue: data.allAceItem.nodes }}>
-        <PreviewsTableContainer />
-      </CatalogueContext.Provider> */}
       <PreviewsTableContainer selectedItem={data.aceItem} />
-      {/* <div>
-        <p>{data.aceItem.previews.description}</p>
-      </div> */}
     </Page>
   )
 }
@@ -31,6 +25,7 @@ export const query = graphql`
       reducedFrom
       title
       previews {
+        id
         description
         creators
         coverThumbnail

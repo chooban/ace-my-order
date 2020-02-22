@@ -32,7 +32,7 @@ function parsePreviewsData(itemText) {
     .replace(/\s\s+/g, ' ')
 
   return {
-    coverThumbnail: coverImageURL,
+    coverThumbnail: coverImageURL.replace('CatalogImage', 'CatalogThumbnail'),
     title: pageTitle,
     description,
     creators
@@ -44,7 +44,7 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { savepath }) => 
 
   const { createNode } = actions
 
-  const sourceUrl = 'https://www.previewsworld.com/Catalog?mode=OrderForm'
+  const sourceUrl = 'https://www.previewsworld.com/Catalog?mode=OrderForm&batch=FEB20'
   const catalogueIds = await fetch(sourceUrl, { method: 'GET', redirect: 'follow' })
     .then((response) => {
       if (response.ok) {
@@ -59,7 +59,7 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { savepath }) => 
     .then(async (text) => {
       const $ = cheerio.load(text)
 
-      return $('td.dmdNo').find('a').map(function(i, el) {
+      return $('td.dmdNo').find('a').map(function (i, el) {
         const id = $(this).text()
         return id
       }).toArray()

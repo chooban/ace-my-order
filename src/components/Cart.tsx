@@ -98,7 +98,7 @@ function Cart({ classes }: WithStyles<typeof styles> & RouteComponentProps) {
 
     const { currentTarget } = e
     const code = currentTarget.dataset.id
-    if (!code) {
+    if (! code) {
       return
     }
     copyToClipboard(code)
@@ -136,19 +136,19 @@ function Cart({ classes }: WithStyles<typeof styles> & RouteComponentProps) {
       </div>
       {order.map((a) => {
         return (
-          <div className={classes.cartItem} key={a.code}>
+          <div className={classes.cartItem} key={a.previewsCode}>
             <div>
-              <img alt="Cover" src={a.coverThumbnail} />
+              <img alt="Cover" src={a.previews?.coverThumbnail || ''} />
             </div>
             <div className='details'>
               <div className='title'>
-                <Link to={`/item/${encodeURIComponent(a.code)}`}><b>{a.title}</b></Link>
+                <Link to={`/item/${encodeURIComponent(a.previewsCode)}`}><b>{a.title}</b></Link>
                 <Hidden xsDown>
-                  <AssignmentIcon fontSize={'small'} data-id={a.code} onClick={copyClicked} />
+                  <AssignmentIcon fontSize={'small'} data-id={a.previewsCode} onClick={copyClicked} />
                   <span className={`fadeout ${classes.fadeout}`}>Copied to clipboard</span>
                 </Hidden>
               </div>
-              <p className='description'>{he.decode(a.description.replace(/<[^>]+>/g, '')).substring(0, 150)}&hellip;</p>
+              <p className='description'>{he.decode(a.previews.description.replace(/<[^>]+>/g, '')).substring(0, 150)}&hellip;</p>
               <div className='footer'>
                 <Button variant="contained" size="small" color="secondary" onClick={() => removeFromOrder(a)}>Remove</Button>
               </div>
@@ -159,7 +159,7 @@ function Cart({ classes }: WithStyles<typeof styles> & RouteComponentProps) {
       })}
       <div className={classes.cartFooter}>
         <div>
-          <b>Total ({order.length} items): </b> {formatAsGBP(order.reduce((acc, curr) => acc += curr.price, 0)).value}
+          <b>Total ({order.length} items): </b> {formatAsGBP(order.reduce((acc, curr) => acc += curr.price ?? 0, 0)).value}
         </div>
       </div>
 

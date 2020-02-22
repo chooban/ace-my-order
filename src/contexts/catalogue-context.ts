@@ -1,7 +1,9 @@
 import React, { useContext } from 'react'
 
+import { AceItem } from '../../typings/autogen'
+
 const catalogueContext = React.createContext({
-  catalogue: [] as PreviewsItem[],
+  catalogue: [] as AceItem[],
 })
 
 const useCatalogue = () => useContext(catalogueContext)

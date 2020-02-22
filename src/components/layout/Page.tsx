@@ -4,8 +4,12 @@ import { createStyles, withStyles } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Paper from '@material-ui/core/Paper'
 import { MuiThemeProvider } from '@material-ui/core/styles'
+import { graphql, useStaticQuery } from 'gatsby'
 import React, { useState } from 'react'
 
+import { AceItem, CatalogueItemsQuery } from '../../../typings/autogen'
+import CatalogueContext from '../../contexts/catalogue-context'
+import { OrderProvider } from '../../contexts/order-context'
 import SearchContext from '../../contexts/search-context'
 import theme from '../../theme'
 import { Footer } from './Footer'
@@ -38,19 +42,39 @@ const styles = (theme: any) => {
   })
 }
 
+const query = graphql`
+  query CatalogueItems {
+    allAceItem {
+      nodes {
+        id
+        title
+        previewsCode
+        price
+        publisher
+        slug
+      }
+    }
+  }
+`
+
 function Page({ classes, children }: any) {
   const [searchValue, setSearchValue] = useState('')
+  const { allAceItem } = useStaticQuery<CatalogueItemsQuery>(query)
 
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
       <div className={classes.root}>
-        <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
-          <Header />
-          <Paper className={classes.page}>
-            {children}
-          </Paper>
-        </SearchContext.Provider>
+        <OrderProvider>
+          <CatalogueContext.Provider value={{ catalogue: allAceItem.nodes as AceItem[] }}>
+            <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
+              <Header />
+              <Paper className={classes.page}>
+                {children}
+              </Paper>
+            </SearchContext.Provider>
+          </CatalogueContext.Provider>
+        </OrderProvider>
         <Footer/>
       </div>
     </MuiThemeProvider>

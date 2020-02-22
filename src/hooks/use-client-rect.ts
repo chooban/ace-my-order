@@ -29,13 +29,13 @@ export function useClientRect<T extends HTMLElement>(ref: React.RefObject<T>): R
   )
 
   const handleResize = useCallback(() => {
-    if (!ref.current) return
+    if (! ref.current) return
     setRect(getRect(ref.current)) // Update client rect
   }, [ref])
 
   useLayoutEffect(() => {
     const element = ref.current
-    if (!element) return
+    if (! element) return
 
     handleResize()
 
@@ -45,7 +45,7 @@ export function useClientRect<T extends HTMLElement>(ref: React.RefObject<T>): R
       let resizeObserver = new ResizeObserver(() => handleResize())
       resizeObserver.observe(element)
       return () => {
-        if (!resizeObserver) return
+        if (! resizeObserver) return
         resizeObserver.disconnect()
         resizeObserver = null
       }

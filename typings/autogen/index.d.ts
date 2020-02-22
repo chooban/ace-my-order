@@ -12,7 +12,7 @@ export type Scalars = {
 
 export type AceItem = Node & {
    __typename?: 'AceItem',
-  previewsCode?: Maybe<Scalars['String']>,
+  previewsCode: Scalars['String'],
   price?: Maybe<Scalars['Float']>,
   reducedFrom?: Maybe<Scalars['Float']>,
   publisher?: Maybe<Scalars['String']>,
@@ -1767,9 +1767,9 @@ export enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___stages = 'pluginCreator___pluginOptions___stages',
   pluginCreator___pluginOptions___options___emitWarning = 'pluginCreator___pluginOptions___options___emitWarning',
   pluginCreator___pluginOptions___options___failOnError = 'pluginCreator___pluginOptions___options___failOnError',
-  pluginCreator___pluginOptions___prefixes = 'pluginCreator___pluginOptions___prefixes',
   pluginCreator___pluginOptions___name = 'pluginCreator___pluginOptions___name',
   pluginCreator___pluginOptions___path = 'pluginCreator___pluginOptions___path',
+  pluginCreator___pluginOptions___ignore = 'pluginCreator___pluginOptions___ignore',
   pluginCreator___pluginOptions___noheader = 'pluginCreator___pluginOptions___noheader',
   pluginCreator___pluginOptions___headers = 'pluginCreator___pluginOptions___headers',
   pluginCreator___pluginOptions___ignoreColumns = 'pluginCreator___pluginOptions___ignoreColumns',
@@ -1970,9 +1970,9 @@ export enum SitePluginFieldsEnum {
   pluginOptions___stages = 'pluginOptions___stages',
   pluginOptions___options___emitWarning = 'pluginOptions___options___emitWarning',
   pluginOptions___options___failOnError = 'pluginOptions___options___failOnError',
-  pluginOptions___prefixes = 'pluginOptions___prefixes',
   pluginOptions___name = 'pluginOptions___name',
   pluginOptions___path = 'pluginOptions___path',
+  pluginOptions___ignore = 'pluginOptions___ignore',
   pluginOptions___noheader = 'pluginOptions___noheader',
   pluginOptions___headers = 'pluginOptions___headers',
   pluginOptions___ignoreColumns = 'pluginOptions___ignoreColumns',
@@ -2102,9 +2102,9 @@ export type SitePluginPluginOptions = {
   savepath?: Maybe<Scalars['String']>,
   stages?: Maybe<Array<Maybe<Scalars['String']>>>,
   options?: Maybe<SitePluginPluginOptionsOptions>,
-  prefixes?: Maybe<Array<Maybe<Scalars['String']>>>,
   name?: Maybe<Scalars['String']>,
   path?: Maybe<Scalars['String']>,
+  ignore?: Maybe<Array<Maybe<Scalars['String']>>>,
   noheader?: Maybe<Scalars['Boolean']>,
   headers?: Maybe<Array<Maybe<Scalars['String']>>>,
   ignoreColumns?: Maybe<Array<Maybe<Scalars['String']>>>,
@@ -2115,9 +2115,9 @@ export type SitePluginPluginOptionsFilterInput = {
   savepath?: Maybe<StringQueryOperatorInput>,
   stages?: Maybe<StringQueryOperatorInput>,
   options?: Maybe<SitePluginPluginOptionsOptionsFilterInput>,
-  prefixes?: Maybe<StringQueryOperatorInput>,
   name?: Maybe<StringQueryOperatorInput>,
   path?: Maybe<StringQueryOperatorInput>,
+  ignore?: Maybe<StringQueryOperatorInput>,
   noheader?: Maybe<BooleanQueryOperatorInput>,
   headers?: Maybe<StringQueryOperatorInput>,
   ignoreColumns?: Maybe<StringQueryOperatorInput>,
@@ -2182,6 +2182,20 @@ export type PagesQueryQuery = (
   ) }
 );
 
+export type CatalogueItemsQueryVariables = {};
+
+
+export type CatalogueItemsQuery = (
+  { __typename?: 'Query' }
+  & { allAceItem: (
+    { __typename?: 'AceItemConnection' }
+    & { nodes: Array<(
+      { __typename?: 'AceItem' }
+      & Pick<AceItem, 'id' | 'title' | 'previewsCode' | 'price' | 'publisher' | 'slug'>
+    )> }
+  ) }
+);
+
 export type AllItemsQueryVariables = {};
 
 
@@ -2208,7 +2222,7 @@ export type ItemPageQuery = (
     & Pick<AceItem, 'previewsCode' | 'price' | 'reducedFrom' | 'title'>
     & { previews: Maybe<(
       { __typename?: 'PreviewsItem' }
-      & Pick<PreviewsItem, 'description' | 'creators' | 'coverThumbnail'>
+      & Pick<PreviewsItem, 'id' | 'description' | 'creators' | 'coverThumbnail'>
     )> }
   )> }
 );

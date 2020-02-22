@@ -30,7 +30,7 @@ const Row: React.FunctionComponent<RowProps> = ({ row, classes, style, inCart, s
       </div>
       <i
         className={`materical-icons ${classes.inCart}`}
-        style={inCart ? { visibility: 'visible' }: {}}
+        style={inCart ? { visibility: 'visible' } : {}}
       >
       done
       </i>
