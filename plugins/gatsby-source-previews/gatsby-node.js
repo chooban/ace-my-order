@@ -20,7 +20,7 @@ function parsePreviewsData(itemText) {
   const coverImage = urlPrefix + $('img#MainContentImage').attr('src')
   const coverImageURL = coverImage.substr(0, coverImage.lastIndexOf('?'))
 
-  const pageTitle = $('div.pageTitle').text()
+  const pageTitle = $('div.Title').text()
   const node = $('.CatalogFullDetail .Text')
   const children = node.contents().filter((i, el) => (
     el.type === 'text' || (el.type === 'tag' && el.tagName === 'br')
