@@ -13,7 +13,6 @@ const styles = (theme:any) => {
   return createStyles({
     root: {
       width: '100%',
-      height: '100vh',
       marginLeft: 'auto',
       marginRight: 'auto',
       display: 'flex',
