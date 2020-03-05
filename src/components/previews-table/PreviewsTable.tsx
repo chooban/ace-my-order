@@ -1,10 +1,10 @@
 import { WithStyles, withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
-import { navigate } from 'gatsby'
+import { graphql, navigate, useStaticQuery } from 'gatsby'
 import React, { memo } from 'react'
 import { FixedSizeList } from 'react-window'
 
-import { AceItem } from '../../../typings/autogen'
+import { AceItem, AllItemsIndexQuery } from '../../../typings/autogen'
 import { useOrder } from '../../contexts/order-context'
 import SearchContext from '../../contexts/search-context'
 import { searchCatalogue } from '../../lib/search-catalogue'
@@ -16,11 +16,26 @@ interface PreviewsTableProps extends WithStyles<typeof styles> {
   rows: AceItem[]
 }
 
+const query = graphql`
+  query AllItemsIndex {
+    allAceItem {
+      nodes {
+        id
+        title
+        previewsCode
+        price
+        publisher
+        slug
+      }
+    }
+  }
+`
+
 const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
   const { classes, rows, height } = props
   const [{ order }] = useOrder()
 
-  const setSelectedItem = (i: PreviewsItem) => {
+  const setSelectedItem = (i: AceItem) => {
     navigate(i.slug)
   }
 
@@ -77,4 +92,10 @@ const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
 
 const TableWithStyles = withStyles(styles, { withTheme: true })(memo(PreviewsTable))
 
-export default TableWithStyles
+const Wrapper = ({ height }: { height: number }) => {
+  const { allAceItem } = useStaticQuery<AllItemsIndexQuery>(query)
+
+  return <TableWithStyles height={height} rows={allAceItem.nodes as AceItem[]} />
+}
+
+export default React.memo(Wrapper)

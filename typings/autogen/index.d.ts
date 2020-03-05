@@ -1,4 +1,4 @@
-export type Maybe<T> = T | null;
+export type Maybe<T> = T | undefined;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string,
@@ -16,7 +16,7 @@ export type AceItem = Node & {
   price?: Maybe<Scalars['Float']>,
   reducedFrom?: Maybe<Scalars['Float']>,
   publisher?: Maybe<Scalars['String']>,
-  slug?: Maybe<Scalars['String']>,
+  slug: Scalars['String'],
   previews?: Maybe<PreviewsItem>,
   title?: Maybe<Scalars['String']>,
   IGNORE?: Maybe<Scalars['String']>,
@@ -1163,12 +1163,14 @@ export type Query = {
   allDirectory: DirectoryConnection,
   sitePage?: Maybe<SitePage>,
   allSitePage: SitePageConnection,
+  site?: Maybe<Site>,
+  allSite: SiteConnection,
   aceItem?: Maybe<AceItem>,
   allAceItem: AceItemConnection,
   previewsItem?: Maybe<PreviewsItem>,
   allPreviewsItem: PreviewsItemConnection,
-  site?: Maybe<Site>,
-  allSite: SiteConnection,
+  siteBuildMetadata?: Maybe<SiteBuildMetadata>,
+  allSiteBuildMetadata: SiteBuildMetadataConnection,
   sitePlugin?: Maybe<SitePlugin>,
   allSitePlugin: SitePluginConnection,
 };
@@ -1300,6 +1302,29 @@ export type QueryallSitePageArgs = {
 };
 
 
+export type QuerysiteArgs = {
+  buildTime?: Maybe<DateQueryOperatorInput>,
+  siteMetadata?: Maybe<SiteSiteMetadataFilterInput>,
+  port?: Maybe<IntQueryOperatorInput>,
+  host?: Maybe<StringQueryOperatorInput>,
+  mapping?: Maybe<SiteMappingFilterInput>,
+  polyfill?: Maybe<BooleanQueryOperatorInput>,
+  pathPrefix?: Maybe<StringQueryOperatorInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>
+};
+
+
+export type QueryallSiteArgs = {
+  filter?: Maybe<SiteFilterInput>,
+  sort?: Maybe<SiteSortInput>,
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
 export type QueryaceItemArgs = {
   previewsCode?: Maybe<StringQueryOperatorInput>,
   price?: Maybe<FloatQueryOperatorInput>,
@@ -1344,24 +1369,18 @@ export type QueryallPreviewsItemArgs = {
 };
 
 
-export type QuerysiteArgs = {
+export type QuerysiteBuildMetadataArgs = {
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>,
-  siteMetadata?: Maybe<SiteSiteMetadataFilterInput>,
-  port?: Maybe<IntQueryOperatorInput>,
-  host?: Maybe<StringQueryOperatorInput>,
-  mapping?: Maybe<SiteMappingFilterInput>,
-  polyfill?: Maybe<BooleanQueryOperatorInput>,
-  pathPrefix?: Maybe<StringQueryOperatorInput>,
   buildTime?: Maybe<DateQueryOperatorInput>
 };
 
 
-export type QueryallSiteArgs = {
-  filter?: Maybe<SiteFilterInput>,
-  sort?: Maybe<SiteSortInput>,
+export type QueryallSiteBuildMetadataArgs = {
+  filter?: Maybe<SiteBuildMetadataFilterInput>,
+  sort?: Maybe<SiteBuildMetadataSortInput>,
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>
 };
@@ -1393,17 +1412,17 @@ export type QueryallSitePluginArgs = {
 
 export type Site = Node & {
    __typename?: 'Site',
-  id: Scalars['ID'],
-  parent?: Maybe<Node>,
-  children: Array<Node>,
-  internal: Internal,
+  buildTime?: Maybe<Scalars['Date']>,
   siteMetadata?: Maybe<SiteSiteMetadata>,
   port?: Maybe<Scalars['Int']>,
   host?: Maybe<Scalars['String']>,
   mapping?: Maybe<SiteMapping>,
   polyfill?: Maybe<Scalars['Boolean']>,
   pathPrefix?: Maybe<Scalars['String']>,
-  buildTime?: Maybe<Scalars['Date']>,
+  id: Scalars['ID'],
+  parent?: Maybe<Node>,
+  children: Array<Node>,
+  internal: Internal,
 };
 
 
@@ -1414,36 +1433,53 @@ export type SitebuildTimeArgs = {
   locale?: Maybe<Scalars['String']>
 };
 
-export type SiteConnection = {
-   __typename?: 'SiteConnection',
+export type SiteBuildMetadata = Node & {
+   __typename?: 'SiteBuildMetadata',
+  id: Scalars['ID'],
+  parent?: Maybe<Node>,
+  children: Array<Node>,
+  internal: Internal,
+  buildTime?: Maybe<Scalars['Date']>,
+};
+
+
+export type SiteBuildMetadatabuildTimeArgs = {
+  formatString?: Maybe<Scalars['String']>,
+  fromNow?: Maybe<Scalars['Boolean']>,
+  difference?: Maybe<Scalars['String']>,
+  locale?: Maybe<Scalars['String']>
+};
+
+export type SiteBuildMetadataConnection = {
+   __typename?: 'SiteBuildMetadataConnection',
   totalCount: Scalars['Int'],
-  edges: Array<SiteEdge>,
-  nodes: Array<Site>,
+  edges: Array<SiteBuildMetadataEdge>,
+  nodes: Array<SiteBuildMetadata>,
   pageInfo: PageInfo,
   distinct: Array<Scalars['String']>,
-  group: Array<SiteGroupConnection>,
+  group: Array<SiteBuildMetadataGroupConnection>,
 };
 
 
-export type SiteConnectiondistinctArgs = {
-  field: SiteFieldsEnum
+export type SiteBuildMetadataConnectiondistinctArgs = {
+  field: SiteBuildMetadataFieldsEnum
 };
 
 
-export type SiteConnectiongroupArgs = {
+export type SiteBuildMetadataConnectiongroupArgs = {
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>,
-  field: SiteFieldsEnum
+  field: SiteBuildMetadataFieldsEnum
 };
 
-export type SiteEdge = {
-   __typename?: 'SiteEdge',
-  next?: Maybe<Site>,
-  node: Site,
-  previous?: Maybe<Site>,
+export type SiteBuildMetadataEdge = {
+   __typename?: 'SiteBuildMetadataEdge',
+  next?: Maybe<SiteBuildMetadata>,
+  node: SiteBuildMetadata,
+  previous?: Maybe<SiteBuildMetadata>,
 };
 
-export enum SiteFieldsEnum {
+export enum SiteBuildMetadataFieldsEnum {
   id = 'id',
   parent___id = 'parent___id',
   parent___parent___id = 'parent___parent___id',
@@ -1530,27 +1566,169 @@ export enum SiteFieldsEnum {
   internal___mediaType = 'internal___mediaType',
   internal___owner = 'internal___owner',
   internal___type = 'internal___type',
+  buildTime = 'buildTime'
+}
+
+export type SiteBuildMetadataFilterInput = {
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>,
+  buildTime?: Maybe<DateQueryOperatorInput>,
+};
+
+export type SiteBuildMetadataGroupConnection = {
+   __typename?: 'SiteBuildMetadataGroupConnection',
+  totalCount: Scalars['Int'],
+  edges: Array<SiteBuildMetadataEdge>,
+  nodes: Array<SiteBuildMetadata>,
+  pageInfo: PageInfo,
+  field: Scalars['String'],
+  fieldValue?: Maybe<Scalars['String']>,
+};
+
+export type SiteBuildMetadataSortInput = {
+  fields?: Maybe<Array<Maybe<SiteBuildMetadataFieldsEnum>>>,
+  order?: Maybe<Array<Maybe<SortOrderEnum>>>,
+};
+
+export type SiteConnection = {
+   __typename?: 'SiteConnection',
+  totalCount: Scalars['Int'],
+  edges: Array<SiteEdge>,
+  nodes: Array<Site>,
+  pageInfo: PageInfo,
+  distinct: Array<Scalars['String']>,
+  group: Array<SiteGroupConnection>,
+};
+
+
+export type SiteConnectiondistinctArgs = {
+  field: SiteFieldsEnum
+};
+
+
+export type SiteConnectiongroupArgs = {
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>,
+  field: SiteFieldsEnum
+};
+
+export type SiteEdge = {
+   __typename?: 'SiteEdge',
+  next?: Maybe<Site>,
+  node: Site,
+  previous?: Maybe<Site>,
+};
+
+export enum SiteFieldsEnum {
+  buildTime = 'buildTime',
   siteMetadata___title = 'siteMetadata___title',
   port = 'port',
   host = 'host',
   mapping___AceItem_previews = 'mapping___AceItem_previews',
   polyfill = 'polyfill',
   pathPrefix = 'pathPrefix',
-  buildTime = 'buildTime'
+  id = 'id',
+  parent___id = 'parent___id',
+  parent___parent___id = 'parent___parent___id',
+  parent___parent___parent___id = 'parent___parent___parent___id',
+  parent___parent___parent___children = 'parent___parent___parent___children',
+  parent___parent___children = 'parent___parent___children',
+  parent___parent___children___id = 'parent___parent___children___id',
+  parent___parent___children___children = 'parent___parent___children___children',
+  parent___parent___internal___content = 'parent___parent___internal___content',
+  parent___parent___internal___contentDigest = 'parent___parent___internal___contentDigest',
+  parent___parent___internal___description = 'parent___parent___internal___description',
+  parent___parent___internal___fieldOwners = 'parent___parent___internal___fieldOwners',
+  parent___parent___internal___ignoreType = 'parent___parent___internal___ignoreType',
+  parent___parent___internal___mediaType = 'parent___parent___internal___mediaType',
+  parent___parent___internal___owner = 'parent___parent___internal___owner',
+  parent___parent___internal___type = 'parent___parent___internal___type',
+  parent___children = 'parent___children',
+  parent___children___id = 'parent___children___id',
+  parent___children___parent___id = 'parent___children___parent___id',
+  parent___children___parent___children = 'parent___children___parent___children',
+  parent___children___children = 'parent___children___children',
+  parent___children___children___id = 'parent___children___children___id',
+  parent___children___children___children = 'parent___children___children___children',
+  parent___children___internal___content = 'parent___children___internal___content',
+  parent___children___internal___contentDigest = 'parent___children___internal___contentDigest',
+  parent___children___internal___description = 'parent___children___internal___description',
+  parent___children___internal___fieldOwners = 'parent___children___internal___fieldOwners',
+  parent___children___internal___ignoreType = 'parent___children___internal___ignoreType',
+  parent___children___internal___mediaType = 'parent___children___internal___mediaType',
+  parent___children___internal___owner = 'parent___children___internal___owner',
+  parent___children___internal___type = 'parent___children___internal___type',
+  parent___internal___content = 'parent___internal___content',
+  parent___internal___contentDigest = 'parent___internal___contentDigest',
+  parent___internal___description = 'parent___internal___description',
+  parent___internal___fieldOwners = 'parent___internal___fieldOwners',
+  parent___internal___ignoreType = 'parent___internal___ignoreType',
+  parent___internal___mediaType = 'parent___internal___mediaType',
+  parent___internal___owner = 'parent___internal___owner',
+  parent___internal___type = 'parent___internal___type',
+  children = 'children',
+  children___id = 'children___id',
+  children___parent___id = 'children___parent___id',
+  children___parent___parent___id = 'children___parent___parent___id',
+  children___parent___parent___children = 'children___parent___parent___children',
+  children___parent___children = 'children___parent___children',
+  children___parent___children___id = 'children___parent___children___id',
+  children___parent___children___children = 'children___parent___children___children',
+  children___parent___internal___content = 'children___parent___internal___content',
+  children___parent___internal___contentDigest = 'children___parent___internal___contentDigest',
+  children___parent___internal___description = 'children___parent___internal___description',
+  children___parent___internal___fieldOwners = 'children___parent___internal___fieldOwners',
+  children___parent___internal___ignoreType = 'children___parent___internal___ignoreType',
+  children___parent___internal___mediaType = 'children___parent___internal___mediaType',
+  children___parent___internal___owner = 'children___parent___internal___owner',
+  children___parent___internal___type = 'children___parent___internal___type',
+  children___children = 'children___children',
+  children___children___id = 'children___children___id',
+  children___children___parent___id = 'children___children___parent___id',
+  children___children___parent___children = 'children___children___parent___children',
+  children___children___children = 'children___children___children',
+  children___children___children___id = 'children___children___children___id',
+  children___children___children___children = 'children___children___children___children',
+  children___children___internal___content = 'children___children___internal___content',
+  children___children___internal___contentDigest = 'children___children___internal___contentDigest',
+  children___children___internal___description = 'children___children___internal___description',
+  children___children___internal___fieldOwners = 'children___children___internal___fieldOwners',
+  children___children___internal___ignoreType = 'children___children___internal___ignoreType',
+  children___children___internal___mediaType = 'children___children___internal___mediaType',
+  children___children___internal___owner = 'children___children___internal___owner',
+  children___children___internal___type = 'children___children___internal___type',
+  children___internal___content = 'children___internal___content',
+  children___internal___contentDigest = 'children___internal___contentDigest',
+  children___internal___description = 'children___internal___description',
+  children___internal___fieldOwners = 'children___internal___fieldOwners',
+  children___internal___ignoreType = 'children___internal___ignoreType',
+  children___internal___mediaType = 'children___internal___mediaType',
+  children___internal___owner = 'children___internal___owner',
+  children___internal___type = 'children___internal___type',
+  internal___content = 'internal___content',
+  internal___contentDigest = 'internal___contentDigest',
+  internal___description = 'internal___description',
+  internal___fieldOwners = 'internal___fieldOwners',
+  internal___ignoreType = 'internal___ignoreType',
+  internal___mediaType = 'internal___mediaType',
+  internal___owner = 'internal___owner',
+  internal___type = 'internal___type'
 }
 
 export type SiteFilterInput = {
-  id?: Maybe<StringQueryOperatorInput>,
-  parent?: Maybe<NodeFilterInput>,
-  children?: Maybe<NodeFilterListInput>,
-  internal?: Maybe<InternalFilterInput>,
+  buildTime?: Maybe<DateQueryOperatorInput>,
   siteMetadata?: Maybe<SiteSiteMetadataFilterInput>,
   port?: Maybe<IntQueryOperatorInput>,
   host?: Maybe<StringQueryOperatorInput>,
   mapping?: Maybe<SiteMappingFilterInput>,
   polyfill?: Maybe<BooleanQueryOperatorInput>,
   pathPrefix?: Maybe<StringQueryOperatorInput>,
-  buildTime?: Maybe<DateQueryOperatorInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>,
 };
 
 export type SiteGroupConnection = {
@@ -2200,6 +2378,20 @@ export type AllItemsQueryVariables = {};
 
 
 export type AllItemsQuery = (
+  { __typename?: 'Query' }
+  & { allAceItem: (
+    { __typename?: 'AceItemConnection' }
+    & { nodes: Array<(
+      { __typename?: 'AceItem' }
+      & Pick<AceItem, 'id' | 'title' | 'previewsCode' | 'price' | 'publisher' | 'slug'>
+    )> }
+  ) }
+);
+
+export type AllItemsIndexQueryVariables = {};
+
+
+export type AllItemsIndexQuery = (
   { __typename?: 'Query' }
   & { allAceItem: (
     { __typename?: 'AceItemConnection' }

@@ -21,7 +21,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       price: Float
       reducedFrom: Float
       publisher: String
-      slug: String
+      slug: String!
       previews: PreviewsItem @link(from: "previews___NODE")
     }
   `

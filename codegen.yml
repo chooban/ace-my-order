@@ -4,6 +4,7 @@ documents:
   - ./node_modules/gatsby*/!(node_modules)/**/*.js
 config:
   namingConvention: keep
+  maybeValue: T | undefined
 generates:
   typings/autogen/index.d.ts:
     plugins:
