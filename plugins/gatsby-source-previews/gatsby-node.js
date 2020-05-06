@@ -13,29 +13,37 @@ function ensureDirectoryExists(dirname) {
   fs.mkdirSync(dirname, { recursive: true })
 }
 
-function parsePreviewsData(itemText) {
-  const $ = cheerio.load(itemText)
+function parsePreviewsData(id, itemText) {
+  if (!itemText) {
+    console.log(`No data for ${id}`)
+    return null
+  }
+  try {
+    const $ = cheerio.load(itemText)
 
-  const urlPrefix = 'https://www.previewsworld.com'
-  const coverImage = urlPrefix + $('img#MainContentImage').attr('src')
-  const coverImageURL = coverImage.substr(0, coverImage.lastIndexOf('?'))
+    const urlPrefix = 'https://www.previewsworld.com'
+    const coverImage = urlPrefix + $('img#MainContentImage').attr('src')
+    const coverImageURL = coverImage.substr(0, coverImage.lastIndexOf('?'))
 
-  const pageTitle = $('div.Title').text()
-  const node = $('.CatalogFullDetail .Text')
-  const children = node.contents().filter((i, el) => (
-    el.type === 'text' || (el.type === 'tag' && el.tagName === 'br')
-  ))
-  const description = children.toString().trim()
-  const creators = node.children('.Creators')
-    .text()
-    .trim()
-    .replace(/\s\s+/g, ' ')
+    const pageTitle = $('div.Title').text()
+    const node = $('.CatalogFullDetail .Text')
+    const children = node.contents().filter((i, el) => (
+      el.type === 'text' || (el.type === 'tag' && el.tagName === 'br')
+    ))
+    const description = children.toString().trim()
+    const creators = node.children('.Creators')
+      .text()
+      .trim()
+      .replace(/\s\s+/g, ' ')
 
-  return {
-    coverThumbnail: coverImageURL.replace('CatalogImage', 'CatalogThumbnail'),
-    title: pageTitle,
-    description,
-    creators
+    return {
+      coverThumbnail: coverImageURL.replace('CatalogImage', 'CatalogThumbnail'),
+      title: pageTitle,
+      description,
+      creators
+    }
+  } catch (e) {
+    console.error(`Error parsing document for ${id}`, e)
   }
 }
 
@@ -79,15 +87,19 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { savepath }) => 
   return Promise.all(catalogueFetches)
     .then(datum => {
       datum.forEach(data => {
-        const nodeContents = parsePreviewsData(data.itemText)
-        createNode({
-          id: data.id,
-          ...nodeContents,
-          internal: {
-            type: 'PreviewsItem',
-            contentDigest: createContentDigest(nodeContents.description)
-          }
-        })
+        const nodeContents = parsePreviewsData(data.id, data.itemText)
+        if (nodeContents) {
+          createNode({
+            id: data.id,
+            ...nodeContents,
+            internal: {
+              type: 'PreviewsItem',
+              contentDigest: createContentDigest(nodeContents.description)
+            }
+          })
+        } else {
+          console.log(`No document for ${data.id}`)
+        }
       })
     })
     .then(() => {

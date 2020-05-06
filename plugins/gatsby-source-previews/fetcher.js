@@ -3,11 +3,17 @@ const cheerio = require('cheerio')
 const fs = require('fs')
 const { promisify } = require('util')
 const workerPool = require('workerpool')
+const redis = require('async-redis')
 
-const writeFilePromise = promisify(fs.writeFile)
+const writeFile = promisify(fs.writeFile)
+
+let client
+if (process.env.REDIS_URL) {
+  client = redis.createClient(process.env.REDIS_URL)
+}
 
 /**
- *  Worker thread to return the HTML contents of a given Previews ID.
+ * Worker thread to return the HTML contents of a given Previews ID.
  * If the information is cached on the filesystem then that's returned,
  * otherwise it's fetched from the site.
  *
@@ -16,12 +22,15 @@ const writeFilePromise = promisify(fs.writeFile)
  */
 async function fetchPreviews(id, fileName) {
   const URL_PREFIX = 'https://www.previewsworld.com'
-  const exists = fs.existsSync(fileName)
+  const fileExists = fs.existsSync(fileName)
 
-  if (exists) {
+  if (fileExists) {
     try {
       // console.log(`Reading ${fileName}`)
       const itemText = fs.readFileSync(fileName, 'utf8')
+      if (client) {
+        await client.set(id, itemText)
+      }
       return { id, itemText }
     } catch (e) {
       console.log(`Error for ${id}`, e)
@@ -29,8 +38,16 @@ async function fetchPreviews(id, fileName) {
     }
   }
 
+  if (client) {
+    const redisDoc = await client.get(id)
+    if (redisDoc) {
+      await writeFile(fileName, redisDoc)
+      return { id, redisDoc }
+    }
+  }
+
   // console.log(`Fetching for ${id}`)
-  const contents = await fetch(`${URL_PREFIX}/Catalog/${id}`, { method: 'GET', redirect: 'follow' } )
+  const contents = await fetch(`${URL_PREFIX}/Catalog/${id}`, { method: 'GET', redirect: 'follow' })
     .then(r => r.text())
     .then(fileContents => {
       const $ = cheerio.load(fileContents)
@@ -41,7 +58,8 @@ async function fetchPreviews(id, fileName) {
       throw e
     })
 
-  await writeFilePromise(fileName, contents)
+  await writeFile(fileName, contents)
+    .then(() => client.set(id, contents))
     .catch(e => {
       console.log(e)
       throw e
