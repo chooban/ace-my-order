@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext } from 'react'
-import { useLocalStorageReducer } from 'react-storage-hooks'
+import { useStorageReducer } from 'react-storage-hooks'
 
 import { AceItem } from '../../typings/autogen'
 
@@ -76,7 +76,7 @@ const OrderContext = createContext<[OrderState, OrderContextActions]>([initialSt
 }])
 
 const OrderProvider = ({ children }: OrderProviderProps) => {
-  const [order, dispatch] = useLocalStorageReducer('order', orderReducer, initialState)
+  const [order, dispatch] = useStorageReducer(localStorage, 'order', orderReducer, initialState)
 
   // Only bind the actions once
   const addToOrder = useCallback((i) => dispatch({ type: OrderActionType.Add, payload: i }), [dispatch])
