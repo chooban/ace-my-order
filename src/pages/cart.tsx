@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Cart from '../components/cart'
 import { Page } from '../components/layout'
+import Cart from '../components/shopping-cart'
 
 const Index: React.FC = () => {
   return (
