@@ -42,7 +42,7 @@ async function fetchPreviews(id, fileName) {
     const redisDoc = await client.get(id)
     if (redisDoc) {
       await writeFile(fileName, redisDoc)
-      return { id, redisDoc }
+      return { id, itemText: redisDoc }
     }
   }
 

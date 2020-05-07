@@ -6,6 +6,12 @@ import { AceItem } from '../../typings/autogen'
 type ActionHandler = (action: Action, state: OrderState) => OrderState
 type SwitchHandler = ActionHandler | OrderState
 
+const dummyStorage = {
+  getItem: () => null,
+  setItem: () => {},
+  removeItem: () => {},
+}
+
 const switchcase = (cases: Record<OrderActionType, SwitchHandler>) => (defaultCase: SwitchHandler) => (key: OrderActionType) =>
   Object.prototype.hasOwnProperty.call(cases, key) ? cases[key] : defaultCase
 
@@ -76,7 +82,7 @@ const OrderContext = createContext<[OrderState, OrderContextActions]>([initialSt
 }])
 
 const OrderProvider = ({ children }: OrderProviderProps) => {
-  const [order, dispatch] = useStorageReducer(localStorage, 'order', orderReducer, initialState)
+  const [order, dispatch] = useStorageReducer(typeof window !== 'undefined' ? localStorage : dummyStorage, 'order', orderReducer, initialState)
 
   // Only bind the actions once
   const addToOrder = useCallback((i) => dispatch({ type: OrderActionType.Add, payload: i }), [dispatch])
