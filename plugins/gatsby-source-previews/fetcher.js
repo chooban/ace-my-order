@@ -59,7 +59,9 @@ async function fetchPreviews(id, fileName) {
     })
 
   await writeFile(fileName, contents)
-    .then(() => client.set(id, contents))
+    .then(() => {if (client) {
+      client.set(id, contents)}
+    })
     .catch(e => {
       console.log(e)
       throw e

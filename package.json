@@ -19,10 +19,11 @@
     "@types/react-window": "^1.8.2",
     "async-redis": "^1.1.7",
     "cheerio": "^1.0.0-rc.3",
+    "dotenv": "^8.2.0",
     "eslint-plugin-simple-import-sort": "^5.0.3",
     "esm": "^3.2.25",
-    "gatsby": "^2.21.16",
-    "gatsby-cli": "^2.12.11",
+    "gatsby": "^2.21.21",
+    "gatsby-cli": "^2.12.15",
     "gatsby-plugin-create-client-paths": "^2.3.1",
     "gatsby-plugin-material-ui": "^2.1.8",
     "gatsby-plugin-typescript": "^2.4.2",
@@ -30,6 +31,8 @@
     "gatsby-source-filesystem": "^2.3.1",
     "gatsby-transformer-csv": "^2.3.1",
     "he": "^1.2.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.2",
     "node-fetch": "^2.6.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -44,7 +47,7 @@
     "codegen": "graphql-codegen",
     "build": "gatsby build",
     "dev": "gatsby develop --port 8001",
-    "lint": "eslint --ext .js,.ts,.tsx ./src/ ./gatsby*",
+    "lint": "eslint --ext .js,.ts,.tsx ./src/ ./gatsby*; tsc",
     "start": "gatsby serve"
   },
   "browserslist": [
@@ -60,17 +63,30 @@
     "@graphql-codegen/cli": "^1.12.2",
     "@graphql-codegen/typescript": "^1.12.2",
     "@graphql-codegen/typescript-operations": "^1.12.2",
-    "@types/he": "^1.1.0",
-    "@types/react-router-dom": "^5.1.3",
-    "@types/react-virtualized": "^9.21.8",
+    "@types/he": "^1.1.1",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/react-virtualized": "^9.21.9",
     "babel-preset-gatsby": "^0.2.29",
     "eslint-loader": "^3.0.3",
     "gatsby-plugin-eslint": "^2.0.8",
+    "gatsby-plugin-react-helmet": "^3.3.1",
     "html-react-parser": "^0.10.1",
     "react-app-rewire-hot-loader": "^2.0.1",
+    "react-helmet": "^6.0.0",
     "react-hot-loader": "^4.12.19"
   },
   "resolutions": {
     "set-value": "^3.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --cache --ext .js,.jsx,.ts,.tsx --fix",
+      "tsc --noEmit"
+    ]
   }
 }

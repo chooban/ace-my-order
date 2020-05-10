@@ -24,11 +24,12 @@
     ]
   },
   "include": [
-    "src",
+    "src/",
     "typings"
   ],
   "exclude": [
-    "src/setupProxy.js",
+    "plugins",
+    "gatsby*",
     "node_modules",
     "public",
     ".cache"

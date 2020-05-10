@@ -1,5 +1,4 @@
 import { WithStyles } from '@material-ui/core/styles'
-// import { navigate } from 'gatsby'
 import React, { CSSProperties } from 'react'
 import { areEqual } from 'react-window'
 
@@ -9,21 +8,16 @@ import { styles } from './styles'
 interface RowProps extends WithStyles<typeof styles> {
   row: AceItem,
   style: CSSProperties,
-  setSelectedItem: (item: PreviewsItem) => void,
+  setSelectedItem: (item: AceItem) => void,
   inCart: boolean
 }
 
 const Row: React.FunctionComponent<RowProps> = ({ row, classes, style, inCart, setSelectedItem }) => {
-
-  // const navigateToItem = () => navigate(`/app/item/${encodeURIComponent(row.previewsCode)}`)
-
-  const navigateToItem = () => setSelectedItem(row)
-
   return (
     <div
       className={classes.row}
       style={style}
-      onClick={navigateToItem}
+      onClick={() => setSelectedItem(row)}
     >
       <div className={classes.cellTitle}>
         <span className={classes.cellTitleContents}>{row.title}</span>

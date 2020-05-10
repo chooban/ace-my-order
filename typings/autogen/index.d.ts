@@ -13,7 +13,7 @@ export type Scalars = {
 export type AceItem = Node & {
    __typename?: 'AceItem',
   previewsCode: Scalars['String'],
-  price?: Maybe<Scalars['Float']>,
+  price: Scalars['Float'],
   reducedFrom?: Maybe<Scalars['Float']>,
   publisher?: Maybe<Scalars['String']>,
   slug: Scalars['String'],
@@ -2356,34 +2356,6 @@ export type PagesQueryQuery = (
     & { nodes: Array<(
       { __typename?: 'SitePage' }
       & Pick<SitePage, 'path'>
-    )> }
-  ) }
-);
-
-export type CatalogueItemsQueryVariables = {};
-
-
-export type CatalogueItemsQuery = (
-  { __typename?: 'Query' }
-  & { allAceItem: (
-    { __typename?: 'AceItemConnection' }
-    & { nodes: Array<(
-      { __typename?: 'AceItem' }
-      & Pick<AceItem, 'id' | 'title' | 'previewsCode' | 'price' | 'publisher' | 'slug'>
-    )> }
-  ) }
-);
-
-export type AllItemsQueryVariables = {};
-
-
-export type AllItemsQuery = (
-  { __typename?: 'Query' }
-  & { allAceItem: (
-    { __typename?: 'AceItemConnection' }
-    & { nodes: Array<(
-      { __typename?: 'AceItem' }
-      & Pick<AceItem, 'id' | 'title' | 'previewsCode' | 'price' | 'publisher' | 'slug'>
     )> }
   ) }
 );

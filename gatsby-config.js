@@ -6,6 +6,7 @@ module.exports = {
     'gatsby-plugin-typescript',
     'gatsby-plugin-material-ui',
     'gatsby-plugin-why-did-you-render',
+    'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-source-previews',
       options: {

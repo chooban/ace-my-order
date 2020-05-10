@@ -23,3 +23,5 @@ yarn-error.log*
 public/
 data/previews/
 .env.*
+.env
+.eslintcache

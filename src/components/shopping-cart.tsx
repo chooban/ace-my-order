@@ -148,7 +148,11 @@ function Cart({ classes }: WithStyles<typeof styles> & RouteComponentProps) {
                   <span className={`fadeout ${classes.fadeout}`}>Copied to clipboard</span>
                 </Hidden>
               </div>
-              <p className='description'>{he.decode(a.previews.description.replace(/<[^>]+>/g, '')).substring(0, 150)}&hellip;</p>
+              {
+                a.previews?.description
+                  ? <p className='description'>{he.decode(a.previews.description.replace(/<[^>]+>/g, '')).substring(0, 150)}&hellip;</p>
+                  : <p className='description'></p>
+              }
               <div className='footer'>
                 <Button variant="contained" size="small" color="secondary" onClick={() => removeFromOrder(a)}>Remove</Button>
               </div>
