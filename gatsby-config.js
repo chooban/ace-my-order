@@ -1,6 +1,10 @@
 module.exports = {
   siteMetadata: {
-    title: 'My Ace Order'
+    title: 'My Ace Order',
+    description: 'Find things to order from Previews at Ace',
+    url: 'https://ace-my-order.netlify.app',
+    twitterUsername: 'choobanicus',
+    titleTemplate: 'Ace My Order'
   },
   plugins: [
     'gatsby-plugin-typescript',
@@ -10,10 +14,9 @@ module.exports = {
     {
       resolve: 'gatsby-source-previews',
       options: {
-        savepath: `${__dirname}/data/previews/`
-      }
+        savepath: `${__dirname}/data/previews/`,
+      },
     },
-
     {
       resolve: 'gatsby-plugin-eslint',
       options: {
@@ -22,18 +25,16 @@ module.exports = {
         stages: ['develop'],
         options: {
           emitWarning: true,
-          failOnError: false
-        }
-      }
+          failOnError: false,
+        },
+      },
     },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'data',
         path: `${__dirname}/data/`,
-        ignore:[
-          '**/*.html'
-        ]
+        ignore: ['**/*.html'],
       },
     },
     {
@@ -41,12 +42,20 @@ module.exports = {
       options: {
         typeName: () => 'AceItem',
         noheader: true,
-        headers: ['previewsCode', 'title', 'IGNORE', 'price', 'IGNORE', 'reducedFrom', 'publisher'],
-        ignoreColumns: ['IGNORE']
-      }
-    }
+        headers: [
+          'previewsCode',
+          'title',
+          'IGNORE',
+          'price',
+          'IGNORE',
+          'reducedFrom',
+          'publisher',
+        ],
+        ignoreColumns: ['IGNORE'],
+      },
+    },
   ],
   mapping: {
-    'AceItem.previews': 'PreviewsItem'
-  }
+    'AceItem.previews': 'PreviewsItem',
+  },
 }

@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import React, { useState } from 'react'
 
+import SEO from '../../components/seo'
 import { OrderProvider } from '../../contexts/order-context'
 import SearchContext from '../../contexts/search-context'
 import theme from '../../theme'
@@ -35,18 +36,21 @@ function Page({ classes, children }: any) {
   const [searchValue, setSearchValue] = useState('')
 
   return (
-    <MuiThemeProvider theme={theme}>
-      <CssBaseline />
-      <OrderProvider>
-        <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
-          <div className={classes.root}>
-            <Header />
-            {children}
-            <Footer/>
-          </div>
-        </SearchContext.Provider>
-      </OrderProvider>
-    </MuiThemeProvider>
+    <>
+      <SEO />
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <OrderProvider>
+          <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
+            <div className={classes.root}>
+              <Header />
+              {children}
+              <Footer/>
+            </div>
+          </SearchContext.Provider>
+        </OrderProvider>
+      </MuiThemeProvider>
+    </>
   )
 }
 
