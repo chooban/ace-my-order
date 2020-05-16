@@ -7,7 +7,6 @@ module.exports = {
     titleTemplate: 'Ace My Order'
   },
   plugins: [
-    'gatsby-plugin-typescript',
     'gatsby-plugin-material-ui',
     'gatsby-plugin-why-did-you-render',
     'gatsby-plugin-react-helmet',
