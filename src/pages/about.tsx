@@ -1,10 +1,8 @@
 import React from 'react'
 
-import { Page } from '../components/layout'
-
 function About() {
   return (
-    <Page>
+    <>
       <h2>About</h2>
       <p>The site is aimed at people who use the services of Ace Comics to
       order their comic books. Specifically, if for those of us who order
@@ -35,7 +33,7 @@ function About() {
 
       <p>I'll probably add new features at some point, but let me know if there's a
       killer feature you'd like.</p>
-    </Page>
+    </>
   )
 
 }

@@ -74,4 +74,4 @@ function PageWithTable({ classes, children }: any) {
 
 const styled = withStyles(styles, { withTheme: true })(PageWithTable)
 
-export { styled as Page }
+export { styled as PageWithTable }

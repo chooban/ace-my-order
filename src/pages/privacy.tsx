@@ -1,10 +1,8 @@
 import React from 'react'
 
-import { Page } from '../components/layout'
-
 function Privacy() {
   return (
-    <Page>
+    <>
       <h3>Privacy Policy</h3>
       <h4>What is this Privacy Policy for?</h4>
       <p>This privacy policy is for this website
@@ -51,7 +49,7 @@ function Privacy() {
       <h4>Your acceptance of these terms</h4>
       <p>By using this Site, you signify your acceptance of this policy and terms of service. If you do not agree to this policy,
       please do not use our Site.</p>
-    </Page>
+    </>
   )
 }
 

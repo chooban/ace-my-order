@@ -23,7 +23,7 @@ const styles = () => {
 const Footer = ({ classes }: WithStyles<typeof styles>) => (
   <Paper className={classes.root}>
     <p>
-      <Link to="/app">Home</Link> • <Link to="/about">About</Link> • <Link to="/privacy">Privacy</Link>{' '}
+      <Link to="/">Home</Link> • <Link to="/about">About</Link> • <Link to="/privacy">Privacy</Link>{' '}
       • <Link to="/contact">Contact</Link>
     </p>
     <p className={classes.smaller}>

@@ -1,13 +1,10 @@
-import { Paper, useMediaQuery, withStyles } from '@material-ui/core'
-import { createStyles, useTheme } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core'
+import { createStyles } from '@material-ui/core/styles'
 import { graphql } from 'gatsby'
 import React from 'react'
 
 import { AceItem, ItemPageQuery } from '../../typings/autogen'
-import { Page } from '../components/layout'
 import PreviewPanel from '../components/previews-table/PreviewPanel'
-import PreviewsTable from '../components/previews-table/PreviewsTable'
-import { useClientRect } from '../hooks'
 
 const styles = (theme:any) => {
   return createStyles({
@@ -30,23 +27,10 @@ interface OwnProps {
   data: ItemPageQuery
 }
 
-const contentRef = React.createRef<HTMLDivElement>()
 const ItemPage: React.FC<OwnProps> = ({ classes, data }) => {
-  const contentRect = useClientRect(contentRef)
-  const theme = useTheme()
-  const isPresumedMobile = useMediaQuery(theme.breakpoints.down('xs'))
 
   return (
-    <Page>
-      <Paper className={classes.root} ref={contentRef}>
-        {isPresumedMobile
-          ? <PreviewPanel item={data.aceItem as AceItem} />
-          : (<>
-            <PreviewsTable height={Math.round(contentRect.height)} />
-            <PreviewPanel item={data.aceItem as AceItem} />
-          </>)}
-      </Paper>
-    </Page>
+    <PreviewPanel item={data.aceItem as AceItem} />
   )
 }
 

@@ -10,6 +10,10 @@ module.exports = {
     'gatsby-plugin-material-ui',
     'gatsby-plugin-why-did-you-render',
     'gatsby-plugin-react-helmet',
+    { resolve: 'gatsby-plugin-layout',
+      options: {
+        component: require.resolve('./src/components/layout/layout'),
+      }, },
     {
       resolve: 'gatsby-source-previews',
       options: {

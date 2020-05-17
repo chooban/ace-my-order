@@ -1,6 +1,6 @@
 import '../../index.css'
 
-import { createStyles, withStyles } from '@material-ui/core'
+import { createStyles, Paper, withStyles } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import React, { useState } from 'react'
@@ -28,6 +28,10 @@ const styles = (theme: any) => {
       '.body': {
         flexGrow: 1
       }
+    },
+    children: {
+      paddingLeft: '0.5rem',
+      paddingRight: '0.5rem'
     }
   })
 }
@@ -44,7 +48,9 @@ function Page({ classes, children }: any) {
           <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
             <div className={classes.root}>
               <Header />
-              {children}
+              <Paper className={classes.children}>
+                {children}
+              </Paper>
               <Footer/>
             </div>
           </SearchContext.Provider>
