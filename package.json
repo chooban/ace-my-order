@@ -53,9 +53,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@graphql-codegen/cli": "^1.12.2",
-    "@graphql-codegen/typescript": "^1.12.2",
-    "@graphql-codegen/typescript-operations": "^1.12.2",
     "@types/he": "^1.1.1",
     "@types/react-router-dom": "^5.1.5",
     "@types/react-virtualized": "^9.21.9",
@@ -65,6 +62,11 @@
     "html-react-parser": "^0.10.1",
     "react-helmet": "^6.0.0",
     "react-hot-loader": "^4.12.19"
+  },
+  "optionalDependencies": {
+    "@graphql-codegen/cli": "^1.12.2",
+    "@graphql-codegen/typescript": "^1.12.2",
+    "@graphql-codegen/typescript-operations": "^1.12.2"
   },
   "resolutions": {
     "set-value": "^3.0.1"
