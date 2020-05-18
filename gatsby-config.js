@@ -1,19 +1,23 @@
+require('dotenv').config()
+
 module.exports = {
   siteMetadata: {
     title: 'My Ace Order',
     description: 'Find things to order from Previews at Ace',
     url: 'https://ace-my-order.netlify.app',
     twitterUsername: 'choobanicus',
-    titleTemplate: 'Ace My Order'
+    titleTemplate: 'Ace My Order',
   },
   plugins: [
     'gatsby-plugin-material-ui',
     'gatsby-plugin-why-did-you-render',
     'gatsby-plugin-react-helmet',
-    { resolve: 'gatsby-plugin-layout',
+    {
+      resolve: 'gatsby-plugin-layout',
       options: {
         component: require.resolve('./src/components/layout/layout'),
-      }, },
+      },
+    },
     {
       resolve: 'gatsby-source-previews',
       options: {
@@ -55,6 +59,13 @@ module.exports = {
           'publisher',
         ],
         ignoreColumns: ['IGNORE'],
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-auth0',
+      options: {
+        domain: process.env.AUTH0_DOMAIN,
+        clientId: process.env.AUTH0_CLIENT_ID,
       },
     },
   ],

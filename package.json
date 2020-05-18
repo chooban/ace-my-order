@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-spa-js": "^1.8.1",
     "@material-ui/core": "^4.9.14",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/styles": "^4.9.14",
@@ -44,7 +45,7 @@
     "codegen": "graphql-codegen",
     "build": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages",
     "dev": "gatsby develop --port 8001",
-    "lint": "eslint --ext .js,.ts,.tsx ./src/ gatsby*",
+    "lint": "eslint --fix --ext .js,.ts,.tsx ./src/ gatsby*",
     "start": "gatsby serve"
   },
   "browserslist": [
