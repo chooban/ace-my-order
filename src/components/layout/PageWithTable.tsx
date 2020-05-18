@@ -3,7 +3,7 @@ import '../../index.css'
 import { createStyles, Paper, withStyles } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import React, { useState } from 'react'
+import React, { createRef, useState } from 'react'
 
 import SEO from '../../components/seo'
 import { OrderProvider } from '../../contexts/order-context'
@@ -33,6 +33,7 @@ const styles = (theme: any) => {
     },
     page: {
       width: '100%',
+      height: '100%',
       marginLeft: 'auto',
       marginRight: 'auto',
       display: 'flex',
@@ -45,7 +46,7 @@ const styles = (theme: any) => {
   })
 }
 
-const contentRef = React.createRef<HTMLDivElement>()
+const contentRef = createRef<HTMLDivElement>()
 function PageWithTable({ classes, children }: any) {
   const [searchValue, setSearchValue] = useState('')
   const contentRect = useClientRect(contentRef)
