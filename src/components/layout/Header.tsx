@@ -4,6 +4,7 @@ import { Link } from 'gatsby'
 import React from 'react'
 
 import { useOrder } from '../../contexts/order-context'
+import { AccountIcon } from '../AccountIcon'
 
 const styles = () => {
   return createStyles({
@@ -24,8 +25,13 @@ const styles = () => {
       color: '#000',
       margin: '5px 0'
     },
-    cartContainer: {
+    iconContainer: {
       marginLeft: 'auto',
+      display: 'flex',
+      flexDirection: 'row',
+      height: 32,
+      alignItems: 'center',
+      justifyContent: 'center'
     },
     cart: {
       '&::after': {
@@ -57,12 +63,17 @@ const Header = ({ classes }: WithStyles<typeof styles>) => {
   return (
     <Paper className={classes.root}>
       <Link className={classes.title} to={'/'}>My Ace Order</Link>
-      <div className={classes.cartContainer}>
-        <Link to="/cart">
-          <i className={`material-icons ${classes.cart} ${order.length ? classes.hasItems : ''}` }>
+      <div className={classes.iconContainer}>
+        <div>
+          <Link to="/cart">
+            <i className={`material-icons ${classes.cart} ${order.length ? classes.hasItems : ''}` }>
         shopping_cart
-          </i>
-        </Link>
+            </i>
+          </Link>
+        </div>
+        <div>
+          <AccountIcon />
+        </div>
       </div>
     </Paper>
   )}

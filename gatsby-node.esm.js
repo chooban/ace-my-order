@@ -66,8 +66,11 @@ exports.createPages = async ({ graphql, actions }) => {
 exports.onCreatePage = ({ page, actions }) => {
   const { createPage } = actions
 
-  if (page.path.match(/about|privacy|cart|contact|account/)) {
-    page.context.layout = 'no-table'
+  if (page.path === '/' || page.path.match(/item/)) {
+    page.context.layout = 'table'
+    createPage(page)
+  } else if (page.path.match(/^\/app/)) {
+    page.matchPath = '/app/*'
     createPage(page)
   }
 }

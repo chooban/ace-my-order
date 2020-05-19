@@ -4,11 +4,7 @@ import React from 'react'
 import { AceItem, ItemPageQuery } from '../../typings/autogen'
 import PreviewPanel from '../components/previews-table/PreviewPanel'
 
-interface OwnProps {
-  data: ItemPageQuery
-}
-
-const ItemPage: React.FC<OwnProps> = ({ data }) =>
+const ItemPage: React.FC<{ data: ItemPageQuery }> = ({ data }) =>
   (<PreviewPanel item={data.aceItem as AceItem} />)
 
 
