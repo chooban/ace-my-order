@@ -15,7 +15,7 @@ export const AccountIcon: React.FC = () => {
       : <LoginIcon triggerLogin={loginWithPopup} />
 }
 
-const LoginIcon: React.FC<any> = ({ triggerLogin }) => {
+const LoginIcon: React.FC<{triggerLogin(): void}> = ({ triggerLogin }) => {
   return (
     <i className={'material-icons'} style={{ cursor: 'pointer' }} onClick={() => triggerLogin()}>person_outline</i>
   )

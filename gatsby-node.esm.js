@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 const AceItem = require('./src/resolvers/aceitem')
 
@@ -35,6 +36,7 @@ exports.createResolvers = ({ createResolvers }) => {
 exports.onCreateNode = ({ node }) => {
   if (node.internal.type === 'AceItem') {
     node.slug = `item/${node.previewsCode.replace('/', '-')}`
+    // eslint-disable-next-line
     node.previews___NODE = previewsCodeToCatalogueId(node.previewsCode)
   }
 }

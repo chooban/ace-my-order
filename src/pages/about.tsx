@@ -13,26 +13,26 @@ function About() {
       the things you want, as well as double checking by showing you the
       details from Preview itself.</p>
 
-      <p>Using the site is very straightforward and you've probably already
+      <p>Using the site is very straightforward and you&apos;ve probably already
       worked out that you add things to the cart, open the cart, export the
       order and send it to Ace in the usual way. Please note that you do
-      still have to email the file to Ace, the site won't do that for
+      still have to email the file to Ace, the site won&apos;t do that for
       you.</p>
 
       <h2>Accounts</h2>
 
       <p><b>Important Note</b>: This is entirely separate to any account functionality
-      that might exist on Ace's own site. This is purely for the order
+      that might exist on Ace&apo;s own site. This is purely for the order
       helper.</p>
 
       <p>By creating an account you can start adding Saved Searches. With these in
       place, you can see which ones have matches in the current catalogue,
       hopefully reducing the number of times you miss something. Since I stick to
-      TPBs these days, I've also been using it to add searches for collections that
-      I know won't appear for months yet. </p>
+      TPBs these days, I&apos;ve also been using it to add searches for collections that
+      I know won&apos;t appear for months yet. </p>
 
-      <p>I'll probably add new features at some point, but let me know if there's a
-      killer feature you'd like.</p>
+      <p>I&apos;ll probably add new features at some point, but let me know if there&apos;s a
+      killer feature you&apos;d like.</p>
     </>
   )
 

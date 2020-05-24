@@ -9,10 +9,10 @@ function Privacy() {
       and governs the privacy of its users who choose to use it.</p>
 
       <h5>tl;dr</h5>
-      <p>If you put things in the cart it'll save that information to the
+      <p>If you put things in the cart it&apos;ll save that information to the
       local storage available in your browser. If you sign up for an account
       then I will have access to basic information about your social media
-      account and you'll have a cookie from the login provider. I have no
+      account and you&apos;ll have a cookie from the login provider. I have no
       interest in selling your data to anyone and never will.</p>
 
       <h4>How we protect your information</h4>

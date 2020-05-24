@@ -12,7 +12,7 @@ import { useClipboard } from '../hooks'
 import { formatAsGBP } from '../lib/format-as-gbp'
 import { orderToCsv } from '../lib/order-to-csv'
 
-const styles = (theme:any) => {
+const styles = () => {
   return createStyles({
     cartHeader: {
       display: 'flex',

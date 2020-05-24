@@ -8,14 +8,18 @@ type SwitchHandler = ActionHandler | OrderState
 
 const dummyStorage = {
   getItem: () => null,
-  setItem: () => {},
-  removeItem: () => {},
+  setItem: () => {
+    //no-op
+  },
+  removeItem: () => {
+    //no-op
+  },
 }
 
 const switchcase = (cases: Record<OrderActionType, SwitchHandler>) => (defaultCase: SwitchHandler) => (key: OrderActionType) =>
   Object.prototype.hasOwnProperty.call(cases, key) ? cases[key] : defaultCase
 
-const executeIfFunction = (f: Function|any) =>
+const executeIfFunction = (f: any) =>
   f instanceof Function ? f() : f
 
 const switchcaseF = (cases: Record<OrderActionType, SwitchHandler>) => (defaultCase: SwitchHandler) => (key: OrderActionType) =>
@@ -31,8 +35,8 @@ enum OrderActionType {
 }
 
 interface Action {
-  type: OrderActionType,
-  payload: AceItem
+  type: OrderActionType;
+  payload: AceItem;
 }
 
 type OrderState = typeof initialState
@@ -68,12 +72,12 @@ const orderReducer = (state: OrderState, action: Action): OrderState => {
 }
 
 interface OrderProviderProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 interface OrderContextActions {
-  addToOrder: (i: AceItem) => void,
-  removeFromOrder: (i: AceItem) => void
+  addToOrder: (i: AceItem) => void;
+  removeFromOrder: (i: AceItem) => void;
 }
 
 const OrderContext = createContext<[OrderState, OrderContextActions]>([initialState, {

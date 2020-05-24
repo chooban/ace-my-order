@@ -1,10 +1,9 @@
 import { useLocation } from '@reach/router'
 import { graphql, useStaticQuery } from 'gatsby'
-import PropTypes from 'prop-types'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 
-const SEO = ({ title, description, article }: { title?: string, description?: string, article?: boolean}) => {
+const SEO = ({ title, description, article }: { title?: string; description?: string; article?: boolean}): JSX.Element => {
   const { pathname } = useLocation()
   const { site } = useStaticQuery(query)
   const {
@@ -41,19 +40,7 @@ const SEO = ({ title, description, article }: { title?: string, description?: st
     </Helmet>
   )
 }
-export default SEO
-SEO.propTypes = {
-  title: PropTypes.string,
-  description: PropTypes.string,
-  image: PropTypes.string,
-  article: PropTypes.bool,
-}
-SEO.defaultProps = {
-  title: null,
-  description: null,
-  image: null,
-  article: false,
-}
+
 const query = graphql`
   query SEO {
     site {
@@ -67,3 +54,5 @@ const query = graphql`
     }
   }
 `
+
+export default SEO

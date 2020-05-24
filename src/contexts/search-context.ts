@@ -2,5 +2,7 @@ import React from 'react'
 
 export default React.createContext({
   searchValue: '',
-  updateSearch: (s: string) => {}
+  updateSearch: () => {
+    // no-op
+  }
 })
