@@ -1,18 +1,7 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path')
-const AceItem = require('./src/resolvers/aceitem')
+import path from 'path'
 
-function previewsCodeToCatalogueId(previewsCode) {
-  const parts = previewsCode.split('/')
-  const [issue, item] = [Number(parts[0]), parts[1]]
-  const MonthNames = [
-    'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'
-  ]
-  const epoch = new Date(1988, 8, 1)
-  epoch.setMonth(epoch.getMonth() + issue)
-
-  return MonthNames[epoch.getMonth()] + (epoch.getFullYear() - 2000) + item
-}
+import { previewsCodeToCatalogueId } from './lib'
+import AceItem from './src/resolvers/aceitem'
 
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions
@@ -58,7 +47,8 @@ exports.createPages = async ({ graphql, actions }) => {
     createPage({
       path: node.slug,
       component: path.resolve('./src/templates/item.tsx'),
-      context:{
+      context: {
+        layout: 'table',
         previewsCode: node.previewsCode
       }
     })
@@ -68,7 +58,7 @@ exports.createPages = async ({ graphql, actions }) => {
 exports.onCreatePage = ({ page, actions }) => {
   const { createPage } = actions
 
-  if (page.path === '/' || page.path.match(/item/)) {
+  if (page.path === '/') {
     page.context.layout = 'table'
     createPage(page)
   } else if (page.path.match(/^\/app/)) {

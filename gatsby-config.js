@@ -1,5 +1,17 @@
 require('dotenv').config()
 
+const lineReader = require('n-readlines')
+const { previewsCodeToCatalogueId } = require('./lib')
+const lines = new lineReader('./data/catalogue.csv')
+
+let catalogueId
+do {
+  catalogueId
+    = previewsCodeToCatalogueId(
+      lines.next().toString().split(',')[0].replace(/"/g, '')
+    ).slice(0, 5)
+} while (false) // eslint-disable-line
+
 module.exports = {
   siteMetadata: {
     title: 'My Ace Order',
@@ -21,6 +33,7 @@ module.exports = {
     {
       resolve: 'gatsby-source-previews',
       options: {
+        catalogueId,
         savepath: `${__dirname}/data/previews/`,
       },
     },
@@ -66,6 +79,7 @@ module.exports = {
       options: {
         domain: process.env.AUTH0_DOMAIN,
         clientId: process.env.AUTH0_CLIENT_ID,
+        useRefreshTokens: true
       },
     },
   ],

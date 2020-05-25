@@ -1,6 +1,7 @@
 import createAuth0Client from '@auth0/auth0-spa-js'
 import React, { useContext, useEffect, useState } from 'react'
 
+/* eslint-disable @typescript-eslint/no-empty-function */
 const defaultContext = {
   isAuthenticated: false,
   user: null,
@@ -14,6 +15,7 @@ const defaultContext = {
   getTokenWithPopup: () => {},
   logout: () => {},
 }
+/* eslint-enable */
 
 export const Auth0Context = React.createContext(defaultContext)
 export const useAuth0 = () => useContext(Auth0Context)

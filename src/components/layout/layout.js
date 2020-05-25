@@ -3,7 +3,7 @@ import React from 'react'
 import { Page } from './Page'
 import { PageWithTable } from './PageWithTable'
 
-const LayoutChoice = ({ children, pageContext }): JSX.Element => {
+const LayoutChoice = ({ children, pageContext }) => {
   if (pageContext.layout === 'table') {
     return <PageWithTable>{children}</PageWithTable>
   }

@@ -1,10 +1,12 @@
 require('dotenv').config()
 
+/* eslint-disable @typescript-eslint/no-var-requires */
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
 const fs = require('fs')
 const path = require('path')
 const workerPool = require('workerpool')
+/* eslint-enable */
 
 function ensureDirectoryExists(dirname) {
   console.log(`Checking for ${dirname}`)
@@ -49,12 +51,14 @@ function parsePreviewsData(id, itemText) {
   }
 }
 
-exports.sourceNodes = async ({ actions, createContentDigest }, { savepath }) => {
+exports.sourceNodes = async ({ actions, createContentDigest }, { savepath, catalogueId }) => {
   ensureDirectoryExists(savepath)
 
   const { createNode } = actions
 
-  const sourceUrl = 'https://www.previewsworld.com/Catalog?mode=OrderForm'
+  const sourceUrl = `https://www.previewsworld.com/Catalog?mode=OrderForm&batch=${catalogueId}`
+
+  console.log('Downloading', sourceUrl)
   const catalogueIds = await fetch(sourceUrl, { method: 'GET', redirect: 'follow' })
     .then((response) => {
       if (response.ok) {
@@ -69,9 +73,8 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { savepath }) => 
     .then(async (text) => {
       const $ = cheerio.load(text)
 
-      return $('td.dmdNo').find('a').map(function (i, el) {
-        const id = $(this).text()
-        return id
+      return $('td.dmdNo').find('a').map(function () {
+        return $(this).text()
       }).toArray()
     })
 
