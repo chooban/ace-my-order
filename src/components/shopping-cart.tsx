@@ -25,7 +25,7 @@ const styles = () => {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'flex-end',
-      margin: '0.5em 0 0.5em 0',
+      margin: '0.5em',
       '& div': {
         padding: '0 0.5em 0.5em 0.5em',
         borderBottom: 'thin solid lightgray',
@@ -61,7 +61,8 @@ const styles = () => {
       flexDirection: 'row',
       '&>*:nth-of-type(2)': {
         margin: '0 5px'
-      }
+      },
+      marginBottom: '0.5rem'
     },
     deleteIcon: {
       '&:hover': {

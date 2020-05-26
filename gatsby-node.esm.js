@@ -60,9 +60,10 @@ exports.onCreatePage = ({ page, actions }) => {
 
   if (page.path === '/') {
     page.context.layout = 'table'
-    createPage(page)
   } else if (page.path.match(/^\/app/)) {
     page.matchPath = '/app/*'
-    createPage(page)
+  } else {
+    page.context.layout = 'no-table'
   }
+  createPage(page)
 }
