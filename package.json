@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@auth0/auth0-spa-js": "^1.8.1",
-    "@material-ui/core": "^4.10.0",
+    "@auth0/auth0-spa-js": "^1.9.0",
+    "@material-ui/core": "^4.10.1",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/styles": "^4.10.0",
     "@types/cheerio": "^0.22.18",
@@ -23,24 +23,24 @@
     "dotenv": "^8.2.0",
     "eslint-plugin-simple-import-sort": "^5.0.3",
     "esm": "^3.2.25",
-    "gatsby": "^2.22.9",
-    "gatsby-cli": "^2.12.34",
-    "gatsby-plugin-create-client-paths": "^2.3.2",
-    "gatsby-plugin-layout": "^1.3.2",
-    "gatsby-plugin-material-ui": "^2.1.8",
+    "gatsby": "^2.23.0",
+    "gatsby-cli": "^2.12.43",
+    "gatsby-plugin-create-client-paths": "^2.3.3",
+    "gatsby-plugin-layout": "^1.3.3",
+    "gatsby-plugin-material-ui": "^2.1.9",
     "gatsby-plugin-why-did-you-render": "^2.0.0",
-    "gatsby-source-filesystem": "^2.3.8",
-    "gatsby-transformer-csv": "^2.3.2",
+    "gatsby-source-filesystem": "^2.3.10",
+    "gatsby-transformer-csv": "^2.3.3",
     "he": "^1.2.0",
     "husky": "^4.2.5",
-    "lint-staged": "^10.2.6",
+    "lint-staged": "^10.2.9",
     "n-readlines": "^1.0.0",
     "node-fetch": "^2.6.0",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-storage-hooks": "4.0.1",
     "react-window": "^1.8.5",
-    "typescript": "3.9.3",
+    "typescript": "3.9.5",
     "workerpool": "^6.0.0"
   },
   "scripts": {
@@ -60,25 +60,25 @@
     "@types/he": "^1.1.1",
     "@types/react-router-dom": "^5.1.5",
     "@types/react-virtualized": "^9.21.10",
-    "@typescript-eslint/eslint-plugin": "^3.0.0",
-    "@typescript-eslint/parser": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^3.1.0",
+    "@typescript-eslint/parser": "^3.1.0",
     "eslint": "^7.1.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-react": "^7.20.0",
     "gatsby-plugin-eslint": "^2.0.8",
-    "gatsby-plugin-react-helmet": "^3.3.2",
-    "html-react-parser": "^0.10.3",
+    "gatsby-plugin-react-helmet": "^3.3.3",
+    "html-react-parser": "^0.12.0",
     "react-helmet": "^6.0.0",
     "react-hot-loader": "^4.12.21"
   },
   "optionalDependencies": {
-    "@graphql-codegen/cli": "^1.14.0",
-    "@graphql-codegen/typescript": "^1.14.0",
-    "@graphql-codegen/typescript-operations": "^1.14.0"
+    "@graphql-codegen/cli": "^1.15.1",
+    "@graphql-codegen/typescript": "^1.15.1",
+    "@graphql-codegen/typescript-operations": "^1.15.1"
   },
   "resolutions": {
-    "set-value": "^3.0.1"
+    "set-value": "^3.0.2"
   },
   "husky": {
     "hooks": {
