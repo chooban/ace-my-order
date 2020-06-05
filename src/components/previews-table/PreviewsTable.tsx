@@ -16,27 +16,12 @@ interface PreviewsTableProps extends WithStyles<typeof styles> {
   rows: AceItem[]
 }
 
-const query = graphql`
-  query AllItemsIndex {
-    allAceItem {
-      nodes {
-        id
-        title
-        previewsCode
-        price
-        publisher
-        slug
-      }
-    }
-  }
-`
-
 const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
   const { classes, rows, height } = props
   const [{ order }] = useOrder()
 
   const setSelectedItem = (i: AceItem) => {
-    navigate(i.slug)
+    navigate('/' + i.slug)
   }
 
   return (
@@ -97,5 +82,21 @@ const Wrapper = ({ height }: { height: number }) => {
 
   return <TableWithStyles height={height} rows={allAceItem.nodes as AceItem[]} />
 }
+
+const query = graphql`
+  query AllItemsIndex {
+    allAceItem {
+      nodes {
+        id
+        title
+        previewsCode
+        price
+        publisher
+        slug
+      }
+    }
+  }
+`
+
 
 export default React.memo(Wrapper)

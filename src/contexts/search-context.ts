@@ -2,7 +2,8 @@ import React from 'react'
 
 export default React.createContext({
   searchValue: '',
-  updateSearch: () => {
+  // eslint-disable-next-line
+  updateSearch: (searchValue: string) => {
     // no-op
   }
 })

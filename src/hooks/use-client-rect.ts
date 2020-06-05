@@ -43,7 +43,7 @@ export function useClientRect<T extends HTMLElement>(ref: React.RefObject<T>, de
     handleResize()
 
     if (typeof ResizeObserver === 'function') {
-      let resizeObserver = new ResizeObserver(() => handleResize())
+      let resizeObserver: ResizeObserver|null = new ResizeObserver(() => handleResize())
       resizeObserver.observe(element)
       return () => {
         if (! resizeObserver) return

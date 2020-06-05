@@ -7,7 +7,7 @@ const PrivateRoute = ({ component: Component, ...rest }: any): JSX.Element => {
   const { isAuthenticated } = useAuth0()
   if (!isAuthenticated) {
     navigate('/')
-    return null
+    return <></>
   }
   return <Component {...rest} />
 }
