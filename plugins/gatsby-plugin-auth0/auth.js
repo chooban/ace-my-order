@@ -80,6 +80,7 @@ export const Auth0Provider = ({
     setIsAuthenticated(true)
     setUser(user)
   }
+
   return (
     <Auth0Context.Provider
       value={{

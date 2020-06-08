@@ -12,6 +12,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       reducedFrom: Float
       publisher: String
       slug: String!
+      title: String!
       previews: PreviewsItem @link(from: "previews___NODE")
     }
   `
@@ -58,7 +59,7 @@ exports.createPages = async ({ graphql, actions }) => {
 exports.onCreatePage = ({ page, actions }) => {
   const { createPage } = actions
 
-  if (page.path === '/') {
+  if (page.path === '/' || page.path === '/search') {
     page.context.layout = 'table'
   } else if (page.path.match(/^\/app/)) {
     page.matchPath = '/app/*'

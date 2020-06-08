@@ -3,7 +3,8 @@ import '../../index.css'
 import { createStyles, Paper, withStyles } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import React, { createRef, useState } from 'react'
+import { navigate } from 'gatsby'
+import React, { createRef, useEffect, useState } from 'react'
 
 import SEO from '../../components/seo'
 import { OrderProvider } from '../../contexts/order-context'
@@ -47,9 +48,14 @@ const styles = (theme: any) => {
 }
 
 const contentRef = createRef<HTMLDivElement>()
-function PageWithTable({ classes, children }: any) {
-  const [searchValue, setSearchValue] = useState('')
+function PageWithTable({ classes, children, search = '', location }: any) {
+  const [searchValue, setSearchValue] = useState(search)
   const contentRect = useClientRect(contentRef)
+
+  useEffect(() => {
+    navigate(`${location}?search=${encodeURIComponent(searchValue)}`, { replace: true })
+  }, [location, searchValue])
+
 
   return (
     <>

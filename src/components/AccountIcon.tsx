@@ -42,7 +42,8 @@ const LoggedInAccount = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={() => navigate('/app/profile')}>Profile</MenuItem>
+        <MenuItem>{user.nickname}</MenuItem>
+        <MenuItem onClick={() => navigate('/app/profile')}>Saved Searches</MenuItem>
         <MenuItem onClick={() => logout()}>Logout</MenuItem>
       </Menu>
     </>

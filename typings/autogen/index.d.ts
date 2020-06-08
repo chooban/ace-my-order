@@ -19,8 +19,8 @@ export type AceItem = Node & {
   reducedFrom?: Maybe<Scalars['Float']>;
   publisher?: Maybe<Scalars['String']>;
   slug: Scalars['String'];
+  title: Scalars['String'];
   previews?: Maybe<PreviewsItem>;
-  title?: Maybe<Scalars['String']>;
   IGNORE?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   parent?: Maybe<Node>;
@@ -63,6 +63,7 @@ export enum AceItemFieldsEnum {
   reducedFrom = 'reducedFrom',
   publisher = 'publisher',
   slug = 'slug',
+  title = 'title',
   previews___id = 'previews___id',
   previews___parent___id = 'previews___parent___id',
   previews___parent___parent___id = 'previews___parent___parent___id',
@@ -105,7 +106,6 @@ export enum AceItemFieldsEnum {
   previews___title = 'previews___title',
   previews___description = 'previews___description',
   previews___creators = 'previews___creators',
-  title = 'title',
   IGNORE = 'IGNORE',
   id = 'id',
   parent___id = 'parent___id',
@@ -201,8 +201,8 @@ export type AceItemFilterInput = {
   reducedFrom?: Maybe<FloatQueryOperatorInput>;
   publisher?: Maybe<StringQueryOperatorInput>;
   slug?: Maybe<StringQueryOperatorInput>;
-  previews?: Maybe<PreviewsItemFilterInput>;
   title?: Maybe<StringQueryOperatorInput>;
+  previews?: Maybe<PreviewsItemFilterInput>;
   IGNORE?: Maybe<StringQueryOperatorInput>;
   id?: Maybe<StringQueryOperatorInput>;
   parent?: Maybe<NodeFilterInput>;
@@ -811,6 +811,7 @@ export enum FileFieldsEnum {
   childrenAceItem___reducedFrom = 'childrenAceItem___reducedFrom',
   childrenAceItem___publisher = 'childrenAceItem___publisher',
   childrenAceItem___slug = 'childrenAceItem___slug',
+  childrenAceItem___title = 'childrenAceItem___title',
   childrenAceItem___previews___id = 'childrenAceItem___previews___id',
   childrenAceItem___previews___parent___id = 'childrenAceItem___previews___parent___id',
   childrenAceItem___previews___parent___children = 'childrenAceItem___previews___parent___children',
@@ -829,7 +830,6 @@ export enum FileFieldsEnum {
   childrenAceItem___previews___title = 'childrenAceItem___previews___title',
   childrenAceItem___previews___description = 'childrenAceItem___previews___description',
   childrenAceItem___previews___creators = 'childrenAceItem___previews___creators',
-  childrenAceItem___title = 'childrenAceItem___title',
   childrenAceItem___IGNORE = 'childrenAceItem___IGNORE',
   childrenAceItem___id = 'childrenAceItem___id',
   childrenAceItem___parent___id = 'childrenAceItem___parent___id',
@@ -1340,8 +1340,8 @@ export type QueryaceItemArgs = {
   reducedFrom?: Maybe<FloatQueryOperatorInput>;
   publisher?: Maybe<StringQueryOperatorInput>;
   slug?: Maybe<StringQueryOperatorInput>;
-  previews?: Maybe<PreviewsItemFilterInput>;
   title?: Maybe<StringQueryOperatorInput>;
+  previews?: Maybe<PreviewsItemFilterInput>;
   IGNORE?: Maybe<StringQueryOperatorInput>;
   id?: Maybe<StringQueryOperatorInput>;
   parent?: Maybe<NodeFilterInput>;
@@ -2408,6 +2408,20 @@ export type PagesQueryQuery = (
     & { nodes: Array<(
       { __typename?: 'SitePage' }
       & Pick<SitePage, 'path'>
+    )> }
+  ) }
+);
+
+export type AllItemsProfileQueryVariables = {};
+
+
+export type AllItemsProfileQuery = (
+  { __typename?: 'Query' }
+  & { allAceItem: (
+    { __typename?: 'AceItemConnection' }
+    & { nodes: Array<(
+      { __typename?: 'AceItem' }
+      & Pick<AceItem, 'id' | 'title' | 'previewsCode' | 'price' | 'publisher' | 'slug'>
     )> }
   ) }
 );

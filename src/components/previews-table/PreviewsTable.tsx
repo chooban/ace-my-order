@@ -11,14 +11,10 @@ import { searchCatalogue } from '../../lib/search-catalogue'
 import { Row } from './PreviewsRow'
 import { styles } from './styles'
 
-interface PreviewsTableProps extends WithStyles<typeof styles> {
-  height: number
-  rows: AceItem[]
-}
-
 const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
   const { classes, rows, height } = props
   const [{ order }] = useOrder()
+  let catalogue: AceItem[] = []
 
   const setSelectedItem = (i: AceItem) => {
     navigate('/' + i.slug)
@@ -28,7 +24,7 @@ const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
     <>
       <SearchContext.Consumer>
         {({ searchValue, updateSearch }) => {
-          const catalogue = searchValue.length > 3
+          catalogue = searchValue.length > 3
             ? searchCatalogue(searchValue, rows)
             : rows
 
@@ -73,6 +69,11 @@ const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
       </SearchContext.Consumer>
     </>
   )
+}
+
+interface PreviewsTableProps extends WithStyles<typeof styles> {
+  height: number
+  rows: AceItem[]
 }
 
 const TableWithStyles = withStyles(styles, { withTheme: true })(memo(PreviewsTable))
