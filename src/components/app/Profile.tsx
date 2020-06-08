@@ -1,4 +1,4 @@
-import { createStyles, withStyles } from '@material-ui/core'
+import { createStyles, WithStyles, withStyles } from '@material-ui/core'
 import { navigate, RouteComponentProps } from '@reach/router'
 import { graphql, useStaticQuery } from 'gatsby'
 import React from 'react'
@@ -23,17 +23,22 @@ const styles = () => {
       paddingLeft: '0.5em',
       paddingTop: '14px',
       overflow: 'hidden',
-      '> div': {
-        flex: 1
-      },
-      searchResults: {
-        flexDirection: 'column'
-      }
     },
+    searchResults: {
+      width: '100%',
+      flexDirection: 'column',
+    },
+    searchTerm: {
+      '&:hover': {
+        cursor: 'pointer'
+      }
+    }
   })
 }
 
-const Profile: React.FC<RouteComponentProps & { classes: any }> = ({ classes }) => {
+type ProfileProps = WithStyles<typeof styles> & RouteComponentProps
+
+const Profile: React.FC<ProfileProps> = ({ classes }) => {
   const { user } = useAuth0()
   const { allAceItem: { nodes } } = useStaticQuery<AllItemsProfileQuery>(query)
   const { saved_searches } = user[METADATA_KEY]
@@ -53,7 +58,7 @@ const Profile: React.FC<RouteComponentProps & { classes: any }> = ({ classes }) 
             <div key={search}>
               <h2
                 key={search}
-                className='searchTerm'
+                className={classes.searchTerm}
                 onClick={() => navigate(`/?search=${encodeURIComponent(search)}`)}
               >
                 {search}
@@ -63,6 +68,7 @@ const Profile: React.FC<RouteComponentProps & { classes: any }> = ({ classes }) 
                 : searchResults[search].map((result, idx) =>
                   <p
                     key={`${search}-${idx}`}
+                    className={classes.searchTerm}
                     onClick={() => navigate(`/item/${result.previewsCode.replace('/', '-')}?search=${encodeURIComponent(search)}`)}
                   >
                     {result.title}
