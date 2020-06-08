@@ -82,6 +82,13 @@ module.exports = {
         useRefreshTokens: true
       },
     },
+    {
+      resolve: 'gatsby-plugin-goatcounter',
+      options: {
+        code: 'ace-my-order',
+        pixel: false
+      }
+    }
   ],
   mapping: {
     'AceItem.previews': 'PreviewsItem',
