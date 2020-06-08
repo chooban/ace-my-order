@@ -8,7 +8,6 @@ import React, { createRef, useEffect, useState } from 'react'
 
 import SEO from '../../components/seo'
 import { OrderProvider } from '../../contexts/order-context'
-import SearchContext from '../../contexts/search-context'
 import { useClientRect } from '../../hooks'
 import theme from '../../theme'
 import PreviewsTable from '../previews-table/PreviewsTable'
@@ -52,10 +51,12 @@ function PageWithTable({ classes, children, search = '', location }: any) {
   const [searchValue, setSearchValue] = useState(search)
   const contentRect = useClientRect(contentRef)
 
+  const updateSearch = React.useCallback((s: string) => setSearchValue(s), [setSearchValue])
   useEffect(() => {
-    navigate(`${location}?search=${encodeURIComponent(searchValue)}`, { replace: true })
+    if (searchValue.length) {
+      navigate(`${location}?search=${encodeURIComponent(searchValue)}`, { replace: true })
+    }
   }, [location, searchValue])
-
 
   return (
     <>
@@ -63,16 +64,18 @@ function PageWithTable({ classes, children, search = '', location }: any) {
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <OrderProvider>
-          <SearchContext.Provider value={{ searchValue, updateSearch: setSearchValue }}>
-            <div className={classes.root}>
-              <Header />
-              <Paper className={classes.page} ref={contentRef}>
-                <PreviewsTable height={Math.round(contentRect.height)} />
-                {children}
-              </Paper>
-              <Footer/>
-            </div>
-          </SearchContext.Provider>
+          <div className={classes.root}>
+            <Header />
+            <Paper className={classes.page} ref={contentRef}>
+              <PreviewsTable
+                searchValue={searchValue}
+                updateSearch={updateSearch}
+                height={Math.round(contentRect.height)}
+              />
+              {children}
+            </Paper>
+            <Footer/>
+          </div>
         </OrderProvider>
       </MuiThemeProvider>
     </>

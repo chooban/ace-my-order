@@ -141,7 +141,7 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
   )
 }
 
-PreviewPanel.whyDidYouRender = true
+PreviewPanel.whyDidYouRender = false
 
 const PreviewPanelWrapper: React.FC<WrapperProps> = (props) => {
   if (!props.item) {
