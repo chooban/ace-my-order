@@ -25,3 +25,9 @@ data/previews/
 .env.*
 .env
 .eslintcache
+
+.yarn
+.yarn/cache
+.yarn/unplugged
+!.yarn/releases
+!.yarn/plugins

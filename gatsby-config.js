@@ -81,8 +81,8 @@ module.exports = {
         clientId: process.env.AUTH0_CLIENT_ID,
         useRefreshTokens: true,
         cacheLocation: 'localstorage',
-        scope: 'update:current_user_metadata read:current_user',
-        audience: `https://${process.env.GATSBY_AUTH0_DOMAIN}/api/v2`
+        scope: 'openid profile email update:current_user_metadata read:current_user',
+        audience: `https://${process.env.GATSBY_AUTH0_DOMAIN}/api/v2/`
       },
     },
     {

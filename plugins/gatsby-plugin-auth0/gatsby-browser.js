@@ -15,7 +15,7 @@ export const wrapRootElement = ({ element }, pluginOptions) => {
       onRedirectCallback={onRedirectCallback}
       useRefreshTokens={pluginOptions.useRefreshTokens}
       scope={pluginOptions.scope}
-      // audience={pluginOptions.audience}
+      audience={pluginOptions.audience}
     >
       {element}
     </Auth0Provider>

@@ -40,24 +40,19 @@ const styles = () => {
 type ProfileProps = WithStyles<typeof styles> & RouteComponentProps
 
 const Profile: React.FC<ProfileProps> = ({ classes }) => {
-  const { user, getTokenSilently, getIdTokenClaims } = useAuth0()
+  const { user, getTokenSilently } = useAuth0()
   const { allAceItem: { nodes } } = useStaticQuery<AllItemsProfileQuery>(query)
   const { saved_searches } = user[METADATA_KEY]
 
-  getIdTokenClaims().then((claims) => {
-    console.log({ claims })
-  })
   getTokenSilently().then((token) => {
     const domain = process.env.GATSBY_AUTH0_DOMAIN || ''
-    console.log({ domain, token })
     const managementAPI = new auth0API.Management({
       domain,
       token
     })
 
-    console.log({ managementAPI, sub: user.sub })
-    managementAPI.getUser(user.sub, (result: any) => {
-      console.log({ result })
+    managementAPI.getUser(user.sub, (err, result) => {
+      console.log('Management result', { result })
     })
   })
 
