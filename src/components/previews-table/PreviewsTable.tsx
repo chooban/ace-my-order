@@ -88,6 +88,9 @@ const query = graphql`
         price
         publisher
         slug
+        previews {
+          creators
+        }
       }
     }
   }

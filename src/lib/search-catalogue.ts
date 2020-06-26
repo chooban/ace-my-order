@@ -2,7 +2,7 @@ import { AceItem } from '../../typings/autogen/'
 
 function searchCatalogue(searchTerm: string, catalogue: AceItem[]) {
   const publisherOrTitleMatches = (regex: RegExp) =>
-    (d: AceItem) => regex.test(`${d.title} ${d.publisher}`)
+    (d: AceItem) => regex.test(`${d.title} ${d.publisher} ${d.previews?.creators}`)
 
   const terms = searchTerm.split(' ')
   const regex = terms
