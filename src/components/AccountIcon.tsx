@@ -8,7 +8,7 @@ import { useAuth0 } from '../../plugins/gatsby-plugin-auth0'
 export const AccountIcon: React.FC = () => {
   const { isAuthenticated, loading, loginWithPopup } = useAuth0()
 
-  return isAuthenticated
+  return (isAuthenticated && !loading)
     ? <LoggedInAccount />
     : loading
       ? <img alt="Loading profile data" src='static/throbber.gif' width={32} height={32} />
