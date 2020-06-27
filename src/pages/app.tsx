@@ -2,7 +2,7 @@ import { Router } from '@reach/router'
 import React from 'react'
 
 import PrivateRoute from '../components/app/PrivateRoute'
-import { Profile } from '../components/app/Profile'
+import { Profile } from '../components/profile/Profile'
 
 const App = () => (
   <Router>

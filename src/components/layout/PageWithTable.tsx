@@ -27,9 +27,6 @@ const styles = (theme: any) => {
       marginRight: 'auto',
       display: 'flex',
       flexDirection: 'column',
-      '.body': {
-        flexGrow: 1
-      }
     },
     page: {
       width: '100%',

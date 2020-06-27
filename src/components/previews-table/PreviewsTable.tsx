@@ -10,6 +10,8 @@ import { searchCatalogue } from '../../lib/search-catalogue'
 import { Row } from './PreviewsRow'
 import { styles } from './styles'
 
+const LIST_WIDTH = '100%'
+
 const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
   const { classes, rows, height, searchValue, updateSearch } = props
   const [catalogue, setCatalogue] = useState<AceItem[]>([])
@@ -30,7 +32,7 @@ const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
     <div className={classes.listingPanel}>
       <TextField
         id="outlined-search"
-        label="Filter"
+        label="Search by title, publisher, or creator"
         type="search"
         className={classes.search}
         margin="none"
@@ -42,7 +44,7 @@ const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
         height={height - 80}
         itemCount={catalogue.length}
         itemSize={50}
-        width={'100%'}
+        width={LIST_WIDTH}
         style={{
           marginLeft: 'auto',
           marginRight: 'auto',

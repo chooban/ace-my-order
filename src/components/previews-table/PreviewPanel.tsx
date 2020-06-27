@@ -20,7 +20,7 @@ const styles = (theme: any) => {
         paddingLeft: 0
       },
       width: '60%',
-      height: '100%'
+      height: '100%',
     },
     dismiss: {
       display: 'none',
@@ -59,7 +59,7 @@ const styles = (theme: any) => {
         content: ' '
       },
       height: 'inherit',
-      overflowY: 'scroll'
+      overflowY: 'auto',
     },
     cover: {
       flex: '0 0 1em',

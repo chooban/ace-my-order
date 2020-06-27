@@ -25,9 +25,6 @@ const styles = (theme: any) => {
       marginRight: 'auto',
       display: 'flex',
       flexDirection: 'column',
-      '.body': {
-        flexGrow: 1
-      }
     },
     children: {
       paddingLeft: '0.5rem',
