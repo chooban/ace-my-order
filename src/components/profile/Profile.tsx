@@ -110,16 +110,6 @@ const Profile: React.FC<ProfileProps> = ({ classes }) => {
   const [searchResults, setSearchResults] = useState<Record<string, AceItem[]>>({})
   const [{ order }] = useOrder()
 
-  //   managementAPI.getUser(user.sub, (err, result) => {
-  //     // console.log('Management result', { result })
-  //     if (err) {
-  //       console.error(err)
-  //     } else {
-  //       setSavedSearches(result.user_metadata.saved_searches ?? [])
-  //     }
-  //   })
-  // })
-
   useEffect(() => {
     const newSearchResults = savedSearches.reduce((acc, search) => {
       const results = searchCatalogue(search, nodes as AceItem[])
