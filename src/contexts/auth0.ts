@@ -11,7 +11,8 @@ interface IAuth0Context {
   loginWithRedirect(): void,
   getTokenSilently(): Promise<any>,
   getTokenWithPopup(): void,
-  logout(): void
+  logout(): void,
+  saveMetadata(md: any): void
 }
 
 const withType = () => (origUseAuth0() as unknown) as IAuth0Context

@@ -25,9 +25,7 @@ const Row: React.FunctionComponent<RowProps> = ({ row, classes, style, inCart, s
       <i
         className={`materical-icons ${classes.inCart}`}
         style={inCart ? { visibility: 'visible' } : {}}
-      >
-      done
-      </i>
+      >done</i>
       <div className={classes.cellPrice}>{row.price > 0 ? '£' + row.price.toFixed(2) : '\u2014' }</div>
       <div className={classes.cellPublisher}>{row.publisher}</div>
     </div>

@@ -1,4 +1,5 @@
 import createAuth0Client from '@auth0/auth0-spa-js'
+import { default as auth0API } from 'auth0-js'
 import React, { useContext, useEffect, useState } from 'react'
 
 
@@ -81,6 +82,19 @@ export const Auth0Provider = ({
     setUser(user)
   }
 
+  const saveMetadata = async (metadata) => {
+    const domain = process.env.GATSBY_AUTH0_DOMAIN || ''
+    const token = await auth0Client.getTokenSilently()
+    const user = await auth0Client.getUser()
+    const managementAPI = new auth0API.Management({
+      domain,
+      token
+    })
+    managementAPI.patchUserMetadata(user.sub, metadata, (err, result) => {
+      // no op
+    })
+  }
+
   return (
     <Auth0Context.Provider
       value={{
@@ -95,6 +109,7 @@ export const Auth0Provider = ({
         getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
         getTokenWithPopup: (...p) => auth0Client.getTokenWithPopup(...p),
         logout: (...p) => auth0Client.logout(...p),
+        saveMetadata,
       }}
     >
       {children}
