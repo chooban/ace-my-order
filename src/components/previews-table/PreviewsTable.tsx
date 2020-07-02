@@ -1,28 +1,27 @@
 import { WithStyles, withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
-import { graphql, navigate, useStaticQuery } from 'gatsby'
+import { navigate } from 'gatsby'
 import React, { memo, useEffect, useState } from 'react'
 import { FixedSizeList } from 'react-window'
 
-import { AceItem, AllItemsIndexQuery } from '../../../typings/autogen'
+import { AceItem } from '../../../typings/autogen'
 import { useOrder } from '../../contexts/order-context'
-import { searchCatalogue } from '../../lib/search-catalogue'
+import { useSearch } from '../../hooks/use-search'
 import { Row } from './PreviewsRow'
 import { styles } from './styles'
 
 const LIST_WIDTH = '100%'
 
 const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
-  const { classes, rows, height, searchValue, updateSearch } = props
+  const { classes, height, searchValue, updateSearch } = props
   const [catalogue, setCatalogue] = useState<AceItem[]>([])
   const [{ order }] = useOrder()
+  const searchCatalogue = useSearch()
 
   useEffect(() => {
-    const newCatalogue = searchValue.length > 3
-      ? searchCatalogue(searchValue, rows)
-      : rows
+    const newCatalogue = searchCatalogue(searchValue)
     setCatalogue(newCatalogue)
-  }, [rows, searchValue])
+  }, [searchValue, searchCatalogue])
 
   const setSelectedItem = (i: AceItem) => {
     navigate('/' + i.slug)
@@ -67,7 +66,6 @@ const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
 
 interface PreviewsTableProps extends WithStyles<typeof styles> {
   height: number
-  rows: AceItem[],
   searchValue: string,
   updateSearch(s: string): void
 }
@@ -75,28 +73,7 @@ interface PreviewsTableProps extends WithStyles<typeof styles> {
 const TableWithStyles = withStyles(styles, { withTheme: true })(memo(PreviewsTable))
 
 const Wrapper = (props: Pick<PreviewsTableProps, 'height' | 'searchValue' | 'updateSearch'>) => {
-  const { allAceItem } = useStaticQuery<AllItemsIndexQuery>(query)
-
-  return <TableWithStyles {...props} rows={allAceItem.nodes as AceItem[]} />
+  return <TableWithStyles {...props} />
 }
-
-const query = graphql`
-  query AllItemsIndex {
-    allAceItem {
-      nodes {
-        id
-        title
-        previewsCode
-        price
-        publisher
-        slug
-        previews {
-          creators
-        }
-      }
-    }
-  }
-`
-
 
 export default React.memo(Wrapper)

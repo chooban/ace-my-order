@@ -53,6 +53,9 @@ function PageWithTable({ classes, children, search = '', location }: any) {
     if (searchValue.length) {
       navigate(`${location}?search=${encodeURIComponent(searchValue)}`, { replace: true })
     }
+    else {
+      navigate(`${location}`, { replace: true })
+    }
   }, [location, searchValue])
 
   return (

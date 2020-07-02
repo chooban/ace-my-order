@@ -1,4 +1,5 @@
 export type Maybe<T> = T | undefined;
+export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -1980,6 +1981,11 @@ export enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___domain = 'pluginCreator___pluginOptions___domain',
   pluginCreator___pluginOptions___clientId = 'pluginCreator___pluginOptions___clientId',
   pluginCreator___pluginOptions___useRefreshTokens = 'pluginCreator___pluginOptions___useRefreshTokens',
+  pluginCreator___pluginOptions___cacheLocation = 'pluginCreator___pluginOptions___cacheLocation',
+  pluginCreator___pluginOptions___scope = 'pluginCreator___pluginOptions___scope',
+  pluginCreator___pluginOptions___audience = 'pluginCreator___pluginOptions___audience',
+  pluginCreator___pluginOptions___code = 'pluginCreator___pluginOptions___code',
+  pluginCreator___pluginOptions___pixel = 'pluginCreator___pluginOptions___pixel',
   pluginCreator___pluginOptions___pathCheck = 'pluginCreator___pluginOptions___pathCheck',
   pluginCreator___nodeAPIs = 'pluginCreator___nodeAPIs',
   pluginCreator___browserAPIs = 'pluginCreator___browserAPIs',
@@ -2188,6 +2194,11 @@ export enum SitePluginFieldsEnum {
   pluginOptions___domain = 'pluginOptions___domain',
   pluginOptions___clientId = 'pluginOptions___clientId',
   pluginOptions___useRefreshTokens = 'pluginOptions___useRefreshTokens',
+  pluginOptions___cacheLocation = 'pluginOptions___cacheLocation',
+  pluginOptions___scope = 'pluginOptions___scope',
+  pluginOptions___audience = 'pluginOptions___audience',
+  pluginOptions___code = 'pluginOptions___code',
+  pluginOptions___pixel = 'pluginOptions___pixel',
   pluginOptions___pathCheck = 'pluginOptions___pathCheck',
   nodeAPIs = 'nodeAPIs',
   browserAPIs = 'browserAPIs',
@@ -2325,6 +2336,11 @@ export type SitePluginPluginOptions = {
   domain?: Maybe<Scalars['String']>;
   clientId?: Maybe<Scalars['String']>;
   useRefreshTokens?: Maybe<Scalars['Boolean']>;
+  cacheLocation?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  audience?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+  pixel?: Maybe<Scalars['Boolean']>;
   pathCheck?: Maybe<Scalars['Boolean']>;
 };
 
@@ -2343,6 +2359,11 @@ export type SitePluginPluginOptionsFilterInput = {
   domain?: Maybe<StringQueryOperatorInput>;
   clientId?: Maybe<StringQueryOperatorInput>;
   useRefreshTokens?: Maybe<BooleanQueryOperatorInput>;
+  cacheLocation?: Maybe<StringQueryOperatorInput>;
+  scope?: Maybe<StringQueryOperatorInput>;
+  audience?: Maybe<StringQueryOperatorInput>;
+  code?: Maybe<StringQueryOperatorInput>;
+  pixel?: Maybe<BooleanQueryOperatorInput>;
   pathCheck?: Maybe<BooleanQueryOperatorInput>;
 };
 
@@ -2398,7 +2419,7 @@ export type StringQueryOperatorInput = {
   glob?: Maybe<Scalars['String']>;
 };
 
-export type PagesQueryQueryVariables = {};
+export type PagesQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PagesQueryQuery = (
@@ -2412,35 +2433,7 @@ export type PagesQueryQuery = (
   ) }
 );
 
-export type AllItemsProfileQueryVariables = {};
-
-
-export type AllItemsProfileQuery = (
-  { __typename?: 'Query' }
-  & { allAceItem: (
-    { __typename?: 'AceItemConnection' }
-    & { nodes: Array<(
-      { __typename?: 'AceItem' }
-      & Pick<AceItem, 'id' | 'title' | 'previewsCode' | 'price' | 'publisher' | 'slug'>
-    )> }
-  ) }
-);
-
-export type AllItemsIndexQueryVariables = {};
-
-
-export type AllItemsIndexQuery = (
-  { __typename?: 'Query' }
-  & { allAceItem: (
-    { __typename?: 'AceItemConnection' }
-    & { nodes: Array<(
-      { __typename?: 'AceItem' }
-      & Pick<AceItem, 'id' | 'title' | 'previewsCode' | 'price' | 'publisher' | 'slug'>
-    )> }
-  ) }
-);
-
-export type SEOQueryVariables = {};
+export type SEOQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type SEOQuery = (
@@ -2455,9 +2448,27 @@ export type SEOQuery = (
   )> }
 );
 
-export type ItemPageQueryVariables = {
+export type SearchIndexQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SearchIndexQuery = (
+  { __typename?: 'Query' }
+  & { allAceItem: (
+    { __typename?: 'AceItemConnection' }
+    & { nodes: Array<(
+      { __typename?: 'AceItem' }
+      & Pick<AceItem, 'id' | 'title' | 'previewsCode' | 'price' | 'publisher' | 'slug'>
+      & { previews?: Maybe<(
+        { __typename?: 'PreviewsItem' }
+        & Pick<PreviewsItem, 'creators'>
+      )> }
+    )> }
+  ) }
+);
+
+export type ItemPageQueryVariables = Exact<{
   previewsCode: Scalars['String'];
-};
+}>;
 
 
 export type ItemPageQuery = (

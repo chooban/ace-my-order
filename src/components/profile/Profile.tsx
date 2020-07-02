@@ -1,12 +1,11 @@
 import { createStyles, WithStyles, withStyles } from '@material-ui/core'
 import { navigate, RouteComponentProps } from '@reach/router'
-import { graphql, useStaticQuery } from 'gatsby'
 import React, { useEffect, useState } from 'react'
 
-import { AceItem, AllItemsProfileQuery } from '../../../typings/autogen'
+import { AceItem } from '../../../typings/autogen'
 import { useAuth0 } from '../../contexts/auth0'
 import { useOrder } from '../../contexts/order-context'
-import { searchCatalogue } from '../../lib/search-catalogue'
+import { useSearch } from '../../hooks/use-search'
 import { EditableSearchTerm } from './EditableSearchTerm'
 
 // Not sure why this is prefixed rather than normalized, but I'll work around it for now.
@@ -105,20 +104,20 @@ type ProfileProps = WithStyles<typeof styles> & RouteComponentProps
 
 const Profile: React.FC<ProfileProps> = ({ classes }) => {
   const { user, saveMetadata } = useAuth0()
-  const { allAceItem: { nodes } } = useStaticQuery<AllItemsProfileQuery>(query)
   const [savedSearches, setSavedSearches] = useState<string[]>(user[METADATA_KEY].saved_searches ?? [])
   const [searchResults, setSearchResults] = useState<Record<string, AceItem[]>>({})
   const [{ order }] = useOrder()
+  const searchCatalogue = useSearch()
 
   useEffect(() => {
     const newSearchResults = savedSearches.reduce((acc, search) => {
-      const results = searchCatalogue(search, nodes as AceItem[])
+      const results = searchCatalogue(search)
 
       acc[search] = results
       return acc
     }, {} as Record<string, AceItem[]>)
     setSearchResults(newSearchResults)
-  }, [savedSearches, nodes])
+  }, [savedSearches, searchCatalogue])
 
   const changeSearchTerm = (existing: string, newTerm: string) => {
     const idx = savedSearches.findIndex(s => s === existing)
@@ -178,24 +177,6 @@ const Profile: React.FC<ProfileProps> = ({ classes }) => {
     </div>
   )
 }
-
-const query = graphql`
-  query AllItemsProfile {
-    allAceItem {
-      nodes {
-        id
-        title
-        previewsCode
-        price
-        publisher
-        slug
-        previews {
-          creators
-        }
-      }
-    }
-  }
-`
 
 const styled = withStyles(styles, { withTheme: true })(Profile)
 
