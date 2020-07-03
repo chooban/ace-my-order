@@ -6,6 +6,7 @@ import { AceItem } from '../../../typings/autogen'
 import { useAuth0 } from '../../contexts/auth0'
 import { useOrder } from '../../contexts/order-context'
 import { useSearch } from '../../hooks/use-search'
+import { DetailedRow } from '../DetailedRow'
 import { EditableSearchTerm } from './EditableSearchTerm'
 
 // Not sure why this is prefixed rather than normalized, but I'll work around it for now.
@@ -147,25 +148,25 @@ const Profile: React.FC<ProfileProps> = ({ classes }) => {
               />
               {!searchResults[searchTerm]?.length
                 ? <p>No results this month</p>
-                : searchResults[searchTerm].map((result, idx) =>{
+                : searchResults[searchTerm].map(result =>{
 
-                  const inCart = order.some((i) => i.previewsCode === result.previewsCode)
                   return (
-                    <div key={`${searchTerm}-${idx}`} className={classes.row}
-                      onClick={() => navigate(`/item/${result.previewsCode.replace('/', '-')}?search=${encodeURIComponent(searchTerm)}`)}
-                    >
-                      <div className={classes.cellTitle}>
-                        <span
-                          className={classes.cellTitleContents}
-                        >{result.title}</span>
-                      </div>
-                      <i
-                        className={`materical-icons ${classes.inCart}`}
-                        style={inCart ? { visibility: 'visible' } : {}}
-                      >done</i>
-                      <div className={classes.cellPrice}>{result.price > 0 ? '£' + result.price.toFixed(2) : '\u2014' }</div>
-                      <div className={classes.cellPublisher}>{result.publisher}</div>
-                    </div>
+                    <DetailedRow key={result.previewsCode} item={result} />
+                    // <div key={`${searchTerm}-${idx}`} className={classes.row}
+                    //   onClick={() => navigate(`/item/${result.previewsCode.replace('/', '-')}?search=${encodeURIComponent(searchTerm)}`)}
+                    // >
+                    //   <div className={classes.cellTitle}>
+                    //     <span
+                    //       className={classes.cellTitleContents}
+                    //     >{result.title}</span>
+                    //   </div>
+                    //   <i
+                    //     className={`materical-icons ${classes.inCart}`}
+                    //     style={inCart ? { visibility: 'visible' } : {}}
+                    //   >done</i>
+                    //   <div className={classes.cellPrice}>{result.price > 0 ? '£' + result.price.toFixed(2) : '\u2014' }</div>
+                    //   <div className={classes.cellPublisher}>{result.publisher}</div>
+                    // </div>
                   )
                 }
                 )}

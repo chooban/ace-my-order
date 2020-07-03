@@ -34,7 +34,10 @@ const query = graphql`
         publisher
         slug
         previews {
+          id
+          description
           creators
+          coverThumbnail
         }
       }
     }

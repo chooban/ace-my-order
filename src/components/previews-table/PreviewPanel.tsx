@@ -1,6 +1,7 @@
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
+import AssignmentIcon from '@material-ui/icons/Assignment'
 import { createStyles, WithStyles, withStyles } from '@material-ui/styles'
 import { navigate } from 'gatsby'
 import parse from 'html-react-parser'
@@ -8,6 +9,7 @@ import React from 'react'
 
 import { AceItem } from '../../../typings/autogen'
 import { useOrder } from '../../contexts/order-context'
+import { useClipboard } from '../../hooks'
 
 const styles = (theme: any) => {
   return createStyles({
@@ -45,10 +47,11 @@ const styles = (theme: any) => {
     },
     link: {
       '& img': {
-        height: '14px',
+        height: '18px',
         display: 'inline-block',
         verticalAlign: 'middle',
-        marginBottom: '3px'
+        marginBottom: '3px',
+        paddingLeft: '4px'
       }
     },
     panel: {
@@ -66,9 +69,24 @@ const styles = (theme: any) => {
       height: 'auto',
       marginRight: '7px'
     },
+    blankCover: {
+      display: 'inline-block',
+      width: '120px',
+      lineHeight: '180px',
+      backgroundColor: 'black',
+      color: 'lightgray',
+      fontSize: '5rem',
+      textAlign: 'center',
+      verticalAlign: 'middle',
+      marginBottom: '4px'
+    },
     button: {
-      minWidth: '125px',
+      minWidth: '120px',
       width: '100%',
+    },
+    fadeout: {
+      visibility: 'hidden',
+      opacity: 1,
     },
   })
 }
@@ -85,6 +103,7 @@ interface PreviewPanelProps extends WithStyles<typeof styles> {
 
 function PreviewPanel({ classes, item }: PreviewPanelProps) {
   const [{ order }, { addToOrder, removeFromOrder }] = useOrder()
+  const copyToClipboard = useClipboard('id')
 
   const inCart = order.some(i => i.previewsCode === item.previewsCode)
 
@@ -97,19 +116,27 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
         <span>
           {item.title}
         </span>
-        <a
-          className={classes.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://www.previewsworld.com/Catalog/${item.previews?.id}`}
-        >
-          <img alt="Open Previews site" src="/static/open_in_new24px.svg" />
-        </a>
+        {item.previews?.id &&
+          <a
+            className={classes.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Open Previews site"
+            href={`https://www.previewsworld.com/Catalog/${item.previews.id}`}
+          >
+            <img alt="Open Previews site" src="/static/open_in_new24px.svg" />
+          </a>
+        }
+        <AssignmentIcon fontSize={'small'} data-id={item.previewsCode} onClick={copyToClipboard} />
+        <span className={`fadeout ${classes.fadeout}`}>Copied to clipboard</span>
       </div>
       <>
         <div className={classes.panel}>
           <div className={classes.cover}>
-            <img alt="Cover" src={item.previews?.coverThumbnail ?? undefined} />
+            {item.previews?.coverThumbnail
+              ? <img alt="Cover" src={item.previews.coverThumbnail} />
+              : <span className={classes.blankCover}>?</span>
+            }
             {inCart ?
               <Button
                 variant="contained"
@@ -130,7 +157,7 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
             }
           </div>
           <div>
-            {parse(item.previews?.description ?? '')}
+            {parse(item.previews?.description ?? item.title)}
             {item.previews?.creators &&
               <p>{parse(item.previews?.creators)}</p>
             }
