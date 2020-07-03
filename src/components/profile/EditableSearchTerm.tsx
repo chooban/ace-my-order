@@ -1,3 +1,5 @@
+import { createStyles, WithStyles, withStyles } from '@material-ui/core'
+import CreateIcon from '@material-ui/icons/Create'
 import React from 'react'
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 
@@ -10,15 +12,32 @@ interface OwnState {
   text: string
 }
 
-class EditableSearchTerm extends React.Component<OwnProps, OwnState> {
-  contentEditable: any
+const styles = () => {
+  return createStyles({
+    root: {
+      display: 'flex',
+      gap: '5px',
+      alignItems: 'center',
+      '&>.editableSearch': {
+      },
+      cursor: 'pointer'
+    }
+  })
+}
 
-  constructor(props: OwnProps) {
+type CombinedProps = OwnProps & WithStyles<typeof styles>
+
+class EditableSearchTerm extends React.Component<CombinedProps, OwnState> {
+  contentEditable: any
+  searchRef: any
+
+  constructor(props: CombinedProps) {
     super(props)
     this.contentEditable = React.createRef()
     this.state = {
       text: props.searchTerm
     }
+    this.searchRef = React.createRef()
   }
 
   handleChange = (event: ContentEditableEvent) => {
@@ -49,16 +68,25 @@ class EditableSearchTerm extends React.Component<OwnProps, OwnState> {
   }
 
   render() {
-    return <ContentEditable
-      className='editableSearch'
-      innerRef={this.contentEditable}
-      html={this.state.text}
-      onPaste={this.pastePlainText}
-      onKeyPress={this.disableNewlines}
-      onBlur={this.handleBlur}
-      onChange={this.handleChange}
-    />
+    return <div className={this.props.classes.root}>
+      <ContentEditable
+        ref={this.searchRef}
+        className='editableSearch'
+        innerRef={this.contentEditable}
+        html={this.state.text}
+        onPaste={this.pastePlainText}
+        onKeyPress={this.disableNewlines}
+        onBlur={this.handleBlur}
+        onChange={this.handleChange}
+      />
+      <CreateIcon fontSize='small' onClick={() => {
+        this.contentEditable.current.focus()
+      }}/>
+    </div>
   }
 
 }
-export { EditableSearchTerm }
+
+const Styled = withStyles(styles)(EditableSearchTerm)
+
+export { Styled as EditableSearchTerm }

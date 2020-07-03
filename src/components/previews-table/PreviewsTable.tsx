@@ -35,6 +35,7 @@ const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
         type="search"
         className={classes.search}
         margin="none"
+        size="small"
         variant="outlined"
         onChange={e => updateSearch(e.currentTarget.value)}
         value={searchValue}

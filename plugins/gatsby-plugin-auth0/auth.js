@@ -91,7 +91,11 @@ export const Auth0Provider = ({
       token
     })
     managementAPI.patchUserMetadata(user.sub, metadata, (err, result) => {
-      // no op
+      if (err) {
+        console.error(err)
+      } else {
+        setUser(result)
+      }
     })
   }
 

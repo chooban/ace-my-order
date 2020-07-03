@@ -11,6 +11,57 @@ import { useOrder } from '../contexts/order-context'
 import { useClipboard } from '../hooks'
 import { formatAsGBP } from '../lib/format-as-gbp'
 
+const DetailedRow = ({ item: a, searchTerm, classes }: WithStyles<typeof styles> & { item: AceItem, searchTerm?: string }) => {
+
+  const [{ order }, { addToOrder, removeFromOrder }] = useOrder()
+  const copyToClipboard = useClipboard('id')
+
+  const inCart = order.some((i) => i.previewsCode === a.previewsCode)
+
+  return (
+    <div className={classes.cartItem} key={a.previewsCode}>
+      <div className={'cover'}>
+        {a.previews?.coverThumbnail
+          ? <img alt="Cover" src={a.previews?.coverThumbnail || ''} />
+          : <p>No cover</p>
+        }
+      </div>
+      <div className='details'>
+        <div className='title'>
+          <Link to={`/item/${a.previewsCode.replace('/', '-')}${searchTerm ? `?search=${searchTerm}` : ''}`}><b>{a.title}</b></Link>
+          <Hidden xsDown>
+            <AssignmentIcon fontSize={'small'} data-id={a.previewsCode} onClick={copyToClipboard} />
+            <span className={`fadeout ${classes.fadeout}`}>Copied to clipboard</span>
+          </Hidden>
+        </div>
+        {
+          a.previews?.description
+            ? <p className='description'>{he.decode(a.previews.description.replace(/<[^>]+>/g, '')).substring(0, 200)}&hellip;</p>
+            : <p className='description'>{a.title}</p>
+        }
+        <div className='footer'>
+          {inCart ?
+            <Button
+              variant="contained"
+              size="small"
+              color="secondary"
+              onClick={() => removeFromOrder(a)}
+            >Remove</Button>
+            :
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              onClick={() => addToOrder(a)}
+            >Add</Button>
+          }
+        </div>
+      </div>
+      <div className="price">{a.price ? formatAsGBP(a.price).value : '-'}</div>
+    </div>
+  )
+}
+
 const styles = () => {
   return createStyles({
     cartItem: {
@@ -80,58 +131,6 @@ const styles = () => {
     },
   })
 }
-
-const DetailedRow = ({ item: a, classes }: WithStyles<typeof styles> & { item: AceItem}) => {
-
-  const [{ order }, { addToOrder, removeFromOrder }] = useOrder()
-  const copyToClipboard = useClipboard('id')
-
-  const inCart = order.some((i) => i.previewsCode === a.previewsCode)
-
-  return (
-    <div className={classes.cartItem} key={a.previewsCode}>
-      <div className={'cover'}>
-        {a.previews?.coverThumbnail
-          ? <img alt="Cover" src={a.previews?.coverThumbnail || ''} />
-          : <p>No cover</p>
-        }
-      </div>
-      <div className='details'>
-        <div className='title'>
-          <Link to={`/item/${encodeURIComponent(a.previewsCode)}`}><b>{a.title}</b></Link>
-          <Hidden xsDown>
-            <AssignmentIcon fontSize={'small'} data-id={a.previewsCode} onClick={copyToClipboard} />
-            <span className={`fadeout ${classes.fadeout}`}>Copied to clipboard</span>
-          </Hidden>
-        </div>
-        {
-          a.previews?.description
-            ? <p className='description'>{he.decode(a.previews.description.replace(/<[^>]+>/g, '')).substring(0, 200)}&hellip;</p>
-            : <p className='description'>{a.title}</p>
-        }
-        <div className='footer'>
-          {inCart ?
-            <Button
-              variant="contained"
-              size="small"
-              color="secondary"
-              onClick={() => removeFromOrder(a)}
-            >Remove</Button>
-            :
-            <Button
-              variant="contained"
-              size="small"
-              color="primary"
-              onClick={() => addToOrder(a)}
-            >Add</Button>
-          }
-        </div>
-      </div>
-      <div className="price">{a.price ? formatAsGBP(a.price).value : '-'}</div>
-    </div>
-  )
-}
-
 const StyledRow = withStyles(styles, { withTheme: true })(DetailedRow)
 
 export { StyledRow as DetailedRow }
