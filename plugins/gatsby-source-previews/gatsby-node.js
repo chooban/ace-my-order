@@ -27,8 +27,8 @@ function parsePreviewsData(id, itemText) {
 
     const urlPrefix = 'https://www.previewsworld.com'
     const coverImage = urlPrefix + $('img#MainContentImage').attr('src')
-    const coverImageURL = coverImage.substr(0, coverImage.lastIndexOf('?'))
-
+    const lastParamIndex = coverImage.lastIndexOf('?')
+    const coverImageURL = coverImage.substr(0, lastParamIndex < 0 ? coverImage.length : lastParamIndex)
     const pageTitle = $('div.Title').text()
     const node = $('.CatalogFullDetail .Text')
     const children = node.contents().filter((i, el) => (
@@ -41,7 +41,7 @@ function parsePreviewsData(id, itemText) {
       .replace(/\s\s+/g, ' ')
 
     return {
-      coverThumbnail: coverImageURL.replace('CatalogImage', 'CatalogThumbnail'),
+      coverThumbnail: coverImageURL.replace('MainImage', 'CatalogThumbnail').replace(/\.[^/.]+$/, ''),
       title: pageTitle,
       description,
       creators
