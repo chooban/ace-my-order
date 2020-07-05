@@ -67,7 +67,7 @@ const Profile: React.FC<ProfileProps> = ({ classes }) => {
   const newSearchRef = useRef<HTMLInputElement>()
 
   const savedSearches: string[] = (user[METADATA_KEY] || user.user_metadata).saved_searches ?? []
-  savedSearches.sort((a, b) => a < b ? -1 : 1)
+  savedSearches.sort((a, b) => a.toLowerCase() < b.toLowerCase() ? -1 : 1)
 
   useEffect(() => {
     const newSearchResults = savedSearches.reduce((acc, search) => {
@@ -102,8 +102,6 @@ const Profile: React.FC<ProfileProps> = ({ classes }) => {
     const newSearchTerms = newTerm === ''
       ? [...savedSearches.slice(0, idx), ...savedSearches.slice(idx + 1)]
       : [...savedSearches.slice(0, idx), newTerm, ...savedSearches.slice(idx + 1)]
-
-    newSearchTerms.sort((a, b) => a < b ? -1 : 1)
 
     saveMetadata({ saved_searches: newSearchTerms })
   }
