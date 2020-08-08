@@ -16,7 +16,7 @@ export type Scalars = {
 export type AceItem = Node & {
   __typename?: 'AceItem';
   previewsCode: Scalars['String'];
-  price: Scalars['Float'];
+  price?: Maybe<Scalars['Float']>;
   reducedFrom?: Maybe<Scalars['Float']>;
   publisher?: Maybe<Scalars['String']>;
   slug: Scalars['String'];
@@ -2460,7 +2460,7 @@ export type SearchIndexQuery = (
       & Pick<AceItem, 'id' | 'title' | 'previewsCode' | 'price' | 'publisher' | 'slug'>
       & { previews?: Maybe<(
         { __typename?: 'PreviewsItem' }
-        & Pick<PreviewsItem, 'creators'>
+        & Pick<PreviewsItem, 'id' | 'description' | 'creators' | 'coverThumbnail'>
       )> }
     )> }
   ) }

@@ -8,7 +8,7 @@ exports.createSchemaCustomization = ({ actions }) => {
   const typeDefs = `
     type AceItem implements Node {
       previewsCode: String!
-      price: Float!
+      price: Float
       reducedFrom: Float
       publisher: String
       slug: String!
