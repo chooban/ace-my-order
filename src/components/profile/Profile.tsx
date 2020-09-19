@@ -1,7 +1,7 @@
 import { createStyles, TextField, WithStyles, withStyles } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import { RouteComponentProps } from '@reach/router'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { AceItem } from '../../../typings/autogen'
 import { useAuth0 } from '../../contexts/auth0'
@@ -66,8 +66,11 @@ const Profile: React.FC<ProfileProps> = ({ classes }) => {
   const [canSaveNewSearch, setCanSaveNewSearch] = useState(false)
   const newSearchRef = useRef<HTMLInputElement>()
 
-  const savedSearches: string[] = (user[METADATA_KEY] || user.user_metadata).saved_searches ?? []
-  savedSearches.sort((a, b) => a.toLowerCase() < b.toLowerCase() ? -1 : 1)
+  const savedSearches = useMemo(() => {
+    const _savedSearches: string[] = (user[METADATA_KEY] || user.user_metadata).saved_searches ?? []
+    _savedSearches.sort((a, b) => a.toLowerCase() < b.toLowerCase() ? -1 : 1)
+    return _savedSearches
+  }, [user])
 
   useEffect(() => {
     const newSearchResults = savedSearches.reduce((acc, search) => {

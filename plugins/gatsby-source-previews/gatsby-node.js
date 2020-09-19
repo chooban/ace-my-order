@@ -31,7 +31,7 @@ function parsePreviewsData(id, itemText) {
     const coverImageURL = coverImage.substr(0, lastParamIndex < 0 ? coverImage.length : lastParamIndex)
     const pageTitle = $('div.Title').text()
     const node = $('.CatalogFullDetail .Text')
-    const children = node.contents().filter((i, el) => (
+    const children = node.contents().filter((_i, el) => (
       el.type === 'text' || (el.type === 'tag' && el.tagName === 'br')
     ))
     const description = children.toString().trim()
