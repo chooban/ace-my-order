@@ -59,8 +59,14 @@ const removeActionHandler = (action: Action, state: OrderState): OrderState => {
 const addActionHandler = (action: Action, state: OrderState): OrderState => {
   console.log('Adding to order', { p: action.payload })
   const { order } = state
+
+  // Nasty fix for now
+  const newOrder =
+    [ ...order, action.payload ]
+      .filter(item => item.previewsCode.split('/')[0] === action.payload.previewsCode.split('/')[0])
+
   return {
-    order: [ ...order, action.payload ]
+    order: newOrder
   }
 }
 
