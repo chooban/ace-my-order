@@ -71,7 +71,7 @@ module.exports = {
           'reducedFrom',
           'publisher',
         ],
-        ignoreColumns: ['IGNORE'],
+        ignoreColumns: /IGNORE/,
       },
     },
     {
