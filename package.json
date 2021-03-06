@@ -79,6 +79,7 @@
     "gatsby-plugin-goatcounter": "^0.4.0",
     "gatsby-plugin-react-helmet": "^3.3.11",
     "html-react-parser": "^0.14.0",
+    "netlify-cli": "^3.5.0",
     "react-helmet": "^6.1.0",
     "react-hot-loader": "^4.12.21"
   },
