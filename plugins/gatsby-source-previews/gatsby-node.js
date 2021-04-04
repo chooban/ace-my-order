@@ -41,6 +41,7 @@ function parsePreviewsData(id, itemText) {
       .replace(/\s\s+/g, ' ')
 
     return {
+      id,
       coverThumbnail: coverImageURL.replace('MainImage', 'CatalogThumbnail').replace(/\.[^/.]+$/, ''),
       title: pageTitle,
       description,
@@ -82,6 +83,7 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { savepath, catal
 
   const catalogueFetches = catalogueIds.map(id => {
     const fileName = path.join(savepath, `${id}.html`)
+    // console.log('Processing', id, fileName)
     return pool.exec('fetchPreviews', [id, fileName])
   })
 
@@ -89,13 +91,18 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { savepath, catal
     console.log(pool.stats())
   }, 5000)
 
+  let i = 0
   return Promise.all(catalogueFetches)
     .then(datum => {
       datum.forEach(data => {
         const nodeContents = parsePreviewsData(data.id, data.itemText)
         if (nodeContents) {
+          // console.log({ nodeContents })
+          if (i < 10) {
+            console.log({ nodeContents })
+            i++
+          }
           createNode({
-            id: data.id,
             ...nodeContents,
             internal: {
               type: 'PreviewsItem',

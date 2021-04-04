@@ -1,9 +1,11 @@
+/* eslint-disable */
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
 const fs = require('fs')
 const { promisify } = require('util')
 const workerPool = require('workerpool')
 const redis = require('async-redis')
+/* eslint-enable */
 
 const writeFile = promisify(fs.writeFile)
 
@@ -21,6 +23,7 @@ if (process.env.REDIS_URL) {
  * @param {string} fileName
  */
 async function fetchPreviews(id, fileName) {
+  // console.log('Fetching', id, fileName)
   const URL_PREFIX = 'https://www.previewsworld.com'
   const fileExists = fs.existsSync(fileName)
 
@@ -44,9 +47,11 @@ async function fetchPreviews(id, fileName) {
       await writeFile(fileName, redisDoc)
       return { id, itemText: redisDoc }
     }
+  } else {
+    console.log('No redis client')
   }
 
-  // console.log(`Fetching for ${id}`)
+  // console.log(`Fetching ${URL_PREFIX}/Catalog/${id} for ${id}`)
   const contents = await fetch(`${URL_PREFIX}/Catalog/${id}`, { method: 'GET', redirect: 'follow' })
     .then(r => r.text())
     .then(fileContents => {

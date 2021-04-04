@@ -13,7 +13,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       publisher: String
       slug: String!
       title: String!
-      previews: PreviewsItem @link(from: "previews___NODE")
+      catalogueId: String!
+      previews: PreviewsItem @link(from: "catalogueId" by:"id")
     }
   `
   createTypes(typeDefs)
@@ -27,6 +28,7 @@ exports.onCreateNode = ({ node }) => {
   if (node.internal.type === 'AceItem') {
     node.slug = `item/${node.previewsCode.replace('/', '-')}`
     // eslint-disable-next-line
+    node.catalogueId = previewsCodeToCatalogueId(node.previewsCode)
     node.previews___NODE = previewsCodeToCatalogueId(node.previewsCode)
   }
 }
