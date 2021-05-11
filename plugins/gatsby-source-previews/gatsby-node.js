@@ -67,6 +67,7 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { savepath, catal
       }
 
       if (response.status === 404) {
+        console.log('Failed to fetch', sourceUrl)
         throw new Error('Item not found')
       }
       throw new Error('Error')
@@ -97,7 +98,6 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { savepath, catal
       datum.forEach(data => {
         const nodeContents = parsePreviewsData(data.id, data.itemText)
         if (nodeContents) {
-          // console.log({ nodeContents })
           if (i < 10) {
             console.log({ nodeContents })
             i++
