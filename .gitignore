@@ -31,3 +31,6 @@ data/previews/
 .yarn/unplugged
 !.yarn/releases
 !.yarn/plugins
+
+# Local Netlify folder
+.netlify

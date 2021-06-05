@@ -98,10 +98,6 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { savepath, catal
       datum.forEach(data => {
         const nodeContents = parsePreviewsData(data.id, data.itemText)
         if (nodeContents) {
-          if (i < 10) {
-            console.log({ nodeContents })
-            i++
-          }
           createNode({
             ...nodeContents,
             internal: {
