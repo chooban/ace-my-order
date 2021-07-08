@@ -55,7 +55,8 @@
     "build": "gatsby build --log-pages",
     "dev": "gatsby develop --port 8001",
     "lint": "eslint --fix --ext .js,.ts,.tsx ./src/ gatsby*",
-    "start": "gatsby serve"
+    "start": "gatsby serve",
+    "netlify-update": "heroku config:get -a ace-my-order REDIS_URL | xargs netlify env:set REDIS_URL"
   },
   "browserslist": [
     ">0.2%",
