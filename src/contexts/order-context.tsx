@@ -111,7 +111,7 @@ const OrderProvider = ({ children }: OrderProviderProps) => {
 const useOrder = () => useContext(OrderContext)
 
 export {
-  OrderProvider,
   OrderActionType,
+  OrderProvider,
   useOrder
 }
