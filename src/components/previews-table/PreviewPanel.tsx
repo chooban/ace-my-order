@@ -150,7 +150,6 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
                 className={classes.button}
                 color="primary"
                 onClick={() => {
-                  console.log(addToOrder)
                   addToOrder(item)
                 }}
               >Add</Button>

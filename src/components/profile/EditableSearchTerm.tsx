@@ -5,7 +5,7 @@ import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 
 interface OwnProps {
   searchTerm: string,
-  onTermChanged(existingTerm: string, newSearchTerm: string): void
+  onTermChanged(existingTerm: string, newSearchTerm: string): void,
 }
 
 interface OwnState {

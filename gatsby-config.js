@@ -96,12 +96,48 @@ module.exports = {
       },
     },
     {
+      resolve: 'gatsby-plugin-local-search',
+      options: {
+        name: 'catalogue',
+        engine: 'flexsearch',
+        engineOptions: 'speed',
+        query: `
+          {
+            allAceItem {
+              nodes {
+                catalogueId
+                previewsCode
+                publisher
+                title
+                previews {
+                  creators
+                  description
+                }
+              }
+            }
+          }
+        `,
+        ref: 'catalogueId',
+        index: ['title', 'publisher', 'description', 'creators'],
+        normalizer: ({ data }) => {
+          console.log('hello')
+          return data.allAceItem.nodes.map((node) => ({
+            catalogueId: node.catalogueId,
+            title: node.title,
+            publisher: node.publisher,
+            description: node.previews && node.previews.description,
+            creators: node.previews && node.previews.creators
+          }))
+        },
+      }
+    },
+    {
       resolve: 'gatsby-plugin-goatcounter',
       options: {
         code: 'ace-my-order',
         pixel: false
       }
-    }
+    },
   ],
   mapping: {
     'AceItem.previews': 'PreviewsItem',

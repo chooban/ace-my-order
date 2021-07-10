@@ -5,6 +5,8 @@ import { AceItem, SearchIndexQuery } from '../../typings/autogen'
 
 function useSearch(): (searchTerm: string) => AceItem[] {
   const { allAceItem: { nodes } } = useStaticQuery<SearchIndexQuery>(query)
+  const { localSearchCatalogue } = useStaticQuery(queryAlpha)
+
   const publisherOrTitleMatches = (regex: RegExp) =>
     (d: any) => regex.test(`${d.title} ${d.publisher} ${d.previews?.creators}`)
 
@@ -23,6 +25,14 @@ function useSearch(): (searchTerm: string) => AceItem[] {
   }, [nodes])
 }
 
+const queryAlpha = graphql`
+  query SearchCatalogue {
+    localSearchCatalogue {
+      publicIndexURL
+      publicStoreURL
+    }
+  }
+`
 const query = graphql`
   query SearchIndex {
     allAceItem {
