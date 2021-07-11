@@ -1,5 +1,5 @@
-require('dotenv').config()
 
+require('dotenv').config()
 const lineReader = require('n-readlines')
 const { previewsCodeToCatalogueId } = require('./lib')
 const lines = new lineReader('./data/catalogue.csv')
@@ -21,6 +21,16 @@ module.exports = {
     titleTemplate: 'Ace My Order',
   },
   plugins: [
+    { 
+      resolve: 'gatsby-plugin-graphql-codegen',
+      options: {
+        fileName: './typings/autogen/index.d.ts',
+        codegenConfig: {
+          namingConvention: 'keep',
+          maybeValue: 'T | undefined'
+        }
+      }
+    },
     'gatsby-plugin-material-ui',
     'gatsby-plugin-why-did-you-render',
     'gatsby-plugin-react-helmet',
