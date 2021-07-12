@@ -46,6 +46,7 @@
     "space-in-parens": [1, "never"],
     "space-infix-ops": 1,
     "space-unary-ops": [0, { "words": true, "nonwords": true }],
+    "no-trailing-spaces": "error",
     "react/prop-types": 0,
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off",

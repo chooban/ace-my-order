@@ -7049,7 +7049,7 @@ flatten@^1.0.2:
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.3.tgz#c1283ac9f27b368abc1e36d1ff7b04501a30356b"
   integrity sha512-dVsPA/UwQ8+2uoFe5GHtiBMu48dWLTdsuEd7CKGlZlD78r1TTWBvDuFaFGKCo/ZfEr95Uk56vZoX86OsHkUeIg==
 
-flexsearch@^0.6.32:
+flexsearch@^0.6.22, flexsearch@^0.6.32:
   version "0.6.32"
   resolved "https://registry.yarnpkg.com/flexsearch/-/flexsearch-0.6.32.tgz#1e20684d317af65baa445cdd9864a5f5b320f510"
   integrity sha512-EF1BWkhwoeLtbIlDbY/vDSLBen/E5l/f1Vg7iX5CDymQCamcx1vhlc3tIZxIDplPjgi0jhG37c67idFbjg+v+Q==
@@ -12968,6 +12968,13 @@ react-transition-group@^4.4.0:
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
+
+react-use-flexsearch@^0.2.0-next.0:
+  version "0.2.0-next.0"
+  resolved "https://registry.yarnpkg.com/react-use-flexsearch/-/react-use-flexsearch-0.2.0-next.0.tgz#b2105b4627477d0fb2b2ed3fd47542eaee7c66d1"
+  integrity sha512-cEW2Yps0ArTaGa7rnqBgq2b2aEuH3t0E7kllY7+Y/mSC5tOiW5iwq4HV1GQ39zpHlsoJgTpqBAudioXuRMBq8A==
+  dependencies:
+    flexsearch "^0.6.22"
 
 react-window@^1.8.6:
   version "1.8.6"

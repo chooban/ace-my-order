@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 
-export function useFetch<T>(url: string, params?: RequestInit) {
+type BodyType = 'json' | 'text' | 'blob' | 'raw'
+
+export function useFetch<T>(url: string, bodyType: BodyType, params?: RequestInit) {
   const [response, setResponse] = useState<T|null>(null)
   const [error, setError] = useState<string|null>(null)
   const [isLoading, setIsLoading] = useState(false)
+
   useEffect(() => {
     const abortController = new AbortController()
     const signal = abortController.signal
@@ -11,6 +14,7 @@ export function useFetch<T>(url: string, params?: RequestInit) {
     setResponse(null)
     setError(null)
     setIsLoading(true)
+
     fetch(url, params ? { ...params, signal } : { signal })
       .then(res => {
         if (res.status !== 200) {
@@ -18,7 +22,18 @@ export function useFetch<T>(url: string, params?: RequestInit) {
         }
         return res
       })
-      .then(res => res.json())
+      .then(res => {
+        switch (bodyType) {
+          case 'json':
+            return res.json()
+          case 'text':
+            return res.text()
+          case 'blob':
+            return res.blob()
+          default:
+            return res
+        }
+      })
       .then(data => {
         setResponse(data)
         setIsLoading(false)
@@ -35,6 +50,6 @@ export function useFetch<T>(url: string, params?: RequestInit) {
     return function cleanup() {
       abortController.abort()
     }
-  }, [params, url])
+  }, [params, url, bodyType])
   return { response, error, isLoading }
 }

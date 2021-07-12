@@ -16,6 +16,8 @@ export type Scalars = {
   Float: number;
   /** A date string, such as 2007-12-03, compliant with the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   Date: any;
+  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSON: any;
 };
 
 
@@ -318,6 +320,26 @@ export type SitePageContext = {
   previewsCode?: Maybe<Scalars['String']>;
 };
 
+export type LocalSearchCatalogue = Node & {
+  /** The name of the index. */
+  name: Scalars['String'];
+  /** The search engine used to create the index. */
+  engine: Scalars['String'];
+  /** The search index created using the selected engine. */
+  index: Scalars['String'];
+  /** A JSON object used to map search results to their data. */
+  store: Scalars['JSON'];
+  /** Save the index to the site's static directory and return a public URL to it. */
+  publicIndexURL: Scalars['String'];
+  /** Save the store to the site's static directory and return a public URL to it. */
+  publicStoreURL: Scalars['String'];
+  id: Scalars['ID'];
+  parent?: Maybe<Node>;
+  children: Array<Node>;
+  internal: Internal;
+};
+
+
 export type AceItem = Node & {
   previewsCode: Scalars['String'];
   price?: Maybe<Scalars['Float']>;
@@ -368,6 +390,10 @@ export type SitePluginPluginOptions = {
   cacheLocation?: Maybe<Scalars['String']>;
   scope?: Maybe<Scalars['String']>;
   audience?: Maybe<Scalars['String']>;
+  engine?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+  ref?: Maybe<Scalars['String']>;
+  index?: Maybe<Array<Maybe<Scalars['String']>>>;
   code?: Maybe<Scalars['String']>;
   pixel?: Maybe<Scalars['Boolean']>;
   pathCheck?: Maybe<Scalars['Boolean']>;
@@ -452,6 +478,8 @@ export type Query = {
   allSiteFunction: SiteFunctionConnection;
   sitePage?: Maybe<SitePage>;
   allSitePage: SitePageConnection;
+  localSearchCatalogue?: Maybe<LocalSearchCatalogue>;
+  allLocalSearchCatalogue: LocalSearchCatalogueConnection;
   aceItem?: Maybe<AceItem>;
   allAceItem: AceItemConnection;
   sitePlugin?: Maybe<SitePlugin>;
@@ -630,6 +658,28 @@ export type QuerysitePageArgs = {
 export type QueryallSitePageArgs = {
   filter?: Maybe<SitePageFilterInput>;
   sort?: Maybe<SitePageSortInput>;
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QuerylocalSearchCatalogueArgs = {
+  name?: Maybe<StringQueryOperatorInput>;
+  engine?: Maybe<StringQueryOperatorInput>;
+  index?: Maybe<StringQueryOperatorInput>;
+  store?: Maybe<JSONQueryOperatorInput>;
+  publicIndexURL?: Maybe<StringQueryOperatorInput>;
+  publicStoreURL?: Maybe<StringQueryOperatorInput>;
+  id?: Maybe<StringQueryOperatorInput>;
+  parent?: Maybe<NodeFilterInput>;
+  children?: Maybe<NodeFilterListInput>;
+  internal?: Maybe<InternalFilterInput>;
+};
+
+
+export type QueryallLocalSearchCatalogueArgs = {
+  filter?: Maybe<LocalSearchCatalogueFilterInput>;
+  sort?: Maybe<LocalSearchCatalogueSortInput>;
   skip?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
 };
@@ -1798,6 +1848,10 @@ export type SitePluginPluginOptionsFilterInput = {
   cacheLocation?: Maybe<StringQueryOperatorInput>;
   scope?: Maybe<StringQueryOperatorInput>;
   audience?: Maybe<StringQueryOperatorInput>;
+  engine?: Maybe<StringQueryOperatorInput>;
+  query?: Maybe<StringQueryOperatorInput>;
+  ref?: Maybe<StringQueryOperatorInput>;
+  index?: Maybe<StringQueryOperatorInput>;
   code?: Maybe<StringQueryOperatorInput>;
   pixel?: Maybe<BooleanQueryOperatorInput>;
   pathCheck?: Maybe<BooleanQueryOperatorInput>;
@@ -2057,6 +2111,10 @@ export type SitePageFieldsEnum =
   | 'pluginCreator___pluginOptions___cacheLocation'
   | 'pluginCreator___pluginOptions___scope'
   | 'pluginCreator___pluginOptions___audience'
+  | 'pluginCreator___pluginOptions___engine'
+  | 'pluginCreator___pluginOptions___query'
+  | 'pluginCreator___pluginOptions___ref'
+  | 'pluginCreator___pluginOptions___index'
   | 'pluginCreator___pluginOptions___code'
   | 'pluginCreator___pluginOptions___pixel'
   | 'pluginCreator___pluginOptions___pathCheck'
@@ -2112,6 +2170,181 @@ export type SitePageFilterInput = {
 
 export type SitePageSortInput = {
   fields?: Maybe<Array<Maybe<SitePageFieldsEnum>>>;
+  order?: Maybe<Array<Maybe<SortOrderEnum>>>;
+};
+
+export type JSONQueryOperatorInput = {
+  eq?: Maybe<Scalars['JSON']>;
+  ne?: Maybe<Scalars['JSON']>;
+  in?: Maybe<Array<Maybe<Scalars['JSON']>>>;
+  nin?: Maybe<Array<Maybe<Scalars['JSON']>>>;
+  regex?: Maybe<Scalars['JSON']>;
+  glob?: Maybe<Scalars['JSON']>;
+};
+
+export type LocalSearchCatalogueConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<LocalSearchCatalogueEdge>;
+  nodes: Array<LocalSearchCatalogue>;
+  pageInfo: PageInfo;
+  distinct: Array<Scalars['String']>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+  group: Array<LocalSearchCatalogueGroupConnection>;
+};
+
+
+export type LocalSearchCatalogueConnectiondistinctArgs = {
+  field: LocalSearchCatalogueFieldsEnum;
+};
+
+
+export type LocalSearchCatalogueConnectionmaxArgs = {
+  field: LocalSearchCatalogueFieldsEnum;
+};
+
+
+export type LocalSearchCatalogueConnectionminArgs = {
+  field: LocalSearchCatalogueFieldsEnum;
+};
+
+
+export type LocalSearchCatalogueConnectionsumArgs = {
+  field: LocalSearchCatalogueFieldsEnum;
+};
+
+
+export type LocalSearchCatalogueConnectiongroupArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  field: LocalSearchCatalogueFieldsEnum;
+};
+
+export type LocalSearchCatalogueEdge = {
+  next?: Maybe<LocalSearchCatalogue>;
+  node: LocalSearchCatalogue;
+  previous?: Maybe<LocalSearchCatalogue>;
+};
+
+export type LocalSearchCatalogueFieldsEnum =
+  | 'name'
+  | 'engine'
+  | 'index'
+  | 'store'
+  | 'publicIndexURL'
+  | 'publicStoreURL'
+  | 'id'
+  | 'parent___id'
+  | 'parent___parent___id'
+  | 'parent___parent___parent___id'
+  | 'parent___parent___parent___children'
+  | 'parent___parent___children'
+  | 'parent___parent___children___id'
+  | 'parent___parent___children___children'
+  | 'parent___parent___internal___content'
+  | 'parent___parent___internal___contentDigest'
+  | 'parent___parent___internal___description'
+  | 'parent___parent___internal___fieldOwners'
+  | 'parent___parent___internal___ignoreType'
+  | 'parent___parent___internal___mediaType'
+  | 'parent___parent___internal___owner'
+  | 'parent___parent___internal___type'
+  | 'parent___children'
+  | 'parent___children___id'
+  | 'parent___children___parent___id'
+  | 'parent___children___parent___children'
+  | 'parent___children___children'
+  | 'parent___children___children___id'
+  | 'parent___children___children___children'
+  | 'parent___children___internal___content'
+  | 'parent___children___internal___contentDigest'
+  | 'parent___children___internal___description'
+  | 'parent___children___internal___fieldOwners'
+  | 'parent___children___internal___ignoreType'
+  | 'parent___children___internal___mediaType'
+  | 'parent___children___internal___owner'
+  | 'parent___children___internal___type'
+  | 'parent___internal___content'
+  | 'parent___internal___contentDigest'
+  | 'parent___internal___description'
+  | 'parent___internal___fieldOwners'
+  | 'parent___internal___ignoreType'
+  | 'parent___internal___mediaType'
+  | 'parent___internal___owner'
+  | 'parent___internal___type'
+  | 'children'
+  | 'children___id'
+  | 'children___parent___id'
+  | 'children___parent___parent___id'
+  | 'children___parent___parent___children'
+  | 'children___parent___children'
+  | 'children___parent___children___id'
+  | 'children___parent___children___children'
+  | 'children___parent___internal___content'
+  | 'children___parent___internal___contentDigest'
+  | 'children___parent___internal___description'
+  | 'children___parent___internal___fieldOwners'
+  | 'children___parent___internal___ignoreType'
+  | 'children___parent___internal___mediaType'
+  | 'children___parent___internal___owner'
+  | 'children___parent___internal___type'
+  | 'children___children'
+  | 'children___children___id'
+  | 'children___children___parent___id'
+  | 'children___children___parent___children'
+  | 'children___children___children'
+  | 'children___children___children___id'
+  | 'children___children___children___children'
+  | 'children___children___internal___content'
+  | 'children___children___internal___contentDigest'
+  | 'children___children___internal___description'
+  | 'children___children___internal___fieldOwners'
+  | 'children___children___internal___ignoreType'
+  | 'children___children___internal___mediaType'
+  | 'children___children___internal___owner'
+  | 'children___children___internal___type'
+  | 'children___internal___content'
+  | 'children___internal___contentDigest'
+  | 'children___internal___description'
+  | 'children___internal___fieldOwners'
+  | 'children___internal___ignoreType'
+  | 'children___internal___mediaType'
+  | 'children___internal___owner'
+  | 'children___internal___type'
+  | 'internal___content'
+  | 'internal___contentDigest'
+  | 'internal___description'
+  | 'internal___fieldOwners'
+  | 'internal___ignoreType'
+  | 'internal___mediaType'
+  | 'internal___owner'
+  | 'internal___type';
+
+export type LocalSearchCatalogueGroupConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<LocalSearchCatalogueEdge>;
+  nodes: Array<LocalSearchCatalogue>;
+  pageInfo: PageInfo;
+  field: Scalars['String'];
+  fieldValue?: Maybe<Scalars['String']>;
+};
+
+export type LocalSearchCatalogueFilterInput = {
+  name?: Maybe<StringQueryOperatorInput>;
+  engine?: Maybe<StringQueryOperatorInput>;
+  index?: Maybe<StringQueryOperatorInput>;
+  store?: Maybe<JSONQueryOperatorInput>;
+  publicIndexURL?: Maybe<StringQueryOperatorInput>;
+  publicStoreURL?: Maybe<StringQueryOperatorInput>;
+  id?: Maybe<StringQueryOperatorInput>;
+  parent?: Maybe<NodeFilterInput>;
+  children?: Maybe<NodeFilterListInput>;
+  internal?: Maybe<InternalFilterInput>;
+};
+
+export type LocalSearchCatalogueSortInput = {
+  fields?: Maybe<Array<Maybe<LocalSearchCatalogueFieldsEnum>>>;
   order?: Maybe<Array<Maybe<SortOrderEnum>>>;
 };
 
@@ -2466,6 +2699,10 @@ export type SitePluginFieldsEnum =
   | 'pluginOptions___cacheLocation'
   | 'pluginOptions___scope'
   | 'pluginOptions___audience'
+  | 'pluginOptions___engine'
+  | 'pluginOptions___query'
+  | 'pluginOptions___ref'
+  | 'pluginOptions___index'
   | 'pluginOptions___code'
   | 'pluginOptions___pixel'
   | 'pluginOptions___pathCheck'
@@ -2813,29 +3050,3 @@ export type PreviewsItemSortInput = {
   fields?: Maybe<Array<Maybe<PreviewsItemFieldsEnum>>>;
   order?: Maybe<Array<Maybe<SortOrderEnum>>>;
 };
-
-export type SEOQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SEOQuery = { site?: Maybe<{ siteMetadata?: Maybe<(
-      Pick<SiteSiteMetadata, 'titleTemplate' | 'twitterUsername'>
-      & { defaultTitle: SiteSiteMetadata['title'], defaultDescription: SiteSiteMetadata['description'], siteUrl: SiteSiteMetadata['url'] }
-    )> }> };
-
-export type SearchIndexQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SearchIndexQuery = { allAceItem: { nodes: Array<(
-      Pick<AceItem, 'id' | 'title' | 'previewsCode' | 'price' | 'publisher' | 'slug'>
-      & { previews?: Maybe<Pick<PreviewsItem, 'id' | 'description' | 'creators' | 'coverThumbnail'>> }
-    )> } };
-
-export type ItemPageQueryVariables = Exact<{
-  previewsCode: Scalars['String'];
-}>;
-
-
-export type ItemPageQuery = { aceItem?: Maybe<(
-    Pick<AceItem, 'previewsCode' | 'price' | 'reducedFrom' | 'title'>
-    & { previews?: Maybe<Pick<PreviewsItem, 'id' | 'description' | 'creators' | 'coverThumbnail'>> }
-  )> };

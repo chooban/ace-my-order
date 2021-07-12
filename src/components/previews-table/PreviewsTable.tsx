@@ -16,12 +16,14 @@ const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
   const { classes, height, searchValue, updateSearch } = props
   const [catalogue, setCatalogue] = useState<AceItem[]>([])
   const [{ order }] = useOrder()
-  const searchCatalogue = useSearch()
+  const searchResults = useSearch(searchValue)
 
   useEffect(() => {
-    const newCatalogue = searchCatalogue(searchValue)
-    setCatalogue(newCatalogue)
-  }, [searchValue, searchCatalogue])
+    const getResults = async () => {
+      setCatalogue(await searchResults)
+    }
+    getResults()
+  }, [searchResults])
 
   const setSelectedItem = (i: AceItem) => {
     navigate('/' + i.slug)

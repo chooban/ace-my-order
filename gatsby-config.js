@@ -21,7 +21,7 @@ module.exports = {
     titleTemplate: 'Ace My Order',
   },
   plugins: [
-    { 
+    {
       resolve: 'gatsby-plugin-graphql-codegen',
       options: {
         fileName: './typings/autogen/index.d.ts',
@@ -100,33 +100,40 @@ module.exports = {
       options: {
         name: 'catalogue',
         engine: 'flexsearch',
-        engineOptions: 'speed',
+        // engineOptions: 'speed',
         query: `
           {
             allAceItem {
               nodes {
-                catalogueId
-                previewsCode
-                publisher
+                id
                 title
+                previewsCode
+                catalogueId
+                price
+                publisher
+                slug
                 previews {
+                  id
                   creators
-                  description
                 }
               }
             }
           }
         `,
         ref: 'catalogueId',
-        index: ['title', 'publisher', 'description', 'creators'],
+        index: ['title', 'publisher', 'creators'],
         normalizer: ({ data }) => {
-          console.log('hello')
           return data.allAceItem.nodes.map((node) => ({
-            catalogueId: node.catalogueId,
             title: node.title,
+            previewsCode: node.previewsCode,
+            catalogueId: node.catalogueId,
+            price: node.price,
             publisher: node.publisher,
-            description: node.previews && node.previews.description,
-            creators: node.previews && node.previews.creators
+            slug: node.slug,
+            creators: node.previews && node.previews.creators,
+            previews: {
+              creators: node.previews && node.previews.creators
+            }
           }))
         },
       }

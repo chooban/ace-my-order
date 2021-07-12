@@ -1,40 +1,34 @@
 import { graphql, useStaticQuery } from 'gatsby'
-import React from 'react'
 
 import { AceItem, SearchIndexQuery } from '../../typings/autogen'
+import { useFetch } from '.'
+// import React from 'react'
+import { useFlexSearch } from './use-flexsearch'
 
-function useSearch(): (searchTerm: string) => AceItem[] {
-  const { allAceItem: { nodes } } = useStaticQuery<SearchIndexQuery>(query)
-  const { localSearchCatalogue } = useStaticQuery(queryAlpha)
+function useSearch(searchTerm: string): Promise<AceItem[]> {
+  const { allAceItem: { nodes: defaultResults }, localSearchCatalogue } = useStaticQuery<SearchIndexQuery>(query)
 
-  const publisherOrTitleMatches = (regex: RegExp) =>
-    (d: any) => regex.test(`${d.title} ${d.publisher} ${d.previews?.creators}`)
+  const { response: searchIndex, isLoading: indexIsLoading } = useFetch<string>(localSearchCatalogue?.publicIndexURL || '', 'text')
+  const { response: searchStore, isLoading: storeIsLoading } = useFetch<Record<string, unknown>>(localSearchCatalogue?.publicStoreURL || '', 'json')
 
-  return React.useCallback((searchTerm: string) => {
-    if (!searchTerm || searchTerm.trim().length < 3) {
-      return nodes as AceItem[]
-    }
-    const terms = searchTerm.split(' ')
-    const regex = terms
-      .map((t) => `(?=.*${t})`)
-      .reduce((a, b) => a + b, '')
+  const results = useFlexSearch(searchTerm, searchIndex as string, searchStore)
 
-    const re = new RegExp(regex, 'i')
+  if (
+    (indexIsLoading || storeIsLoading)
+    || (!searchTerm || searchTerm.trim().length <= 3)
+  ) {
+    return Promise.resolve(defaultResults as AceItem[])
+  }
 
-    return nodes.filter(publisherOrTitleMatches(re)) as AceItem[]
-  }, [nodes])
+  return results
 }
 
-const queryAlpha = graphql`
-  query SearchCatalogue {
+const query = graphql`
+  query SearchIndex {
     localSearchCatalogue {
       publicIndexURL
       publicStoreURL
     }
-  }
-`
-const query = graphql`
-  query SearchIndex {
     allAceItem {
       nodes {
         id
@@ -45,9 +39,7 @@ const query = graphql`
         slug
         previews {
           id
-          description
           creators
-          coverThumbnail
         }
       }
     }

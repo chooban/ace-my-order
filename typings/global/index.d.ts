@@ -240,3 +240,5 @@ interface ResizeObserverEntryBoxSize {
 interface Window {
   ResizeObserver: typeof ResizeObserver;
 }
+
+declare module 'react-use-flexsearch';
