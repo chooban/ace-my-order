@@ -16,7 +16,7 @@ const PreviewsTable: React.FunctionComponent<PreviewsTableProps> = (props) => {
   const { classes, height, searchValue, updateSearch } = props
   const [catalogue, setCatalogue] = useState<AceItem[]>([])
   const [{ order }] = useOrder()
-  const searchResults = useSearch(searchValue)
+  const [searchResults] = useSearch(searchValue)
 
   useEffect(() => {
     const getResults = async () => {

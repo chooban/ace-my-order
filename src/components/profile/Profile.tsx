@@ -61,7 +61,7 @@ type ProfileProps = WithStyles<typeof styles> & RouteComponentProps
 const Profile: React.FC<ProfileProps> = ({ classes }) => {
   const { user, saveMetadata } = useAuth0()
   const [searchResults, setSearchResults] = useState<Record<string, AceItem[]>>({})
-  const searchCatalogue = useSearch()
+  const [, searchCatalogue] = useSearch('')
   const [newSearch, setNewSearch] = useState('')
   const [canSaveNewSearch, setCanSaveNewSearch] = useState(false)
   const newSearchRef = useRef<HTMLInputElement>()
@@ -73,13 +73,15 @@ const Profile: React.FC<ProfileProps> = ({ classes }) => {
   }, [user])
 
   useEffect(() => {
-    const newSearchResults = savedSearches.reduce((acc, search) => {
-      const results = searchCatalogue(search)
-
-      acc[search] = results
-      return acc
-    }, {} as Record<string, AceItem[]>)
-    setSearchResults(newSearchResults)
+    async function fetchResults() {
+      const newSearchResults: Record<string, AceItem[]> = {}
+      for (let i = 0; i < savedSearches.length; i++) {
+        const results = await searchCatalogue(savedSearches[i])
+        newSearchResults[savedSearches[i]] = results
+      }
+      setSearchResults(newSearchResults)
+    }
+    fetchResults()
   }, [savedSearches, searchCatalogue])
 
   useEffect(() => {

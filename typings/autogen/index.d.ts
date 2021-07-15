@@ -3050,3 +3050,29 @@ export type PreviewsItemSortInput = {
   fields?: Maybe<Array<Maybe<PreviewsItemFieldsEnum>>>;
   order?: Maybe<Array<Maybe<SortOrderEnum>>>;
 };
+
+export type SEOQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SEOQuery = { site?: Maybe<{ siteMetadata?: Maybe<(
+      Pick<SiteSiteMetadata, 'titleTemplate' | 'twitterUsername'>
+      & { defaultTitle: SiteSiteMetadata['title'], defaultDescription: SiteSiteMetadata['description'], siteUrl: SiteSiteMetadata['url'] }
+    )> }> };
+
+export type SearchIndexQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SearchIndexQuery = { localSearchCatalogue?: Maybe<Pick<LocalSearchCatalogue, 'publicIndexURL' | 'publicStoreURL'>>, allAceItem: { nodes: Array<(
+      Pick<AceItem, 'id' | 'title' | 'previewsCode' | 'price' | 'publisher' | 'slug'>
+      & { previews?: Maybe<Pick<PreviewsItem, 'id' | 'creators'>> }
+    )> } };
+
+export type ItemPageQueryVariables = Exact<{
+  previewsCode: Scalars['String'];
+}>;
+
+
+export type ItemPageQuery = { aceItem?: Maybe<(
+    Pick<AceItem, 'previewsCode' | 'price' | 'reducedFrom' | 'title'>
+    & { previews?: Maybe<Pick<PreviewsItem, 'id' | 'description' | 'creators' | 'coverThumbnail'>> }
+  )> };

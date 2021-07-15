@@ -1,7 +1,7 @@
 import FlexSearch, { Index, SearchOptions } from 'flexsearch'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
-export const useFlexSearch = (query: string, providedIndex: string, store: any, searchOptions?: SearchOptions) => {
+export function useFlexSearch<T>(query: string, providedIndex: string, store: any, searchOptions?: SearchOptions): [Promise<Array<T>>, (i: string) => Promise<Array<T>>] {
   const [index, setIndex] = useState<Index<any>|null>(null)
 
   useEffect(() => {
@@ -16,11 +16,20 @@ export const useFlexSearch = (query: string, providedIndex: string, store: any, 
     setIndex(importedIndex)
   }, [providedIndex])
 
-  return useMemo(async () => {
+  const results = useMemo(async () => {
     if (!query || !index || !store) return []
 
     const rawResults = await index.search(query, searchOptions)
 
     return rawResults.map(id => store[id])
   }, [query, index, store, searchOptions])
+
+  const search = useCallback(async (myQuery: string) => {
+    if (!myQuery || !index || !store) return Promise.resolve([])
+
+    const rawResults = await index.search(myQuery, searchOptions)
+    return rawResults.map(id => store[id])
+  }, [index, store, searchOptions])
+
+  return [results, search]
 }

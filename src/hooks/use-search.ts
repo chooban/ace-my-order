@@ -5,22 +5,24 @@ import { useFetch } from '.'
 // import React from 'react'
 import { useFlexSearch } from './use-flexsearch'
 
-function useSearch(searchTerm: string): Promise<AceItem[]> {
+function useSearch(searchTerm: string): [Promise<AceItem[]>, (i: string) => Promise<AceItem[]>] {
   const { allAceItem: { nodes: defaultResults }, localSearchCatalogue } = useStaticQuery<SearchIndexQuery>(query)
 
   const { response: searchIndex, isLoading: indexIsLoading } = useFetch<string>(localSearchCatalogue?.publicIndexURL || '', 'text')
   const { response: searchStore, isLoading: storeIsLoading } = useFetch<Record<string, unknown>>(localSearchCatalogue?.publicStoreURL || '', 'json')
 
-  const results = useFlexSearch(searchTerm, searchIndex as string, searchStore)
+  const [results, search] = useFlexSearch<AceItem>(searchTerm, searchIndex as string, searchStore)
 
   if (
     (indexIsLoading || storeIsLoading)
     || (!searchTerm || searchTerm.trim().length <= 3)
   ) {
-    return Promise.resolve(defaultResults as AceItem[])
+
+    const r = Promise.resolve(defaultResults as AceItem[])
+    return [r, search]
   }
 
-  return results
+  return [results, search]
 }
 
 const query = graphql`
