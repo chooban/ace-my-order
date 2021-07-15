@@ -115,6 +115,7 @@ module.exports = {
                 previews {
                   id
                   creators
+                  coverThumbnail
                 }
               }
             }
@@ -132,7 +133,8 @@ module.exports = {
             slug: node.slug,
             creators: node.previews && node.previews.creators,
             previews: {
-              creators: node.previews && node.previews.creators
+              creators: node.previews && node.previews.creators,
+              coverThumbnail: node.previews && node.previews.coverThumbnail
             }
           }))
         },
