@@ -1,3 +1,5 @@
+import AWS from 'aws-sdk'
+import { createRemoteFileNode } from 'gatsby-source-filesystem'
 import path from 'path'
 
 import { previewsCodeToCatalogueId } from './lib'
@@ -24,8 +26,45 @@ exports.createResolvers = ({ createResolvers }) => {
   createResolvers({ AceItem })
 }
 
-exports.onCreateNode = ({ node }) => {
-  if (node.internal.type === 'AceItem') {
+exports.onCreateNode = async ({ node,
+  actions: { createNode },
+  store,
+  cache,
+  reporter,
+  createNodeId,
+}) => {
+  if (node.internal.type === 'S3Object') {
+    AWS.config.update({
+      accessKeyId: process.env.MY_AWS_ACCESS_KEY,
+      secretAccessKey: process.env.MY_AWS_SECRET_KEY,
+      region: process.env.MY_AWS_REGION,
+    })
+    const s3 = new AWS.S3()
+
+    const { TagSet } = await s3.getObjectTagging({
+      Key: node.Key,
+      Bucket: node.Bucket
+    }).promise()
+
+    if (TagSet && TagSet.length && TagSet.find(t => t.Key === 'catalogue' && t.Value === 'current')) {
+      console.log('Downloading CSV from S3')
+      const csvFile = await createRemoteFileNode({
+        url: node.url,
+        parentNodeId: node.id,
+        store,
+        cache,
+        reporter,
+        createNode,
+        createNodeId,
+      })
+
+      if (csvFile) {
+        // Add local file to s3 object node
+        node.data___NODE = csvFile.id // eslint-disable-line @typescript-eslint/naming-convention
+      }
+    }
+  }
+  else if (node.internal.type === 'AceItem') {
     node.slug = `item/${node.previewsCode.replace('/', '-')}`
     // eslint-disable-next-line
     node.catalogueId = previewsCodeToCatalogueId(node.previewsCode)

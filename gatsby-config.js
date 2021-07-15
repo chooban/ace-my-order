@@ -1,16 +1,4 @@
-
 require('dotenv').config()
-const lineReader = require('n-readlines')
-const { previewsCodeToCatalogueId } = require('./lib')
-const lines = new lineReader('./data/catalogue.csv')
-
-let catalogueId
-do {
-  catalogueId
-    = previewsCodeToCatalogueId(
-      lines.next().toString().split(',')[0].replace(/"/g, '')
-    ).slice(0, 5)
-} while (false) // eslint-disable-line
 
 module.exports = {
   siteMetadata: {
@@ -43,7 +31,6 @@ module.exports = {
     {
       resolve: 'gatsby-source-previews',
       options: {
-        catalogueId,
         savepath: `${__dirname}/data/previews/`,
       },
     },
@@ -68,10 +55,21 @@ module.exports = {
       },
     },
     {
+      resolve: '@robinmetral/gatsby-source-s3',
+      options: {
+        aws: {
+          accessKeyId: process.env.MY_AWS_ACCESS_KEY,
+          secretAccessKey: process.env.MY_AWS_SECRET_KEY,
+          region: process.env.MY_AWS_REGION,
+        },
+        buckets: ['ace-my-order'],
+      },
+    },
+    {
       resolve: 'gatsby-transformer-csv',
       options: {
         typeName: () => 'AceItem',
-        noheader: true,
+        // noheader: true,
         headers: [
           'previewsCode',
           'title',

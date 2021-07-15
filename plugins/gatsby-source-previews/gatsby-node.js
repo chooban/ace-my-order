@@ -52,12 +52,12 @@ function parsePreviewsData(id, itemText) {
   }
 }
 
-exports.sourceNodes = async ({ actions, createContentDigest }, { savepath, catalogueId }) => {
+exports.sourceNodes = async ({ actions, createContentDigest }, { savepath }) => {
   ensureDirectoryExists(savepath)
 
   const { createNode } = actions
 
-  const sourceUrl = `https://www.previewsworld.com/Catalog?mode=OrderForm&batch=${catalogueId}`
+  const sourceUrl = 'https://www.previewsworld.com/Catalog?mode=OrderForm'
 
   console.log('Downloading', sourceUrl)
   const catalogueIds = await fetch(sourceUrl, { method: 'GET', redirect: 'follow' })
@@ -92,7 +92,6 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { savepath, catal
     console.log(pool.stats())
   }, 5000)
 
-  let i = 0
   return Promise.all(catalogueFetches)
     .then(datum => {
       datum.forEach(data => {
