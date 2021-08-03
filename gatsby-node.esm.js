@@ -34,6 +34,7 @@ exports.onCreateNode = async ({ node,
   createNodeId,
 }) => {
   if (node.internal.type === 'S3Object') {
+    console.log('Got an S3Object')
     AWS.config.update({
       accessKeyId: process.env.MY_AWS_ACCESS_KEY,
       secretAccessKey: process.env.MY_AWS_SECRET_KEY,
@@ -46,6 +47,7 @@ exports.onCreateNode = async ({ node,
       Bucket: node.Bucket
     }).promise()
 
+    console.log(`Checking ${JSON.stringify(TagSet)} of ${node.Key}`)
     if (TagSet && TagSet.length && TagSet.find(t => t.Key === 'catalogue' && t.Value === 'current')) {
       console.log('Downloading CSV from S3')
       const csvFile = await createRemoteFileNode({

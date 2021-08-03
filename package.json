@@ -49,7 +49,7 @@
     "workerpool": "^6.1.5"
   },
   "scripts": {
-    "build": "gatsby build --log-pages",
+    "build": "gatsby build",
     "codegen": "graphql-codegen",
     "dev": "gatsby develop --port 8001",
     "lint": "eslint --fix --ext .js,.ts,.tsx ./src/ gatsby*",
