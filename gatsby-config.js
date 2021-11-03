@@ -69,7 +69,7 @@ module.exports = {
       resolve: 'gatsby-transformer-csv',
       options: {
         typeName: () => 'AceItem',
-        // noheader: true,
+        noheader: true,
         headers: [
           'previewsCode',
           'title',
@@ -122,19 +122,20 @@ module.exports = {
         ref: 'catalogueId',
         index: ['title', 'publisher', 'creators'],
         normalizer: ({ data }) => {
-          return data.allAceItem.nodes.map((node) => ({
-            title: node.title,
-            previewsCode: node.previewsCode,
-            catalogueId: node.catalogueId,
-            price: node.price,
-            publisher: node.publisher,
-            slug: node.slug,
-            creators: node.previews && node.previews.creators,
-            previews: {
+          return data.allAceItem.nodes.map((node) => {
+            return {
+              title: node.title,
+              previewsCode: node.previewsCode,
+              catalogueId: node.catalogueId,
+              price: node.price.trim ? node.price.trim() : node.price,
+              publisher: node.publisher,
+              slug: node.slug,
               creators: node.previews && node.previews.creators,
-              coverThumbnail: node.previews && node.previews.coverThumbnail
-            }
-          }))
+              previews: {
+                creators: node.previews && node.previews.creators,
+                coverThumbnail: node.previews && node.previews.coverThumbnail
+              }
+            } })
         },
       }
     },
