@@ -127,7 +127,7 @@ module.exports = {
               title: node.title,
               previewsCode: node.previewsCode,
               catalogueId: node.catalogueId,
-              price: node.price.trim ? node.price.trim() : node.price,
+              price: node.price.trim ? node.price.trim() : isNaN(node.price) ? 0 : node.price,
               publisher: node.publisher,
               slug: node.slug,
               creators: node.previews && node.previews.creators,

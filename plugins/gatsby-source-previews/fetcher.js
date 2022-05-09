@@ -51,7 +51,6 @@ async function fetchPreviews(id, fileName) {
     console.log('No redis client')
   }
 
-  // console.log(`Fetching ${URL_PREFIX}/Catalog/${id} for ${id}`)
   const contents = await fetch(`${URL_PREFIX}/Catalog/${id}`, { method: 'GET', redirect: 'follow' })
     .then(r => r.text())
     .then(fileContents => {

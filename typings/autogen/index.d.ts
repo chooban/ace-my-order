@@ -3778,4 +3778,4 @@ export type ItemPageQueryVariables = Exact<{
 }>;
 
 
-export type ItemPageQuery = { aceItem?: { previewsCode: string, price?: number | undefined, reducedFrom?: number | undefined, title: string, previews?: { id: string, description?: string | undefined, creators?: string | undefined, coverThumbnail?: string | undefined } | undefined } | undefined };
+export type ItemPageQuery = { aceItem?: { previewsCode: string, price?: number | undefined, title: string, previews?: { id: string, description?: string | undefined, creators?: string | undefined, coverThumbnail?: string | undefined } | undefined } | undefined };
