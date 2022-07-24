@@ -1,5 +1,7 @@
 require('dotenv').config()
 
+const titleFormat = require('./src/resolvers/title-format')
+
 module.exports = {
   siteMetadata: {
     title: 'My Ace Order',
@@ -32,6 +34,7 @@ module.exports = {
       resolve: 'gatsby-source-previews',
       options: {
         savepath: `${__dirname}/data/previews/`,
+        batch: 'JUL22'
       },
     },
     {
@@ -114,6 +117,9 @@ module.exports = {
                   id
                   creators
                   coverThumbnail
+                  isMature
+                  isOfferedAgain
+                  title
                 }
               }
             }
@@ -133,9 +139,13 @@ module.exports = {
               creators: node.previews && node.previews.creators,
               previews: {
                 creators: node.previews && node.previews.creators,
-                coverThumbnail: node.previews && node.previews.coverThumbnail
+                coverThumbnail: node.previews && node.previews.coverThumbnail,
+                isMature: node.previews && node.previews.isMature,
+                isOfferedAgain: node.previews && node.previews.isOfferedAgain,
+                title: node.previews && titleFormat(node.previews.title)
               }
-            } })
+            }
+          })
         },
       }
     },

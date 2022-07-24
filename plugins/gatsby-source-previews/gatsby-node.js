@@ -6,6 +6,7 @@ const cheerio = require('cheerio')
 const fs = require('fs')
 const path = require('path')
 const workerPool = require('workerpool')
+const titleFormat = require('./title-format')
 /* eslint-enable */
 
 function ensureDirectoryExists(dirname) {
@@ -30,7 +31,7 @@ function parsePreviewsData(id, itemText) {
     const lastParamIndex = coverImage.lastIndexOf('?')
     const coverImageURL = coverImage.substr(0, lastParamIndex < 0 ? coverImage.length : lastParamIndex)
     const pageTitle = $('h1.Title').text()
-    const strippedTitle = pageTitle.replace('(MR)', '').replace(/\([A-Z]{3}\d{6}\)/, '').trim()
+    const strippedTitle = titleFormat(pageTitle.replace('(MR)', '').replace(/\([A-Z]{3}\d{6}\)/, '').trim())
     const node = $('.CatalogFullDetail .Text')
     const children = node.contents().filter((_i, el) => (
       el.type === 'text' || (el.type === 'tag' && el.tagName === 'br')

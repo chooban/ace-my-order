@@ -3793,7 +3793,7 @@ export type SEOQuery = { site?: { siteMetadata?: { titleTemplate?: string | unde
 export type SearchIndexQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SearchIndexQuery = { localSearchCatalogue?: { publicIndexURL: string, publicStoreURL: string } | undefined, allAceItem: { nodes: Array<{ id: string, title: string, previewsCode: string, price?: number | undefined, publisher?: string | undefined, slug: string, previews?: { id: string, creators?: string | undefined } | undefined }> } };
+export type SearchIndexQuery = { localSearchCatalogue?: { publicIndexURL: string, publicStoreURL: string } | undefined, allAceItem: { nodes: Array<{ id: string, title: string, previewsCode: string, price?: number | undefined, publisher?: string | undefined, slug: string, previews?: { id: string, title?: string | undefined, creators?: string | undefined, isMature?: boolean | undefined, isOfferedAgain?: boolean | undefined } | undefined }> } };
 
 export type ItemPageQueryVariables = Exact<{
   previewsCode: Scalars['String'];

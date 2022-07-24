@@ -7,6 +7,7 @@ import he from 'he'
 import React from 'react'
 
 import { AceItem } from '../../typings/autogen'
+import { PreviewPanelFlags } from '../components/previews-table/PreviewPanel'
 import { useOrder } from '../contexts/order-context'
 import { useClipboard } from '../hooks'
 import { formatAsGBP } from '../lib/format-as-gbp'
@@ -28,8 +29,9 @@ const DetailedRow = ({ item: a, searchTerm, classes }: WithStyles<typeof styles>
       </div>
       <div className='details'>
         <div className='title'>
-          <Link to={`/item/${a.previewsCode.replace('/', '-')}${searchTerm ? `?search=${searchTerm}` : ''}`}><b>{a.title}</b></Link>
+          <Link to={`/item/${a.previewsCode.replace('/', '-')}${searchTerm ? `?search=${searchTerm}` : ''}`}><b>{a.previews?.title}</b></Link>
           <Hidden xsDown>
+            {' '}<PreviewPanelFlags item={a.previews} />
             <AssignmentIcon fontSize={'small'} data-id={a.previewsCode} onClick={copyToClipboard} />
             <span className={`fadeout ${classes.fadeout}`}>Copied to clipboard</span>
           </Hidden>
@@ -37,7 +39,7 @@ const DetailedRow = ({ item: a, searchTerm, classes }: WithStyles<typeof styles>
         {
           a.previews?.description
             ? <p className='description'>{he.decode(a.previews.description.replace(/<[^>]+>/g, '')).substring(0, 200)}&hellip;</p>
-            : <p className='description'>{a.title}</p>
+            : <p className='description'>{a.previews?.title}</p>
         }
         <div className='footer'>
           {inCart ?
@@ -84,7 +86,7 @@ const styles = () => {
         display: 'flex',
         flexDirection: 'column',
         flexGrow: 1,
-        '&>.title':{
+        '&>.title': {
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
@@ -98,7 +100,7 @@ const styles = () => {
           justifySelf: 'flex-end'
         },
       },
-      '&>.price':{
+      '&>.price': {
         textAlign: 'center',
         minWidth: '55px'
       },

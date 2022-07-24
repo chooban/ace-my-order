@@ -205,3 +205,5 @@ const PreviewPanelWrapper: React.FC<WrapperProps> = (props) => {
 }
 
 export default React.memo(withStyles(styles, { withTheme: true })(PreviewPanelWrapper))
+
+export { PreviewPanelFlags }

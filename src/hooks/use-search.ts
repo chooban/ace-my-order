@@ -41,7 +41,10 @@ const query = graphql`
         slug
         previews {
           id
+          title
           creators
+          isMature
+          isOfferedAgain
         }
       }
     }
