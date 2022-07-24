@@ -17,9 +17,12 @@ export const query = graphql`
       title
       previews {
         id
+        title
         description
         creators
         coverThumbnail
+        isMature
+        isOfferedAgain
       }
     }
   }

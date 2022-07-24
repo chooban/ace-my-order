@@ -333,6 +333,7 @@ export type SitePluginPluginOptions = {
   codegenConfig?: Maybe<SitePluginPluginOptionsCodegenConfig>;
   component?: Maybe<Scalars['String']>;
   savepath?: Maybe<Scalars['String']>;
+  batch?: Maybe<Scalars['String']>;
   stages?: Maybe<Array<Maybe<Scalars['String']>>>;
   options?: Maybe<SitePluginPluginOptionsOptions>;
   name?: Maybe<Scalars['String']>;
@@ -485,6 +486,8 @@ export type PreviewsItem = Node & {
   coverThumbnail?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
+  isMature?: Maybe<Scalars['Boolean']>;
+  isOfferedAgain?: Maybe<Scalars['Boolean']>;
   creators?: Maybe<Scalars['String']>;
 };
 
@@ -807,6 +810,8 @@ export type QuerypreviewsItemArgs = {
   coverThumbnail?: InputMaybe<StringQueryOperatorInput>;
   title?: InputMaybe<StringQueryOperatorInput>;
   description?: InputMaybe<StringQueryOperatorInput>;
+  isMature?: InputMaybe<BooleanQueryOperatorInput>;
+  isOfferedAgain?: InputMaybe<BooleanQueryOperatorInput>;
   creators?: InputMaybe<StringQueryOperatorInput>;
 };
 
@@ -887,6 +892,8 @@ export type PreviewsItemFilterInput = {
   coverThumbnail?: InputMaybe<StringQueryOperatorInput>;
   title?: InputMaybe<StringQueryOperatorInput>;
   description?: InputMaybe<StringQueryOperatorInput>;
+  isMature?: InputMaybe<BooleanQueryOperatorInput>;
+  isOfferedAgain?: InputMaybe<BooleanQueryOperatorInput>;
   creators?: InputMaybe<StringQueryOperatorInput>;
 };
 
@@ -1035,6 +1042,8 @@ export type FileFieldsEnum =
   | 'childrenAceItem___previews___coverThumbnail'
   | 'childrenAceItem___previews___title'
   | 'childrenAceItem___previews___description'
+  | 'childrenAceItem___previews___isMature'
+  | 'childrenAceItem___previews___isOfferedAgain'
   | 'childrenAceItem___previews___creators'
   | 'childrenAceItem___id'
   | 'childrenAceItem___parent___id'
@@ -1098,6 +1107,8 @@ export type FileFieldsEnum =
   | 'childAceItem___previews___coverThumbnail'
   | 'childAceItem___previews___title'
   | 'childAceItem___previews___description'
+  | 'childAceItem___previews___isMature'
+  | 'childAceItem___previews___isOfferedAgain'
   | 'childAceItem___previews___creators'
   | 'childAceItem___id'
   | 'childAceItem___parent___id'
@@ -2012,6 +2023,7 @@ export type SitePluginPluginOptionsFilterInput = {
   codegenConfig?: InputMaybe<SitePluginPluginOptionsCodegenConfigFilterInput>;
   component?: InputMaybe<StringQueryOperatorInput>;
   savepath?: InputMaybe<StringQueryOperatorInput>;
+  batch?: InputMaybe<StringQueryOperatorInput>;
   stages?: InputMaybe<StringQueryOperatorInput>;
   options?: InputMaybe<SitePluginPluginOptionsOptionsFilterInput>;
   name?: InputMaybe<StringQueryOperatorInput>;
@@ -2247,6 +2259,7 @@ export type SitePageFieldsEnum =
   | 'pluginCreator___pluginOptions___codegenConfig___maybeValue'
   | 'pluginCreator___pluginOptions___component'
   | 'pluginCreator___pluginOptions___savepath'
+  | 'pluginCreator___pluginOptions___batch'
   | 'pluginCreator___pluginOptions___stages'
   | 'pluginCreator___pluginOptions___options___emitWarning'
   | 'pluginCreator___pluginOptions___options___failOnError'
@@ -2451,6 +2464,7 @@ export type SitePluginFieldsEnum =
   | 'pluginOptions___codegenConfig___maybeValue'
   | 'pluginOptions___component'
   | 'pluginOptions___savepath'
+  | 'pluginOptions___batch'
   | 'pluginOptions___stages'
   | 'pluginOptions___options___emitWarning'
   | 'pluginOptions___options___failOnError'
@@ -3117,6 +3131,8 @@ export type AceItemFieldsEnum =
   | 'previews___coverThumbnail'
   | 'previews___title'
   | 'previews___description'
+  | 'previews___isMature'
+  | 'previews___isOfferedAgain'
   | 'previews___creators'
   | 'id'
   | 'parent___id'
@@ -3438,6 +3454,8 @@ export type S3ObjectFieldsEnum =
   | 'data___childrenAceItem___previews___coverThumbnail'
   | 'data___childrenAceItem___previews___title'
   | 'data___childrenAceItem___previews___description'
+  | 'data___childrenAceItem___previews___isMature'
+  | 'data___childrenAceItem___previews___isOfferedAgain'
   | 'data___childrenAceItem___previews___creators'
   | 'data___childrenAceItem___id'
   | 'data___childrenAceItem___parent___id'
@@ -3465,6 +3483,8 @@ export type S3ObjectFieldsEnum =
   | 'data___childAceItem___previews___coverThumbnail'
   | 'data___childAceItem___previews___title'
   | 'data___childAceItem___previews___description'
+  | 'data___childAceItem___previews___isMature'
+  | 'data___childAceItem___previews___isOfferedAgain'
   | 'data___childAceItem___previews___creators'
   | 'data___childAceItem___id'
   | 'data___childAceItem___parent___id'
@@ -3715,6 +3735,8 @@ export type PreviewsItemFieldsEnum =
   | 'coverThumbnail'
   | 'title'
   | 'description'
+  | 'isMature'
+  | 'isOfferedAgain'
   | 'creators';
 
 export type PreviewsItemGroupConnection = {
@@ -3778,4 +3800,4 @@ export type ItemPageQueryVariables = Exact<{
 }>;
 
 
-export type ItemPageQuery = { aceItem?: { previewsCode: string, price?: number | undefined, title: string, previews?: { id: string, description?: string | undefined, creators?: string | undefined, coverThumbnail?: string | undefined } | undefined } | undefined };
+export type ItemPageQuery = { aceItem?: { previewsCode: string, price?: number | undefined, title: string, previews?: { id: string, title?: string | undefined, description?: string | undefined, creators?: string | undefined, coverThumbnail?: string | undefined, isMature?: boolean | undefined, isOfferedAgain?: boolean | undefined } | undefined } | undefined };

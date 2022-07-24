@@ -29,7 +29,8 @@ function parsePreviewsData(id, itemText) {
     const coverImage = urlPrefix + $('img#MainContentImage').attr('src')
     const lastParamIndex = coverImage.lastIndexOf('?')
     const coverImageURL = coverImage.substr(0, lastParamIndex < 0 ? coverImage.length : lastParamIndex)
-    const pageTitle = $('div.Title').text()
+    const pageTitle = $('h1.Title').text()
+    const strippedTitle = pageTitle.replace('(MR)', '').replace(/\([A-Z]{3}\d{6}\)/, '').trim()
     const node = $('.CatalogFullDetail .Text')
     const children = node.contents().filter((_i, el) => (
       el.type === 'text' || (el.type === 'tag' && el.tagName === 'br')
@@ -43,8 +44,10 @@ function parsePreviewsData(id, itemText) {
     return {
       id,
       coverThumbnail: coverImageURL.replace('MainImage', 'CatalogThumbnail').replace(/\.[^/.]+$/, ''),
-      title: pageTitle,
+      title: strippedTitle,
       description,
+      isMature: pageTitle.includes('(MR)'),
+      isOfferedAgain: /\([A-Z]{3}\d{6}\)/.test(pageTitle),
       creators
     }
   } catch (e) {
@@ -52,12 +55,12 @@ function parsePreviewsData(id, itemText) {
   }
 }
 
-exports.sourceNodes = async ({ actions, createContentDigest }, { savepath }) => {
+exports.sourceNodes = async ({ actions, createContentDigest }, { batch, savepath }) => {
   ensureDirectoryExists(savepath)
 
   const { createNode } = actions
 
-  const sourceUrl = 'https://www.previewsworld.com/Catalog?mode=OrderForm'
+  const sourceUrl = `https://www.previewsworld.com/Catalog?mode=OrderForm&batch=${batch}`
 
   console.log('Downloading', sourceUrl)
   const catalogueIds = await fetch(sourceUrl, { method: 'GET', redirect: 'follow' })

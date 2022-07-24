@@ -49,7 +49,7 @@ exports.onCreateNode = async ({ node,
 
     console.log(`Checking ${JSON.stringify(TagSet)} of ${node.Key}`)
     if (TagSet && TagSet.length && TagSet.find(t => t.Key === 'catalogue' && t.Value === 'current')) {
-      console.log('Downloading CSV from S3')
+      console.log('Downloading CSV from S3: ' + node.Key)
       const csvFile = await createRemoteFileNode({
         url: node.url,
         parentNodeId: node.id,

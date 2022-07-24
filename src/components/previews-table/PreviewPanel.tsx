@@ -7,7 +7,7 @@ import { navigate } from 'gatsby'
 import parse from 'html-react-parser'
 import React from 'react'
 
-import { AceItem } from '../../../typings/autogen'
+import { AceItem, Maybe, PreviewsItem } from '../../../typings/autogen'
 import { useOrder } from '../../contexts/order-context'
 import { useClipboard } from '../../hooks'
 
@@ -101,6 +101,31 @@ interface PreviewPanelProps extends WithStyles<typeof styles> {
   unselectItem?: () => void
 }
 
+function PreviewPanelFlags({ item }: { item: Maybe<PreviewsItem> }) {
+  if (!item || (!item.isMature && !item.isOfferedAgain)) {
+    return null
+  }
+  const flags = []
+
+  if (item.isMature) {
+    flags.push(<abbr title="Mature Readers">MR</abbr>)
+  }
+  if (item.isOfferedAgain) {
+    flags.push(<abbr title="Offered Again">OA</abbr>)
+  }
+
+  return (
+    <>[
+      {flags.map((item, idx) => (
+        <React.Fragment key={idx}>
+          {idx > 0 && ', '}
+          {item}
+        </React.Fragment>
+      ))}
+      ]</>
+  )
+}
+
 function PreviewPanel({ classes, item }: PreviewPanelProps) {
   const [{ order }, { addToOrder, removeFromOrder }] = useOrder()
   const copyToClipboard = useClipboard('id')
@@ -111,10 +136,11 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
     <div className={classes.panelRoot}>
       <div className={classes.titleWrapper}>
         <IconButton className={classes.dismiss} onClick={() => navigate('/')}>
-          <ArrowBack color='action'/>
+          <ArrowBack color='action' />
         </IconButton>
         <span>
-          {item.title}
+          {item.previews?.title || item.title}{' '}
+          <PreviewPanelFlags item={item.previews} />
         </span>
         {item.previews?.id &&
           <a
