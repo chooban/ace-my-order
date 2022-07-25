@@ -10,6 +10,7 @@ import React from 'react'
 import { AceItem, Maybe, PreviewsItem } from '../../../typings/autogen'
 import { useOrder } from '../../contexts/order-context'
 import { useClipboard } from '../../hooks'
+import { UpdateSearchContext } from '../layout/PageWithTable'
 
 const styles = (theme: any) => {
   return createStyles({
@@ -131,6 +132,8 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
   const copyToClipboard = useClipboard('id')
 
   const inCart = order.some(i => i.previewsCode === item.previewsCode)
+  const creators = item.previews?.creators ?? ''
+  const splitCreators = creators.split(/(,|\([\w/]*\))/).filter(Boolean).map(s => s.trim())
 
   return (
     <div className={classes.panelRoot}>
@@ -183,9 +186,18 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
           </div>
           <div>
             {parse(item.previews?.description ?? item.title)}
-            {item.previews?.creators &&
-              <p>{parse(item.previews?.creators)}</p>
-            }
+            <p>
+              <UpdateSearchContext.Consumer>
+                {(updateSearch: any) => (
+                  splitCreators.map(c => {
+                    if (/^[ \w]+$/.test(c)) {
+                      return <><a key={c} href="" onClick={(e) => { e.preventDefault(); e.stopPropagation(); updateSearch(c) }}>{c}</a>{' '}</>
+                    }
+                    return <>{c}{' '}</>
+                  })
+                )}
+              </UpdateSearchContext.Consumer>
+            </p>
           </div>
         </div>
       </>

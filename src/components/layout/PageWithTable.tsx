@@ -44,11 +44,19 @@ const styles = (theme: any) => {
 }
 
 const contentRef = createRef<HTMLDivElement>()
+
+const defaultSearch = (s: string) => {
+  console.log(s)
+  return
+}
+
+export const UpdateSearchContext = React.createContext(defaultSearch)
+
 function PageWithTable({ classes, children, search = '', location }: any) {
   const [searchValue, setSearchValue] = useState(search)
   const contentRect = useClientRect(contentRef)
-
   const updateSearch = React.useCallback((s: string) => setSearchValue(s), [setSearchValue])
+
   useEffect(() => {
     if (searchValue.length) {
       navigate(`${location}?search=${encodeURIComponent(searchValue)}`, { replace: true })
@@ -72,9 +80,11 @@ function PageWithTable({ classes, children, search = '', location }: any) {
                 updateSearch={updateSearch}
                 height={Math.round(contentRect.height)}
               />
-              {children}
+              <UpdateSearchContext.Provider value={updateSearch}>
+                {children}
+              </UpdateSearchContext.Provider>
             </Paper>
-            <Footer/>
+            <Footer />
           </div>
         </OrderProvider>
       </MuiThemeProvider>
