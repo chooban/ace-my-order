@@ -89,7 +89,9 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { batch, savepath
     })
 
   console.log('Downloaded previews catalogue. Spinning up worker pool')
-  const pool = workerPool.pool(__dirname + '/fetcher.js')
+  const pool = workerPool.pool(__dirname + '/fetcher.js', {
+    maxWorkers: 3
+  })
   console.log(pool.stats())
 
   const catalogueFetches = catalogueIds.map(id => {
