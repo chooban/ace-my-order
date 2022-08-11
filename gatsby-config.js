@@ -33,8 +33,7 @@ module.exports = {
     {
       resolve: 'gatsby-source-previews',
       options: {
-        savepath: `${__dirname}/data/previews/`,
-        batch: 'JUL22'
+        savepath: `${__dirname}/data/previews/`
       },
     },
     {

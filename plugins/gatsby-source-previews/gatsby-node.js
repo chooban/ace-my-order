@@ -61,7 +61,11 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { batch, savepath
 
   const { createNode } = actions
 
-  const sourceUrl = `https://www.previewsworld.com/Catalog?mode=OrderForm&batch=${batch}`
+  let sourceUrl = 'https://www.previewsworld.com/Catalog?mode=OrderForm'
+
+  if (batch !== undefined) {
+    sourceUrl += `&batch=${batch}`
+  }
 
   console.log('Downloading', sourceUrl)
   const catalogueIds = await fetch(sourceUrl, { method: 'GET', redirect: 'follow' })
