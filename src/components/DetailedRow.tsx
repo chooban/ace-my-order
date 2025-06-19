@@ -29,7 +29,7 @@ const DetailedRow = ({ item: a, searchTerm, classes }: WithStyles<typeof styles>
       </div>
       <div className='details'>
         <div className='title'>
-          <Link to={`/item/${a.previewsCode.replace('/', '-')}${searchTerm ? `?search=${searchTerm}` : ''}`}><b>{a.previews?.title}</b></Link>
+          <Link to={`/item/${a.previewsCode.replace('/', '-')}${searchTerm ? `?search=${searchTerm}` : ''}`}><b>{a.previews?.title ?? a.title}</b></Link>
           <Hidden xsDown>
             {' '}<PreviewPanelFlags item={a.previews} />
             <AssignmentIcon fontSize={'small'} data-id={a.previewsCode} onClick={copyToClipboard} />
