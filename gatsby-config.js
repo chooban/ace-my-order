@@ -132,17 +132,17 @@ module.exports = {
               title: node.title,
               previewsCode: node.previewsCode,
               catalogueId: node.catalogueId,
-              price: node.price.trim ? node.price.trim() : isNaN(node.price) ? 0 : node.price,
+              // price: node.price.trim ? node.price.trim() : isNaN(node.price) ? 0 : node.price,
               publisher: node.publisher,
               slug: node.slug,
               creators: node.previews && node.previews.creators,
-              previews: {
-                creators: node.previews && node.previews.creators,
-                coverThumbnail: node.previews && node.previews.coverThumbnail,
-                isMature: node.previews && node.previews.isMature,
-                isOfferedAgain: node.previews && node.previews.isOfferedAgain,
-                title: node.previews && titleFormat(node.previews.title)
-              }
+              // previews: {
+              //   creators: node.previews && node.previews.creators,
+              //   coverThumbnail: node.previews && node.previews.coverThumbnail,
+              //   isMature: node.previews && node.previews.isMature,
+              //   isOfferedAgain: node.previews && node.previews.isOfferedAgain,
+              //   // title: node.previews && titleFormat(node.previews.title)
+              // }
             }
           })
         },
