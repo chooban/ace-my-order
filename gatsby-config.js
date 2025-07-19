@@ -34,7 +34,6 @@ module.exports = {
       resolve: 'gatsby-source-previews',
       options: {
         savepath: `${__dirname}/data/previews/`,
-        batch: 'JUN25'
       },
     },
     {
