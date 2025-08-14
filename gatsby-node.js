@@ -1,14 +1,5 @@
-// import { createRemoteFileNode } from 'gatsby-source-filesystem'
-
-// import { previewsCodeToCatalogueId } from './lib'
-// import AceItem from './src/resolvers/aceitem'
-
-
-const { createRemoteFileNode } = require('gatsby-source-filesystem')
-const { previewsCodeToCatalogueId } = require('./lib')
 const AceItem = require('./src/resolvers/aceitem')
 const path = require('path')
-const AWS = require('aws-sdk')
 
 const createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions
@@ -29,54 +20,6 @@ const createSchemaCustomization = ({ actions }) => {
 
 const createResolvers = ({ createResolvers }) => {
   createResolvers({ AceItem })
-}
-
-const onCreateNode = async ({ node,
-  actions: { createNode },
-  store,
-  cache,
-  reporter,
-  createNodeId,
-}) => {
-  if (node.internal.type === 'S3Object') {
-    console.log('Got an S3Object')
-    AWS.config.update({
-      accessKeyId: process.env.MY_AWS_ACCESS_KEY,
-      secretAccessKey: process.env.MY_AWS_SECRET_KEY,
-      region: process.env.MY_AWS_REGION,
-    })
-    const s3 = new AWS.S3()
-
-    const { TagSet } = await s3.getObjectTagging({
-      Key: node.Key,
-      Bucket: node.Bucket
-    }).promise()
-
-    console.log(`Checking ${JSON.stringify(TagSet)} of ${node.Key}`)
-    if (TagSet && TagSet.length && TagSet.find(t => t.Key === 'catalogue' && t.Value === 'current')) {
-      console.log('Downloading CSV from S3: ' + node.Key)
-      const csvFile = await createRemoteFileNode({
-        url: node.url,
-        parentNodeId: node.id,
-        store,
-        cache,
-        reporter,
-        createNode,
-        createNodeId,
-      })
-
-      if (csvFile) {
-        // Add local file to s3 object node
-        node.data___NODE = csvFile.id // eslint-disable-line @typescript-eslint/naming-convention
-      }
-    }
-  }
-  else if (node.internal.type === 'AceItem') {
-    node.slug = `item/${node.previewsCode.replace('/', '-')}`
-    // eslint-disable-next-line
-    node.catalogueId = previewsCodeToCatalogueId(node.previewsCode)
-    node.previews___NODE = previewsCodeToCatalogueId(node.previewsCode)
-  }
 }
 
 const createPages = async ({ graphql, actions }) => {
@@ -118,7 +61,6 @@ const onCreatePage = ({ page, actions }) => {
 }
 
 module.exports = {
-  onCreateNode,
   onCreatePage,
   createPages,
   createSchemaCustomization,

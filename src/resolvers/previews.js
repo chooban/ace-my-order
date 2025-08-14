@@ -1,5 +1,5 @@
 
-exports.previewsCodeToCatalogueId = function (previewsCode) {
+const previewsCodeToCatalogueId = function (previewsCode) {
   const parts = previewsCode.split('/')
   const [issue, item] = [Number(parts[0]), parts[1]]
   const MonthNames = [
@@ -12,3 +12,6 @@ exports.previewsCodeToCatalogueId = function (previewsCode) {
 
   return catalogueId
 }
+
+
+module.exports = previewsCodeToCatalogueId

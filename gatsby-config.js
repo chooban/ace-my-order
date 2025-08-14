@@ -1,7 +1,5 @@
 require('dotenv').config()
 
-const titleFormat = require('./src/resolvers/title-format')
-
 module.exports = {
   siteMetadata: {
     title: 'My Ace Order',
@@ -37,34 +35,11 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-plugin-eslint',
-      options: {
-        test: /\.[jt]sx?$/,
-        exclude: /(node_modules|.cache|public)/,
-        stages: ['develop'],
-        options: {
-          emitWarning: true,
-          failOnError: false,
-        },
-      },
-    },
-    {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'data',
         path: `${__dirname}/data/`,
         ignore: ['**/*.html'],
-      },
-    },
-    {
-      resolve: '@robinmetral/gatsby-source-s3',
-      options: {
-        aws: {
-          accessKeyId: process.env.MY_AWS_ACCESS_KEY,
-          secretAccessKey: process.env.MY_AWS_SECRET_KEY,
-          region: process.env.MY_AWS_REGION,
-        },
-        buckets: ['ace-my-order'],
       },
     },
     {
@@ -132,17 +107,9 @@ module.exports = {
               title: node.title,
               previewsCode: node.previewsCode,
               catalogueId: node.catalogueId,
-              // price: node.price.trim ? node.price.trim() : isNaN(node.price) ? 0 : node.price,
               publisher: node.publisher,
               slug: node.slug,
               creators: node.previews && node.previews.creators,
-              // previews: {
-              //   creators: node.previews && node.previews.creators,
-              //   coverThumbnail: node.previews && node.previews.coverThumbnail,
-              //   isMature: node.previews && node.previews.isMature,
-              //   isOfferedAgain: node.previews && node.previews.isOfferedAgain,
-              //   // title: node.previews && titleFormat(node.previews.title)
-              // }
             }
           })
         },
@@ -156,7 +123,4 @@ module.exports = {
       }
     },
   ],
-  mapping: {
-    'AceItem.previews': 'PreviewsItem',
-  },
 }

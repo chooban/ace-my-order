@@ -96,7 +96,7 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { batch, savepath
 
   const catalogueFetches = catalogueIds.map(id => {
     const fileName = path.join(savepath, `${id}.html`)
-    console.log('Processing', id, fileName)
+    // console.log('Processing', id, fileName)
     return pool.exec('fetchPreviews', [id, fileName])
   })
 

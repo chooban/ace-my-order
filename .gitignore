@@ -34,3 +34,4 @@ data/previews/
 
 # Local Netlify folder
 .netlify
+data

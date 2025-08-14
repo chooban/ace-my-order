@@ -1,6 +1,7 @@
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 const titleFormat = require('./title-format')
+const previewsCodeToCatalogueId = require('./previews.js')
 /* eslint-enable */
 
 const AceItem = {
@@ -12,6 +13,12 @@ const AceItem = {
   },
   reducedFrom: {
     resolve: ({ reducedFrom }) => reducedFrom.length > 0 ? Number(reducedFrom) : null
+  },
+  slug: {
+    resolve: ({ previewsCode }) => `item/${previewsCode.replace('/', '-')}`
+  },
+  catalogueId: {
+    resolve: ({ previewsCode }) => previewsCodeToCatalogueId(previewsCode)
   }
 }
 
