@@ -142,7 +142,7 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
           <ArrowBack color='action' />
         </IconButton>
         <span>
-          {item.title || item.previews?.title }{' '}
+          {item.previews?.title || item.title }{' '}
           <PreviewPanelFlags item={item.previews} />
         </span>
         {item.previews?.id &&

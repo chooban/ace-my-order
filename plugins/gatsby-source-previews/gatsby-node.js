@@ -90,13 +90,13 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { batch, savepath
 
   console.log('Downloaded previews catalogue. Spinning up worker pool')
   const pool = workerPool.pool(__dirname + '/fetcher.js', {
-    maxWorkers: 3
+    maxWorkers: 6
   })
   console.log(pool.stats())
 
   const catalogueFetches = catalogueIds.map(id => {
     const fileName = path.join(savepath, `${id}.html`)
-    // console.log('Processing', id, fileName)
+    console.log('Processing', id, fileName)
     return pool.exec('fetchPreviews', [id, fileName])
   })
 
@@ -123,6 +123,7 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { batch, savepath
     })
     .then(() => {
       clearInterval(monitorInterval)
+      console.log('Finishing fetching Previews data')
       pool.terminate()
     })
 }

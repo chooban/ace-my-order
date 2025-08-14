@@ -11,6 +11,7 @@ const writeFile = promisify(fs.writeFile)
 
 let client
 if (process.env.REDIS_URL) {
+  console.log(`Creating redis client for ${process.env.REDIS_URL}`)
   client = redis.createClient(process.env.REDIS_URL)
 }
 
@@ -29,7 +30,7 @@ async function fetchPreviews(id, fileName) {
 
   if (fileExists) {
     try {
-      // console.log(`Reading ${fileName}`)
+      console.log(`Reading ${fileName}`)
       const itemText = fs.readFileSync(fileName, 'utf8')
       if (client) {
         await client.set(id, itemText)
@@ -44,6 +45,7 @@ async function fetchPreviews(id, fileName) {
   if (client) {
     const redisDoc = await client.get(id)
     if (redisDoc) {
+      console.log(`Found ${id} in redis`)
       await writeFile(fileName, redisDoc)
       return { id, itemText: redisDoc }
     }
