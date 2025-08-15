@@ -1,5 +1,6 @@
 import React from 'react'
-import { Head } from './head'
+import { PageLayout } from '../components/layout/layout'
+import { Head } from '../components/Head'
 
 function About() {
   return (
@@ -39,5 +40,4 @@ function About() {
 
 }
 
-export default About
 export { Head }

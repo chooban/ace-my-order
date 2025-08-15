@@ -43,7 +43,7 @@ function parsePreviewsData(id, itemText) {
       .replace(/\s\s+/g, ' ')
 
     return {
-      id,
+      catalogueId: id,
       coverThumbnail: coverImageURL.replace('MainImage', 'CatalogThumbnail').replace(/\.[^/.]+$/, ''),
       title: strippedTitle,
       description,
@@ -56,7 +56,7 @@ function parsePreviewsData(id, itemText) {
   }
 }
 
-exports.sourceNodes = async ({ actions, createContentDigest }, { batch, savepath }) => {
+exports.sourceNodes = async ({ actions, createContentDigest, createNodeId }, { batch, savepath }) => {
   ensureDirectoryExists(savepath)
 
   const { createNode } = actions
@@ -114,7 +114,8 @@ exports.sourceNodes = async ({ actions, createContentDigest }, { batch, savepath
             internal: {
               type: 'PreviewsItem',
               contentDigest: createContentDigest(nodeContents.description)
-            }
+            }, 
+            id: createNodeId(`${nodeContents.catalogueId}`),
           })
         } else {
           console.log(`No document for ${data.id}`)

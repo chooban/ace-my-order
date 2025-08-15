@@ -360,11 +360,11 @@ export type AceItem = Node & {
   slug: Scalars['String'];
   title: Scalars['String'];
   catalogueId: Scalars['String'];
-  previews?: Maybe<PreviewsItem>;
   id: Scalars['ID'];
   parent?: Maybe<Node>;
   children: Array<Node>;
   internal: Internal;
+  previews?: Maybe<PreviewsItem>;
 };
 
 export type PreviewsItem = Node & {
@@ -372,6 +372,7 @@ export type PreviewsItem = Node & {
   parent?: Maybe<Node>;
   children: Array<Node>;
   internal: Internal;
+  catalogueId?: Maybe<Scalars['String']>;
   coverThumbnail?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
@@ -646,7 +647,6 @@ export type QueryaceItemArgs = {
   slug?: InputMaybe<StringQueryOperatorInput>;
   title?: InputMaybe<StringQueryOperatorInput>;
   catalogueId?: InputMaybe<StringQueryOperatorInput>;
-  previews?: InputMaybe<PreviewsItemFilterInput>;
   id?: InputMaybe<StringQueryOperatorInput>;
   parent?: InputMaybe<NodeFilterInput>;
   children?: InputMaybe<NodeFilterListInput>;
@@ -667,6 +667,7 @@ export type QuerypreviewsItemArgs = {
   parent?: InputMaybe<NodeFilterInput>;
   children?: InputMaybe<NodeFilterListInput>;
   internal?: InputMaybe<InternalFilterInput>;
+  catalogueId?: InputMaybe<StringQueryOperatorInput>;
   coverThumbnail?: InputMaybe<StringQueryOperatorInput>;
   title?: InputMaybe<StringQueryOperatorInput>;
   description?: InputMaybe<StringQueryOperatorInput>;
@@ -737,24 +738,10 @@ export type AceItemFilterInput = {
   slug?: InputMaybe<StringQueryOperatorInput>;
   title?: InputMaybe<StringQueryOperatorInput>;
   catalogueId?: InputMaybe<StringQueryOperatorInput>;
-  previews?: InputMaybe<PreviewsItemFilterInput>;
   id?: InputMaybe<StringQueryOperatorInput>;
   parent?: InputMaybe<NodeFilterInput>;
   children?: InputMaybe<NodeFilterListInput>;
   internal?: InputMaybe<InternalFilterInput>;
-};
-
-export type PreviewsItemFilterInput = {
-  id?: InputMaybe<StringQueryOperatorInput>;
-  parent?: InputMaybe<NodeFilterInput>;
-  children?: InputMaybe<NodeFilterListInput>;
-  internal?: InputMaybe<InternalFilterInput>;
-  coverThumbnail?: InputMaybe<StringQueryOperatorInput>;
-  title?: InputMaybe<StringQueryOperatorInput>;
-  description?: InputMaybe<StringQueryOperatorInput>;
-  isMature?: InputMaybe<BooleanQueryOperatorInput>;
-  isOfferedAgain?: InputMaybe<BooleanQueryOperatorInput>;
-  creators?: InputMaybe<StringQueryOperatorInput>;
 };
 
 export type NodeFilterInput = {
@@ -896,24 +883,10 @@ export type AceItemFieldSelector = {
   slug?: InputMaybe<FieldSelectorEnum>;
   title?: InputMaybe<FieldSelectorEnum>;
   catalogueId?: InputMaybe<FieldSelectorEnum>;
-  previews?: InputMaybe<PreviewsItemFieldSelector>;
   id?: InputMaybe<FieldSelectorEnum>;
   parent?: InputMaybe<NodeFieldSelector>;
   children?: InputMaybe<NodeFieldSelector>;
   internal?: InputMaybe<InternalFieldSelector>;
-};
-
-export type PreviewsItemFieldSelector = {
-  id?: InputMaybe<FieldSelectorEnum>;
-  parent?: InputMaybe<NodeFieldSelector>;
-  children?: InputMaybe<NodeFieldSelector>;
-  internal?: InputMaybe<InternalFieldSelector>;
-  coverThumbnail?: InputMaybe<FieldSelectorEnum>;
-  title?: InputMaybe<FieldSelectorEnum>;
-  description?: InputMaybe<FieldSelectorEnum>;
-  isMature?: InputMaybe<FieldSelectorEnum>;
-  isOfferedAgain?: InputMaybe<FieldSelectorEnum>;
-  creators?: InputMaybe<FieldSelectorEnum>;
 };
 
 export type NodeFieldSelector = {
@@ -1074,24 +1047,10 @@ export type AceItemSortInput = {
   slug?: InputMaybe<SortOrderEnum>;
   title?: InputMaybe<SortOrderEnum>;
   catalogueId?: InputMaybe<SortOrderEnum>;
-  previews?: InputMaybe<PreviewsItemSortInput>;
   id?: InputMaybe<SortOrderEnum>;
   parent?: InputMaybe<NodeSortInput>;
   children?: InputMaybe<NodeSortInput>;
   internal?: InputMaybe<InternalSortInput>;
-};
-
-export type PreviewsItemSortInput = {
-  id?: InputMaybe<SortOrderEnum>;
-  parent?: InputMaybe<NodeSortInput>;
-  children?: InputMaybe<NodeSortInput>;
-  internal?: InputMaybe<InternalSortInput>;
-  coverThumbnail?: InputMaybe<SortOrderEnum>;
-  title?: InputMaybe<SortOrderEnum>;
-  description?: InputMaybe<SortOrderEnum>;
-  isMature?: InputMaybe<SortOrderEnum>;
-  isOfferedAgain?: InputMaybe<SortOrderEnum>;
-  creators?: InputMaybe<SortOrderEnum>;
 };
 
 export type NodeSortInput = {
@@ -2236,6 +2195,20 @@ export type PreviewsItemEdge = {
   previous?: Maybe<PreviewsItem>;
 };
 
+export type PreviewsItemFieldSelector = {
+  id?: InputMaybe<FieldSelectorEnum>;
+  parent?: InputMaybe<NodeFieldSelector>;
+  children?: InputMaybe<NodeFieldSelector>;
+  internal?: InputMaybe<InternalFieldSelector>;
+  catalogueId?: InputMaybe<FieldSelectorEnum>;
+  coverThumbnail?: InputMaybe<FieldSelectorEnum>;
+  title?: InputMaybe<FieldSelectorEnum>;
+  description?: InputMaybe<FieldSelectorEnum>;
+  isMature?: InputMaybe<FieldSelectorEnum>;
+  isOfferedAgain?: InputMaybe<FieldSelectorEnum>;
+  creators?: InputMaybe<FieldSelectorEnum>;
+};
+
 export type PreviewsItemGroupConnection = {
   totalCount: Scalars['Int'];
   edges: Array<PreviewsItemEdge>;
@@ -2275,6 +2248,34 @@ export type PreviewsItemGroupConnectiongroupArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   limit?: InputMaybe<Scalars['Int']>;
   field: PreviewsItemFieldSelector;
+};
+
+export type PreviewsItemFilterInput = {
+  id?: InputMaybe<StringQueryOperatorInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+  children?: InputMaybe<NodeFilterListInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+  catalogueId?: InputMaybe<StringQueryOperatorInput>;
+  coverThumbnail?: InputMaybe<StringQueryOperatorInput>;
+  title?: InputMaybe<StringQueryOperatorInput>;
+  description?: InputMaybe<StringQueryOperatorInput>;
+  isMature?: InputMaybe<BooleanQueryOperatorInput>;
+  isOfferedAgain?: InputMaybe<BooleanQueryOperatorInput>;
+  creators?: InputMaybe<StringQueryOperatorInput>;
+};
+
+export type PreviewsItemSortInput = {
+  id?: InputMaybe<SortOrderEnum>;
+  parent?: InputMaybe<NodeSortInput>;
+  children?: InputMaybe<NodeSortInput>;
+  internal?: InputMaybe<InternalSortInput>;
+  catalogueId?: InputMaybe<SortOrderEnum>;
+  coverThumbnail?: InputMaybe<SortOrderEnum>;
+  title?: InputMaybe<SortOrderEnum>;
+  description?: InputMaybe<SortOrderEnum>;
+  isMature?: InputMaybe<SortOrderEnum>;
+  isOfferedAgain?: InputMaybe<SortOrderEnum>;
+  creators?: InputMaybe<SortOrderEnum>;
 };
 
 export type SearchIndexQueryVariables = Exact<{ [key: string]: never; }>;

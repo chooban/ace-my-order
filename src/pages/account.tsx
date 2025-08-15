@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Head } from './head'
+import { Head } from '../components/Head'
 import { useAuth0 } from '../../plugins/gatsby-plugin-auth0'
 
 const Account = () => {

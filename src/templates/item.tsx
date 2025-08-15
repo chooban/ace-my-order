@@ -3,10 +3,11 @@ import React from 'react'
 
 import { AceItem, ItemPageQuery } from '../../typings/autogen'
 import PreviewPanel from '../components/previews-table/PreviewPanel'
+import { Head } from '../components/Head'
 
-const ItemPage: React.FC<{ data: ItemPageQuery }> = ({ data }) =>
-  (<PreviewPanel item={data.aceItem as AceItem} />)
-
+const ItemPage: React.FC<{ data: ItemPageQuery }> = ({ data }) => (
+    <PreviewPanel item={data.aceItem as AceItem} />
+  )
 
 export const query = graphql`
   query ItemPage($previewsCode: String!) {
@@ -29,3 +30,4 @@ export const query = graphql`
 `
 
 export default ItemPage
+export { Head }

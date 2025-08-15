@@ -22,12 +22,6 @@ module.exports = {
     'gatsby-plugin-material-ui',
     'gatsby-plugin-why-did-you-render',
     {
-      resolve: 'gatsby-plugin-layout',
-      options: {
-        component: require.resolve('./src/components/layout/layout'),
-      },
-    },
-    {
       resolve: 'gatsby-source-previews',
       options: {
         savepath: `${__dirname}/data/previews/`,

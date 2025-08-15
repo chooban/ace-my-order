@@ -19,6 +19,15 @@ const AceItem = {
   },
   catalogueId: {
     resolve: ({ previewsCode }) => previewsCodeToCatalogueId(previewsCode)
+  },
+  previews: {
+    type: 'PreviewsItem',
+    resolve(source, args, context, info) {
+      return context.nodeModel.findOne({
+        query: { filter : { catalogueId: { eq: previewsCodeToCatalogueId(source.previewsCode) }}},
+        type: "PreviewsItem",
+      })
+    },
   }
 }
 

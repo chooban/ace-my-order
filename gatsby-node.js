@@ -12,8 +12,8 @@ const createSchemaCustomization = ({ actions }) => {
       slug: String!
       title: String!
       catalogueId: String!
-      previews: PreviewsItem @link(from: "catalogueId" by:"id")
     }
+      
   `
   createTypes(typeDefs)
 }
@@ -50,7 +50,7 @@ const createPages = async ({ graphql, actions }) => {
 const onCreatePage = ({ page, actions }) => {
   const { createPage } = actions
 
-  if (page.path === '/' || page.path === '/search') {
+  if (['/', '', '/search'].includes(page.path)) {
     page.context.layout = 'table'
   } else if (page.path.match(/^\/app/)) {
     page.matchPath = '/app/*'
@@ -60,9 +60,14 @@ const onCreatePage = ({ page, actions }) => {
   createPage(page)
 }
 
+const onCreateNode = ({ node, actions }) => {
+
+}
+
 module.exports = {
   onCreatePage,
   createPages,
   createSchemaCustomization,
   createResolvers,
+  onCreateNode,
 }

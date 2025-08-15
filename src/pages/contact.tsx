@@ -1,5 +1,6 @@
 import React from 'react'
-import { Head } from './head'
+import { Head } from '../components/Head'
+import { PageLayout } from '../components/layout/layout'
 
 function Contact() {
   return (
