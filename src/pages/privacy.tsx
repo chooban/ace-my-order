@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Head } from './head'
 function Privacy() {
   return (
     <>
@@ -54,3 +54,4 @@ function Privacy() {
 }
 
 export default Privacy
+export { Head }

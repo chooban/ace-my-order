@@ -5,7 +5,6 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import React from 'react'
 
-import SEO from '../../components/seo'
 import { OrderProvider } from '../../contexts/order-context'
 import theme from '../../theme'
 import { Footer } from './Footer'
@@ -36,7 +35,6 @@ const styles = (theme: any) => {
 function Page({ classes, children }: any) {
   return (
     <>
-      <SEO />
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <OrderProvider>

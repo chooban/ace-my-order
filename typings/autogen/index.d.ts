@@ -2277,11 +2277,6 @@ export type PreviewsItemGroupConnectiongroupArgs = {
   field: PreviewsItemFieldSelector;
 };
 
-export type SEOQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SEOQuery = { site?: { siteMetadata?: { titleTemplate?: string | undefined, twitterUsername?: string | undefined, defaultTitle?: string | undefined, defaultDescription?: string | undefined, siteUrl?: string | undefined } | undefined } | undefined };
-
 export type SearchIndexQueryVariables = Exact<{ [key: string]: never; }>;
 
 

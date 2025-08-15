@@ -21,7 +21,6 @@ module.exports = {
     },
     'gatsby-plugin-material-ui',
     'gatsby-plugin-why-did-you-render',
-    'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-plugin-layout',
       options: {

@@ -28,7 +28,7 @@
   ],
   "exclude": [
     "plugins",
-    "gatsby-config.js",
+    "gatsby-config.mjs",
     "node_modules",
     "public",
     ".cache"

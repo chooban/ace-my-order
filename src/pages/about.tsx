@@ -1,4 +1,5 @@
 import React from 'react'
+import { Head } from './head'
 
 function About() {
   return (
@@ -39,3 +40,4 @@ function About() {
 }
 
 export default About
+export { Head }

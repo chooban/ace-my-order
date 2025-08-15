@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Head } from './head'
 import { useAuth0 } from '../../plugins/gatsby-plugin-auth0'
 
 const Account = () => {
@@ -27,3 +28,4 @@ const Account = () => {
 }
 
 export default Account
+export { Head }

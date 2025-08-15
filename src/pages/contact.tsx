@@ -1,13 +1,14 @@
 import React from 'react'
+import { Head } from './head'
 
 function Contact() {
   return (
     <>
       <h2>Contact</h2>
-      <p>You can contact me via <a href="mailto:rhendry@googlemail.com">email</a> or over{' '}
-        <a href="https://twitter.com/choobanicus">Twitter</a>.</p>
+      <p>You can contact me via <a href="mailto:rhendry@googlemail.com">email</a>.</p>
     </>
   )
 }
 
 export default Contact
+export { Head }

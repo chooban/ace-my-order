@@ -6,7 +6,6 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 import { navigate } from 'gatsby'
 import React, { createRef, useEffect, useState } from 'react'
 
-import SEO from '../../components/seo'
 import { OrderProvider } from '../../contexts/order-context'
 import { useClientRect } from '../../hooks'
 import theme from '../../theme'
@@ -68,7 +67,6 @@ function PageWithTable({ classes, children, search = '', location }: any) {
 
   return (
     <>
-      <SEO />
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <OrderProvider>

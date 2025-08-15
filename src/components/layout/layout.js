@@ -12,4 +12,16 @@ const LayoutChoice = ({ children, pageContext, location }) => {
   return <Page>{children}</Page>
 }
 
+const PageTableLayout = ({ children, location}) => {
+    const { search: searchValue } = queryString.parse(location.search)
+    return <PageWithTable search={searchValue} location={location.pathname}>{children}</PageWithTable>
+}
+
+const PageLayout = ({ children }) => {
+  return <Page>{children}</Page>
+}
+
 export default LayoutChoice
+export {
+  PageLayout, PageTableLayout
+}

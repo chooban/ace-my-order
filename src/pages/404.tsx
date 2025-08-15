@@ -1,4 +1,5 @@
 import React from 'react'
+import { Head } from './head'
 
 const FourOhFour = () => {
   return (<div>
@@ -8,3 +9,4 @@ const FourOhFour = () => {
 }
 
 export default FourOhFour
+export { Head }
