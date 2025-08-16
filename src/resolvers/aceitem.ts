@@ -1,4 +1,5 @@
-import titleFormat from './title-format'
+import { titleFormat } from './title-format'
+import type { AceItem as AceItemType } from '../../typings/autogen'
 
 const previewsCodeToCatalogueId = function (previewsCode: string) {
   const parts = previewsCode.split('/')
@@ -14,29 +15,30 @@ const previewsCodeToCatalogueId = function (previewsCode: string) {
   return catalogueId
 }
 
+const getPreviews = (nodeModel: any, previewsCode: string) => {
+  return nodeModel.findOne({
+      query: { filter : { catalogueId: { eq: previewsCodeToCatalogueId(previewsCode) }}},
+      type: "PreviewsItem",
+  })
+}
+
 export const AceItem = {
   title: {
-    resolve: ({ title }) => titleFormat(title)
+    resolve: ({ title }: AceItemType) => titleFormat(title)
   },
   price: {
-    resolve: ({ price }) => Number(price.replace(/,/, ''))
-  },
-  reducedFrom: {
-    resolve: ({ reducedFrom }) => reducedFrom.length > 0 ? Number(reducedFrom) : null
+    resolve: ({ price }: AceItemType) => price ? Number(("" + price).replace(/,/, '')) : undefined
   },
   slug: {
-    resolve: ({ previewsCode }) => `item/${previewsCode.replace('/', '-')}`
+    resolve: ({ previewsCode }: AceItemType) => `item/${previewsCode.replace('/', '-')}`
   },
   catalogueId: {
-    resolve: ({ previewsCode }) => previewsCodeToCatalogueId(previewsCode)
+    resolve: ({ previewsCode }: AceItemType) => previewsCodeToCatalogueId(previewsCode)
   },
   previews: {
     type: 'PreviewsItem',
-    resolve(source, args, context, info) {
-      return context.nodeModel.findOne({
-        query: { filter : { catalogueId: { eq: previewsCodeToCatalogueId(source.previewsCode) }}},
-        type: "PreviewsItem",
-      })
+    resolve(source: any, args: any, context: any, info: any) {
+      return getPreviews(context.nodeModel, source.previewsCode)
     },
   }
 }

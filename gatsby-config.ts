@@ -48,7 +48,7 @@ const config: GatsbyConfig = {
           'IGNORE',
           'price',
           'IGNORE',
-          'reducedFrom',
+          'IGNORE',
           'publisher',
         ],
         ignoreColumns: /IGNORE/,

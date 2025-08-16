@@ -8,7 +8,6 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
     type AceItem implements Node {
       previewsCode: String!
       price: Float
-      reducedFrom: Float
       publisher: String
       slug: String!
       title: String!

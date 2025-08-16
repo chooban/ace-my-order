@@ -11,6 +11,3 @@ export const titleFormat = (title: string) => (
     .replace(/Cvr /, 'Cover ')
     .replace(/Gn /, 'GN ')
 )
-
-
-module.exports = titleFormat

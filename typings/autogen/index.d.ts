@@ -355,7 +355,6 @@ export type LocalSearchCatalogue = Node & {
 export type AceItem = Node & {
   previewsCode: Scalars['String'];
   price?: Maybe<Scalars['Float']>;
-  reducedFrom?: Maybe<Scalars['Float']>;
   publisher?: Maybe<Scalars['String']>;
   slug: Scalars['String'];
   title: Scalars['String'];
@@ -642,7 +641,6 @@ export type QueryallLocalSearchCatalogueArgs = {
 export type QueryaceItemArgs = {
   previewsCode?: InputMaybe<StringQueryOperatorInput>;
   price?: InputMaybe<FloatQueryOperatorInput>;
-  reducedFrom?: InputMaybe<FloatQueryOperatorInput>;
   publisher?: InputMaybe<StringQueryOperatorInput>;
   slug?: InputMaybe<StringQueryOperatorInput>;
   title?: InputMaybe<StringQueryOperatorInput>;
@@ -733,7 +731,6 @@ export type AceItemFilterListInput = {
 export type AceItemFilterInput = {
   previewsCode?: InputMaybe<StringQueryOperatorInput>;
   price?: InputMaybe<FloatQueryOperatorInput>;
-  reducedFrom?: InputMaybe<FloatQueryOperatorInput>;
   publisher?: InputMaybe<StringQueryOperatorInput>;
   slug?: InputMaybe<StringQueryOperatorInput>;
   title?: InputMaybe<StringQueryOperatorInput>;
@@ -878,7 +875,6 @@ export type FieldSelectorEnum =
 export type AceItemFieldSelector = {
   previewsCode?: InputMaybe<FieldSelectorEnum>;
   price?: InputMaybe<FieldSelectorEnum>;
-  reducedFrom?: InputMaybe<FieldSelectorEnum>;
   publisher?: InputMaybe<FieldSelectorEnum>;
   slug?: InputMaybe<FieldSelectorEnum>;
   title?: InputMaybe<FieldSelectorEnum>;
@@ -1042,7 +1038,6 @@ export type SortOrderEnum =
 export type AceItemSortInput = {
   previewsCode?: InputMaybe<SortOrderEnum>;
   price?: InputMaybe<SortOrderEnum>;
-  reducedFrom?: InputMaybe<SortOrderEnum>;
   publisher?: InputMaybe<SortOrderEnum>;
   slug?: InputMaybe<SortOrderEnum>;
   title?: InputMaybe<SortOrderEnum>;

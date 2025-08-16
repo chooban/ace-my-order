@@ -14,7 +14,6 @@ export const query = graphql`
     aceItem(previewsCode: { eq: $previewsCode }) {
       previewsCode
       price
-      # reducedFrom
       title
       previews {
         id
