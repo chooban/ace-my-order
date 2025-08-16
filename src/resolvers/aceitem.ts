@@ -1,10 +1,20 @@
+import titleFormat from './title-format'
 
-/* eslint-disable @typescript-eslint/no-var-requires */
-const titleFormat = require('./title-format')
-const previewsCodeToCatalogueId = require('./previews.js')
-/* eslint-enable */
+const previewsCodeToCatalogueId = function (previewsCode: string) {
+  const parts = previewsCode.split('/')
+  const [issue, item] = [Number(parts[0]), parts[1]]
+  const MonthNames = [
+    'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'
+  ]
+  const epoch = new Date(1988, 8, 1)
+  epoch.setMonth(epoch.getMonth() + issue)
 
-const AceItem = {
+  const catalogueId =  MonthNames[epoch.getMonth()] + (epoch.getFullYear() - 2000) + item
+
+  return catalogueId
+}
+
+export const AceItem = {
   title: {
     resolve: ({ title }) => titleFormat(title)
   },
@@ -30,5 +40,3 @@ const AceItem = {
     },
   }
 }
-
-module.exports = AceItem

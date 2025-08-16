@@ -1,7 +1,8 @@
-const AceItem = require('./src/resolvers/aceitem')
-const path = require('path')
+import type { GatsbyNode } from 'gatsby'
+import { AceItem } from './src/resolvers/aceitem'
+import path from 'path'
 
-const createSchemaCustomization = ({ actions }) => {
+export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] = ({ actions }) => {
   const { createTypes } = actions
   const typeDefs = `
     type AceItem implements Node {
@@ -18,11 +19,11 @@ const createSchemaCustomization = ({ actions }) => {
   createTypes(typeDefs)
 }
 
-const createResolvers = ({ createResolvers }) => {
+export const createResolvers: GatsbyNode["createResolvers"] = ({ createResolvers }) => {
   createResolvers({ AceItem })
 }
 
-const createPages = async ({ graphql, actions }) => {
+export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions }) => {
   const { createPage } = actions
   const result = await graphql(`
     query ItemSlugs {
@@ -47,27 +48,19 @@ const createPages = async ({ graphql, actions }) => {
   })
 }
 
-const onCreatePage = ({ page, actions }) => {
+export const onCreatePage: GatsbyNode["onCreatePage"] = ({ page, actions }) => {
   const { createPage } = actions
 
   if (['/', '', '/search'].includes(page.path)) {
-    page.context.layout = 'table'
+    if (page.context) {
+      page.context.layout = 'table'
+    }
   } else if (page.path.match(/^\/app/)) {
     page.matchPath = '/app/*'
   } else {
-    page.context.layout = 'no-table'
+    if (page.context) {
+      page.context.layout = 'no-table'
+    }
   }
   createPage(page)
-}
-
-const onCreateNode = ({ node, actions }) => {
-
-}
-
-module.exports = {
-  onCreatePage,
-  createPages,
-  createSchemaCustomization,
-  createResolvers,
-  onCreateNode,
 }

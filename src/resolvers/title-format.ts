@@ -1,6 +1,6 @@
 const firstLowerCaseLetter = /(^|[^a-zA-Z\u00C0-\u017F'])([a-zA-Z\u00C0-\u017F])/g
-const capitalize = (s) => s.toLowerCase().replace(firstLowerCaseLetter, (m) => m.toUpperCase())
-const titleFormat = (title) => (
+const capitalize = (s: string) => s.toLowerCase().replace(firstLowerCaseLetter, (m) => m.toUpperCase())
+export const titleFormat = (title: string) => (
   capitalize(title)
     .replace(/Dc /, 'DC ')
     .replace(/Idw /, 'IDW ')
@@ -11,5 +11,6 @@ const titleFormat = (title) => (
     .replace(/Cvr /, 'Cover ')
     .replace(/Gn /, 'GN ')
 )
+
 
 module.exports = titleFormat
