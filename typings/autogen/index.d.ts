@@ -352,10 +352,24 @@ export type LocalSearchCatalogue = Node & {
   internal: Internal;
 };
 
+export type PreviewsItem = Node & {
+  isMature: Scalars['Boolean'];
+  isOfferedAgain: Scalars['Boolean'];
+  catalogueId?: Maybe<Scalars['String']>;
+  coverThumbnail?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  creators?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  parent?: Maybe<Node>;
+  children: Array<Node>;
+  internal: Internal;
+};
+
 export type AceItem = Node & {
   previewsCode: Scalars['String'];
-  price?: Maybe<Scalars['Float']>;
-  publisher?: Maybe<Scalars['String']>;
+  price: Scalars['Float'];
+  publisher: Scalars['String'];
   slug: Scalars['String'];
   title: Scalars['String'];
   catalogueId: Scalars['String'];
@@ -363,21 +377,12 @@ export type AceItem = Node & {
   parent?: Maybe<Node>;
   children: Array<Node>;
   internal: Internal;
-  previews?: Maybe<PreviewsItem>;
-};
-
-export type PreviewsItem = Node & {
-  id: Scalars['ID'];
-  parent?: Maybe<Node>;
-  children: Array<Node>;
-  internal: Internal;
-  catalogueId?: Maybe<Scalars['String']>;
-  coverThumbnail?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   isMature?: Maybe<Scalars['Boolean']>;
   isOfferedAgain?: Maybe<Scalars['Boolean']>;
   creators?: Maybe<Scalars['String']>;
+  coverThumbnail?: Maybe<Scalars['String']>;
+  previews?: Maybe<PreviewsItem>;
 };
 
 export type Query = {
@@ -397,10 +402,10 @@ export type Query = {
   allSiteBuildMetadata: SiteBuildMetadataConnection;
   localSearchCatalogue?: Maybe<LocalSearchCatalogue>;
   allLocalSearchCatalogue: LocalSearchCatalogueConnection;
-  aceItem?: Maybe<AceItem>;
-  allAceItem: AceItemConnection;
   previewsItem?: Maybe<PreviewsItem>;
   allPreviewsItem: PreviewsItemConnection;
+  aceItem?: Maybe<AceItem>;
+  allAceItem: AceItemConnection;
 };
 
 
@@ -638,6 +643,29 @@ export type QueryallLocalSearchCatalogueArgs = {
 };
 
 
+export type QuerypreviewsItemArgs = {
+  isMature?: InputMaybe<BooleanQueryOperatorInput>;
+  isOfferedAgain?: InputMaybe<BooleanQueryOperatorInput>;
+  catalogueId?: InputMaybe<StringQueryOperatorInput>;
+  coverThumbnail?: InputMaybe<StringQueryOperatorInput>;
+  title?: InputMaybe<StringQueryOperatorInput>;
+  description?: InputMaybe<StringQueryOperatorInput>;
+  creators?: InputMaybe<StringQueryOperatorInput>;
+  id?: InputMaybe<StringQueryOperatorInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+  children?: InputMaybe<NodeFilterListInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+};
+
+
+export type QueryallPreviewsItemArgs = {
+  filter?: InputMaybe<PreviewsItemFilterInput>;
+  sort?: InputMaybe<Array<InputMaybe<PreviewsItemSortInput>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+};
+
+
 export type QueryaceItemArgs = {
   previewsCode?: InputMaybe<StringQueryOperatorInput>;
   price?: InputMaybe<FloatQueryOperatorInput>;
@@ -655,29 +683,6 @@ export type QueryaceItemArgs = {
 export type QueryallAceItemArgs = {
   filter?: InputMaybe<AceItemFilterInput>;
   sort?: InputMaybe<Array<InputMaybe<AceItemSortInput>>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  limit?: InputMaybe<Scalars['Int']>;
-};
-
-
-export type QuerypreviewsItemArgs = {
-  id?: InputMaybe<StringQueryOperatorInput>;
-  parent?: InputMaybe<NodeFilterInput>;
-  children?: InputMaybe<NodeFilterListInput>;
-  internal?: InputMaybe<InternalFilterInput>;
-  catalogueId?: InputMaybe<StringQueryOperatorInput>;
-  coverThumbnail?: InputMaybe<StringQueryOperatorInput>;
-  title?: InputMaybe<StringQueryOperatorInput>;
-  description?: InputMaybe<StringQueryOperatorInput>;
-  isMature?: InputMaybe<BooleanQueryOperatorInput>;
-  isOfferedAgain?: InputMaybe<BooleanQueryOperatorInput>;
-  creators?: InputMaybe<StringQueryOperatorInput>;
-};
-
-
-export type QueryallPreviewsItemArgs = {
-  filter?: InputMaybe<PreviewsItemFilterInput>;
-  sort?: InputMaybe<Array<InputMaybe<PreviewsItemSortInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   limit?: InputMaybe<Scalars['Int']>;
 };
@@ -2059,6 +2064,134 @@ export type LocalSearchCatalogueSortInput = {
   internal?: InputMaybe<InternalSortInput>;
 };
 
+export type PreviewsItemConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<PreviewsItemEdge>;
+  nodes: Array<PreviewsItem>;
+  pageInfo: PageInfo;
+  distinct: Array<Scalars['String']>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+  group: Array<PreviewsItemGroupConnection>;
+};
+
+
+export type PreviewsItemConnectiondistinctArgs = {
+  field: PreviewsItemFieldSelector;
+};
+
+
+export type PreviewsItemConnectionmaxArgs = {
+  field: PreviewsItemFieldSelector;
+};
+
+
+export type PreviewsItemConnectionminArgs = {
+  field: PreviewsItemFieldSelector;
+};
+
+
+export type PreviewsItemConnectionsumArgs = {
+  field: PreviewsItemFieldSelector;
+};
+
+
+export type PreviewsItemConnectiongroupArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  field: PreviewsItemFieldSelector;
+};
+
+export type PreviewsItemEdge = {
+  next?: Maybe<PreviewsItem>;
+  node: PreviewsItem;
+  previous?: Maybe<PreviewsItem>;
+};
+
+export type PreviewsItemFieldSelector = {
+  isMature?: InputMaybe<FieldSelectorEnum>;
+  isOfferedAgain?: InputMaybe<FieldSelectorEnum>;
+  catalogueId?: InputMaybe<FieldSelectorEnum>;
+  coverThumbnail?: InputMaybe<FieldSelectorEnum>;
+  title?: InputMaybe<FieldSelectorEnum>;
+  description?: InputMaybe<FieldSelectorEnum>;
+  creators?: InputMaybe<FieldSelectorEnum>;
+  id?: InputMaybe<FieldSelectorEnum>;
+  parent?: InputMaybe<NodeFieldSelector>;
+  children?: InputMaybe<NodeFieldSelector>;
+  internal?: InputMaybe<InternalFieldSelector>;
+};
+
+export type PreviewsItemGroupConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<PreviewsItemEdge>;
+  nodes: Array<PreviewsItem>;
+  pageInfo: PageInfo;
+  distinct: Array<Scalars['String']>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+  group: Array<PreviewsItemGroupConnection>;
+  field: Scalars['String'];
+  fieldValue?: Maybe<Scalars['String']>;
+};
+
+
+export type PreviewsItemGroupConnectiondistinctArgs = {
+  field: PreviewsItemFieldSelector;
+};
+
+
+export type PreviewsItemGroupConnectionmaxArgs = {
+  field: PreviewsItemFieldSelector;
+};
+
+
+export type PreviewsItemGroupConnectionminArgs = {
+  field: PreviewsItemFieldSelector;
+};
+
+
+export type PreviewsItemGroupConnectionsumArgs = {
+  field: PreviewsItemFieldSelector;
+};
+
+
+export type PreviewsItemGroupConnectiongroupArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  field: PreviewsItemFieldSelector;
+};
+
+export type PreviewsItemFilterInput = {
+  isMature?: InputMaybe<BooleanQueryOperatorInput>;
+  isOfferedAgain?: InputMaybe<BooleanQueryOperatorInput>;
+  catalogueId?: InputMaybe<StringQueryOperatorInput>;
+  coverThumbnail?: InputMaybe<StringQueryOperatorInput>;
+  title?: InputMaybe<StringQueryOperatorInput>;
+  description?: InputMaybe<StringQueryOperatorInput>;
+  creators?: InputMaybe<StringQueryOperatorInput>;
+  id?: InputMaybe<StringQueryOperatorInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+  children?: InputMaybe<NodeFilterListInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+};
+
+export type PreviewsItemSortInput = {
+  isMature?: InputMaybe<SortOrderEnum>;
+  isOfferedAgain?: InputMaybe<SortOrderEnum>;
+  catalogueId?: InputMaybe<SortOrderEnum>;
+  coverThumbnail?: InputMaybe<SortOrderEnum>;
+  title?: InputMaybe<SortOrderEnum>;
+  description?: InputMaybe<SortOrderEnum>;
+  creators?: InputMaybe<SortOrderEnum>;
+  id?: InputMaybe<SortOrderEnum>;
+  parent?: InputMaybe<NodeSortInput>;
+  children?: InputMaybe<NodeSortInput>;
+  internal?: InputMaybe<InternalSortInput>;
+};
+
 export type AceItemConnection = {
   totalCount: Scalars['Int'];
   edges: Array<AceItemEdge>;
@@ -2145,142 +2278,14 @@ export type AceItemGroupConnectiongroupArgs = {
   field: AceItemFieldSelector;
 };
 
-export type PreviewsItemConnection = {
-  totalCount: Scalars['Int'];
-  edges: Array<PreviewsItemEdge>;
-  nodes: Array<PreviewsItem>;
-  pageInfo: PageInfo;
-  distinct: Array<Scalars['String']>;
-  max?: Maybe<Scalars['Float']>;
-  min?: Maybe<Scalars['Float']>;
-  sum?: Maybe<Scalars['Float']>;
-  group: Array<PreviewsItemGroupConnection>;
-};
-
-
-export type PreviewsItemConnectiondistinctArgs = {
-  field: PreviewsItemFieldSelector;
-};
-
-
-export type PreviewsItemConnectionmaxArgs = {
-  field: PreviewsItemFieldSelector;
-};
-
-
-export type PreviewsItemConnectionminArgs = {
-  field: PreviewsItemFieldSelector;
-};
-
-
-export type PreviewsItemConnectionsumArgs = {
-  field: PreviewsItemFieldSelector;
-};
-
-
-export type PreviewsItemConnectiongroupArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  limit?: InputMaybe<Scalars['Int']>;
-  field: PreviewsItemFieldSelector;
-};
-
-export type PreviewsItemEdge = {
-  next?: Maybe<PreviewsItem>;
-  node: PreviewsItem;
-  previous?: Maybe<PreviewsItem>;
-};
-
-export type PreviewsItemFieldSelector = {
-  id?: InputMaybe<FieldSelectorEnum>;
-  parent?: InputMaybe<NodeFieldSelector>;
-  children?: InputMaybe<NodeFieldSelector>;
-  internal?: InputMaybe<InternalFieldSelector>;
-  catalogueId?: InputMaybe<FieldSelectorEnum>;
-  coverThumbnail?: InputMaybe<FieldSelectorEnum>;
-  title?: InputMaybe<FieldSelectorEnum>;
-  description?: InputMaybe<FieldSelectorEnum>;
-  isMature?: InputMaybe<FieldSelectorEnum>;
-  isOfferedAgain?: InputMaybe<FieldSelectorEnum>;
-  creators?: InputMaybe<FieldSelectorEnum>;
-};
-
-export type PreviewsItemGroupConnection = {
-  totalCount: Scalars['Int'];
-  edges: Array<PreviewsItemEdge>;
-  nodes: Array<PreviewsItem>;
-  pageInfo: PageInfo;
-  distinct: Array<Scalars['String']>;
-  max?: Maybe<Scalars['Float']>;
-  min?: Maybe<Scalars['Float']>;
-  sum?: Maybe<Scalars['Float']>;
-  group: Array<PreviewsItemGroupConnection>;
-  field: Scalars['String'];
-  fieldValue?: Maybe<Scalars['String']>;
-};
-
-
-export type PreviewsItemGroupConnectiondistinctArgs = {
-  field: PreviewsItemFieldSelector;
-};
-
-
-export type PreviewsItemGroupConnectionmaxArgs = {
-  field: PreviewsItemFieldSelector;
-};
-
-
-export type PreviewsItemGroupConnectionminArgs = {
-  field: PreviewsItemFieldSelector;
-};
-
-
-export type PreviewsItemGroupConnectionsumArgs = {
-  field: PreviewsItemFieldSelector;
-};
-
-
-export type PreviewsItemGroupConnectiongroupArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  limit?: InputMaybe<Scalars['Int']>;
-  field: PreviewsItemFieldSelector;
-};
-
-export type PreviewsItemFilterInput = {
-  id?: InputMaybe<StringQueryOperatorInput>;
-  parent?: InputMaybe<NodeFilterInput>;
-  children?: InputMaybe<NodeFilterListInput>;
-  internal?: InputMaybe<InternalFilterInput>;
-  catalogueId?: InputMaybe<StringQueryOperatorInput>;
-  coverThumbnail?: InputMaybe<StringQueryOperatorInput>;
-  title?: InputMaybe<StringQueryOperatorInput>;
-  description?: InputMaybe<StringQueryOperatorInput>;
-  isMature?: InputMaybe<BooleanQueryOperatorInput>;
-  isOfferedAgain?: InputMaybe<BooleanQueryOperatorInput>;
-  creators?: InputMaybe<StringQueryOperatorInput>;
-};
-
-export type PreviewsItemSortInput = {
-  id?: InputMaybe<SortOrderEnum>;
-  parent?: InputMaybe<NodeSortInput>;
-  children?: InputMaybe<NodeSortInput>;
-  internal?: InputMaybe<InternalSortInput>;
-  catalogueId?: InputMaybe<SortOrderEnum>;
-  coverThumbnail?: InputMaybe<SortOrderEnum>;
-  title?: InputMaybe<SortOrderEnum>;
-  description?: InputMaybe<SortOrderEnum>;
-  isMature?: InputMaybe<SortOrderEnum>;
-  isOfferedAgain?: InputMaybe<SortOrderEnum>;
-  creators?: InputMaybe<SortOrderEnum>;
-};
-
 export type SearchIndexQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SearchIndexQuery = { localSearchCatalogue?: { publicIndexURL: string, publicStoreURL: string } | undefined, allAceItem: { nodes: Array<{ id: string, title: string, previewsCode: string, price?: number | undefined, publisher?: string | undefined, slug: string, previews?: { id: string, title?: string | undefined, creators?: string | undefined, isMature?: boolean | undefined, isOfferedAgain?: boolean | undefined } | undefined }> } };
+export type SearchIndexQuery = { localSearchCatalogue?: { publicIndexURL: string, publicStoreURL: string } | undefined, allAceItem: { nodes: Array<{ id: string, title: string, previewsCode: string, price: number, publisher: string, slug: string, creators?: string | undefined, isMature?: boolean | undefined, isOfferedAgain?: boolean | undefined }> } };
 
 export type ItemPageQueryVariables = Exact<{
   previewsCode: Scalars['String'];
 }>;
 
 
-export type ItemPageQuery = { aceItem?: { previewsCode: string, price?: number | undefined, title: string, previews?: { id: string, title?: string | undefined, description?: string | undefined, creators?: string | undefined, coverThumbnail?: string | undefined, isMature?: boolean | undefined, isOfferedAgain?: boolean | undefined } | undefined } | undefined };
+export type ItemPageQuery = { aceItem?: { previewsCode: string, price: number, title: string, description?: string | undefined, isMature?: boolean | undefined, isOfferedAgain?: boolean | undefined, creators?: string | undefined, coverThumbnail?: string | undefined, publisher: string } | undefined };

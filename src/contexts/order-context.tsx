@@ -1,10 +1,17 @@
 import React, { createContext, useCallback, useContext } from 'react'
 import { useStorageReducer } from 'react-storage-hooks'
 
-import { AceItem } from '../../typings/autogen'
+import { ItemPageQuery } from '../../typings/autogen'
 
 type ActionHandler = (action: Action, state: OrderState) => OrderState
 type SwitchHandler = ActionHandler | OrderState
+type StoreItem = NonNullable<ItemPageQuery["aceItem"]>
+interface Action {
+  type: OrderActionType;
+  payload: StoreItem;
+}
+
+type OrderState = typeof initialState
 
 const dummyStorage = {
   getItem: () => null,
@@ -25,8 +32,9 @@ const executeIfFunction = (f: any) =>
 const switchcaseF = (cases: Record<OrderActionType, SwitchHandler>) => (defaultCase: SwitchHandler) => (key: OrderActionType) =>
   executeIfFunction(switchcase(cases)(defaultCase)(key))
 
+
 const initialState = {
-  order: [] as ReadonlyArray<AceItem>
+  order: [] as ReadonlyArray<StoreItem>
 }
 
 enum OrderActionType {
@@ -34,12 +42,6 @@ enum OrderActionType {
   Remove = 'remove'
 }
 
-interface Action {
-  type: OrderActionType;
-  payload: AceItem;
-}
-
-type OrderState = typeof initialState
 
 const removeActionHandler = (action: Action, state: OrderState): OrderState => {
   const { order } = state
@@ -82,8 +84,8 @@ interface OrderProviderProps {
 }
 
 interface OrderContextActions {
-  addToOrder: (i: AceItem) => void;
-  removeFromOrder: (i: AceItem) => void;
+  addToOrder: (i: StoreItem) => void;
+  removeFromOrder: (i: StoreItem) => void;
 }
 
 const OrderContext = createContext<[OrderState, OrderContextActions]>([initialState, {
@@ -95,8 +97,8 @@ const OrderProvider = ({ children }: OrderProviderProps) => {
   const [order, dispatch] = useStorageReducer(typeof window !== 'undefined' ? localStorage : dummyStorage, 'order', orderReducer, initialState)
 
   // Only bind the actions once
-  const addToOrder = useCallback((i) => dispatch({ type: OrderActionType.Add, payload: i }), [dispatch])
-  const removeFromOrder = useCallback((i) => dispatch({ type: OrderActionType.Remove, payload: i }), [dispatch])
+  const addToOrder = useCallback((i: StoreItem) => dispatch({ type: OrderActionType.Add, payload: i }), [dispatch])
+  const removeFromOrder = useCallback((i: StoreItem) => dispatch({ type: OrderActionType.Remove, payload: i }), [dispatch])
   const valueFactory = useCallback(() => {
     return [order, { addToOrder, removeFromOrder }]
   }, [order, addToOrder, removeFromOrder])

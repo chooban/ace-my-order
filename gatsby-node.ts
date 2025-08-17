@@ -5,15 +5,20 @@ import path from 'path'
 export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] = ({ actions }) => {
   const { createTypes } = actions
   const typeDefs = `
+  
+    type PreviewsItem implements Node {
+      isMature: Boolean!
+      isOfferedAgain: Boolean!
+    }
+
     type AceItem implements Node {
       previewsCode: String!
-      price: Float
-      publisher: String
+      price: Float!
+      publisher: String!
       slug: String!
       title: String!
       catalogueId: String!
     }
-      
   `
   createTypes(typeDefs)
 }

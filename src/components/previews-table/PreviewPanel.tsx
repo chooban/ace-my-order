@@ -7,7 +7,7 @@ import { navigate } from 'gatsby'
 import parse from 'html-react-parser'
 import React from 'react'
 
-import { AceItem, Maybe, PreviewsItem } from '../../../typings/autogen'
+import { ItemPageQuery } from '../../../typings/autogen'
 import { useOrder } from '../../contexts/order-context'
 import { useClipboard } from '../../hooks'
 import { UpdateSearchContext } from '../layout/PageWithTable'
@@ -93,16 +93,16 @@ const styles = (theme: any) => {
 }
 
 interface WrapperProps extends WithStyles<typeof styles> {
-  item?: AceItem
+  item: ItemPageQuery["aceItem"]
   unselectItem?: () => void
 }
 
 interface PreviewPanelProps extends WithStyles<typeof styles> {
-  item: AceItem,
+  item: ItemPageQuery["aceItem"],
   unselectItem?: () => void
 }
 
-function PreviewPanelFlags({ item }: { item: Maybe<PreviewsItem> }) {
+function PreviewPanelFlags({ item }: { item: NonNullable<ItemPageQuery["aceItem"]> }) {
   if (!item || (!item.isMature && !item.isOfferedAgain)) {
     return null
   }
@@ -130,9 +130,13 @@ function PreviewPanelFlags({ item }: { item: Maybe<PreviewsItem> }) {
 function PreviewPanel({ classes, item }: PreviewPanelProps) {
   const [{ order }, { addToOrder, removeFromOrder }] = useOrder()
   const copyToClipboard = useClipboard('id')
+  
+  if (!item) {
+    return <></>
+  }
 
   const inCart = order.some(i => i.previewsCode === item.previewsCode)
-  const creators = item.previews?.creators ?? ''
+  const creators = item?.creators ?? ''
   const splitCreators = creators.split(/(,|\([\w/]*\))/).filter(Boolean).map(s => s.trim())
 
   return (
@@ -142,16 +146,16 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
           <ArrowBack color='action' />
         </IconButton>
         <span>
-          {item.previews?.title || item.title }{' '}
-          <PreviewPanelFlags item={item.previews} />
+          {item.title }{' '}
+          <PreviewPanelFlags item={item} />
         </span>
-        {item.previews?.id &&
+        {item.previewsCode &&
           <a
             className={classes.link}
             target="_blank"
             rel="noopener noreferrer"
             title="Open Previews site"
-            href={`https://www.previewsworld.com/Catalog/${item.previews.id}`}
+            href={`https://www.previewsworld.com/Catalog/${item.previewsCode}`}
           >
             <img alt="Open Previews site" src="/static/open_in_new24px.svg" />
           </a>
@@ -162,8 +166,8 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
       <>
         <div className={classes.panel}>
           <div className={classes.cover}>
-            {item.previews?.coverThumbnail
-              ? <img alt="Cover" src={item.previews.coverThumbnail} />
+            {item?.coverThumbnail
+              ? <img alt="Cover" src={item.coverThumbnail} />
               : <span className={classes.blankCover}>?</span>
             }
             {inCart ?
@@ -185,7 +189,7 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
             }
           </div>
           <div>
-            {parse(item.previews?.description ?? item.title)}
+            {parse(item?.description ?? item.title)}
             <p>
               <UpdateSearchContext.Consumer>
                 {(updateSearch: any) => (
@@ -205,7 +209,6 @@ function PreviewPanel({ classes, item }: PreviewPanelProps) {
   )
 }
 
-PreviewPanel.whyDidYouRender = false
 
 const PreviewPanelWrapper: React.FC<WrapperProps> = (props) => {
   if (!props.item) {
@@ -213,7 +216,7 @@ const PreviewPanelWrapper: React.FC<WrapperProps> = (props) => {
       <p style={{ marginTop: 0 }}>Please select an item</p>
     </div>)
   }
-  return <PreviewPanel item={props.item} {...props} />
+  return <PreviewPanel {...props} item={props.item} />
 }
 
 export default React.memo(withStyles(styles, { withTheme: true })(PreviewPanelWrapper))

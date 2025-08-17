@@ -2,14 +2,14 @@ import { WithStyles } from '@material-ui/core/styles'
 import React, { CSSProperties } from 'react'
 import { areEqual } from 'react-window'
 
-import { AceItem } from '../../../typings/autogen/'
+import { AceItem, ItemPageQuery } from '../../../typings/autogen/'
 import { PreviewPanelFlags } from './PreviewPanel'
 import { styles } from './styles'
 
 interface RowProps extends WithStyles<typeof styles> {
-  row: AceItem,
+  row: NonNullable<ItemPageQuery["aceItem"]>,
   style: CSSProperties,
-  setSelectedItem: (item: AceItem) => void,
+  setSelectedItem: (item: NonNullable<ItemPageQuery["aceItem"]>) => void,
   inCart: boolean
 }
 
@@ -22,7 +22,7 @@ const Row: React.FunctionComponent<RowProps> = ({ row, classes, style, inCart, s
     >
       <div className={classes.cellTitle}>
         <span className={classes.cellTitleContents}>
-          {row.previews?.title ?? row.title}{' '}<PreviewPanelFlags item={row.previews} />
+          {row.title}{' '}<PreviewPanelFlags item={row} />
         </span>
       </div>
       <i

@@ -39,13 +39,11 @@ const query = graphql`
         price
         publisher
         slug
-        previews {
-          id
-          title
-          creators
-          isMature
-          isOfferedAgain
-        }
+        title
+        creators
+        isMature
+        isOfferedAgain
+        publisher
       }
     }
   }

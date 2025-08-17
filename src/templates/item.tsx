@@ -6,7 +6,7 @@ import PreviewPanel from '../components/previews-table/PreviewPanel'
 import { Head } from '../components/Head'
 
 const ItemPage: React.FC<{ data: ItemPageQuery }> = ({ data }) => (
-    <PreviewPanel item={data.aceItem as AceItem} />
+    <PreviewPanel item={data.aceItem} />
   )
 
 export const query = graphql`
@@ -15,15 +15,12 @@ export const query = graphql`
       previewsCode
       price
       title
-      previews {
-        id
-        title
-        description
-        creators
-        coverThumbnail
-        isMature
-        isOfferedAgain
-      }
+      description
+      isMature
+      isOfferedAgain
+      creators
+      coverThumbnail
+      publisher
     }
   }
 `

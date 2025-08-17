@@ -82,14 +82,10 @@ const config: GatsbyConfig = {
                 price
                 publisher
                 slug
-                previews {
-                  id
-                  creators
-                  coverThumbnail
-                  isMature
-                  isOfferedAgain
-                  title
-                }
+                creators
+                coverThumbnail
+                isMature
+                isOfferedAgain
               }
             }
           }
@@ -104,7 +100,7 @@ const config: GatsbyConfig = {
               catalogueId: node.catalogueId,
               publisher: node.publisher,
               slug: node.slug,
-              creators: node.previews && node.previews.creators,
+              creators: node.creators,
             }
           })
         },

@@ -6,13 +6,13 @@ import { Link } from 'gatsby'
 import he from 'he'
 import React from 'react'
 
-import { AceItem } from '../../typings/autogen'
+import { ItemPageQuery } from '../../typings/autogen'
 import { PreviewPanelFlags } from '../components/previews-table/PreviewPanel'
 import { useOrder } from '../contexts/order-context'
 import { useClipboard } from '../hooks'
 import { formatAsGBP } from '../lib/format-as-gbp'
 
-const DetailedRow = ({ item: a, searchTerm, classes }: WithStyles<typeof styles> & { item: AceItem, searchTerm?: string }) => {
+const DetailedRow = ({ item: a, searchTerm, classes }: WithStyles<typeof styles> & { item: NonNullable<ItemPageQuery["aceItem"]>, searchTerm?: string }) => {
 
   const [{ order }, { addToOrder, removeFromOrder }] = useOrder()
   const copyToClipboard = useClipboard('id')
@@ -22,24 +22,24 @@ const DetailedRow = ({ item: a, searchTerm, classes }: WithStyles<typeof styles>
   return (
     <div className={classes.cartItem} key={a.previewsCode}>
       <div className={'cover'}>
-        {a.previews?.coverThumbnail
-          ? <img alt="Cover" src={a.previews?.coverThumbnail || ''} />
+        {a?.coverThumbnail
+          ? <img alt="Cover" src={a.coverThumbnail || ''} />
           : <p>No cover</p>
         }
       </div>
       <div className='details'>
         <div className='title'>
-          <Link to={`/item/${a.previewsCode.replace('/', '-')}${searchTerm ? `?search=${searchTerm}` : ''}`}><b>{a.previews?.title ?? a.title}</b></Link>
+          <Link to={`/item/${a.previewsCode.replace('/', '-')}${searchTerm ? `?search=${searchTerm}` : ''}`}><b>{a.title}</b></Link>
           <Hidden xsDown>
-            {' '}<PreviewPanelFlags item={a.previews} />
+            {' '}<PreviewPanelFlags item={a} />
             <AssignmentIcon fontSize={'small'} data-id={a.previewsCode} onClick={copyToClipboard} />
             <span className={`fadeout ${classes.fadeout}`}>Copied to clipboard</span>
           </Hidden>
         </div>
         {
-          a.previews?.description
-            ? <p className='description'>{he.decode(a.previews.description.replace(/<[^>]+>/g, '')).substring(0, 200)}&hellip;</p>
-            : <p className='description'>{a.previews?.title}</p>
+          a.description
+            ? <p className='description'>{he.decode(a.description.replace(/<[^>]+>/g, '')).substring(0, 200)}&hellip;</p>
+            : <p className='description'>{a.title}</p>
         }
         <div className='footer'>
           {inCart ?
