@@ -67,7 +67,6 @@
         "@types/react-virtualized": "^9.21.12",
         "@typescript-eslint/eslint-plugin": "^8.39.1",
         "@typescript-eslint/parser": "^8.39.1",
-        "aws-sdk": "^2.947.0",
         "eslint": "^9.33.0",
         "eslint-loader": "^4.0.2",
         "eslint-plugin-import": "^2.23.4",
