@@ -18,10 +18,10 @@ const styles = (theme: any) => {
       paddingRight: '7px',
       paddingLeft: '7px',
       paddingBottom: '7px',
-      [theme.breakpoints.down('xs')]: {
-        width: '100%',
-        paddingLeft: 0
-      },
+      // [theme.breakpoints.down('xs')]: {
+      //   width: '100%',
+      //   paddingLeft: 0
+      // },
       width: '60%',
       height: '100%',
     },
@@ -30,9 +30,9 @@ const styles = (theme: any) => {
       padding: 0,
       paddingRight: 12,
       right: 0,
-      [theme.breakpoints.down('xs')]: {
-        display: 'unset',
-      },
+      // [theme.breakpoints.down('xs')]: {
+      //   display: 'unset',
+      // },
     },
     titleWrapper: {
       display: 'flex',

@@ -3,9 +3,9 @@ import { createStyles } from '@material-ui/core/styles'
 const styles = (theme: any) => {
   return createStyles({
     listingPanel: {
-      [theme.breakpoints.down('xs')]: {
-        width: '98%'
-      },
+      // [theme.breakpoints.down('xs')]: {
+      //   width: '98%'
+      // },
       width: '40%',
       display: 'flex',
       flexDirection: 'column'
@@ -56,9 +56,9 @@ const styles = (theme: any) => {
       flexDirection: 'column',
       justifyContent: 'flex-start',
       fontSize: 'smaller',
-      [theme.breakpoints.down('md')]: {
-        textOverflow: 'ellipsis',
-      },
+      // [theme.breakpoints.down('md')]: {
+      textOverflow: 'ellipsis',
+      // },
     },
     cellPrice: {
       display: 'flex',

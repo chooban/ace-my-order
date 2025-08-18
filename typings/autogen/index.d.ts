@@ -383,6 +383,19 @@ export type AceItem = Node & {
   creators?: Maybe<Scalars['String']>;
   coverThumbnail?: Maybe<Scalars['String']>;
   previews?: Maybe<PreviewsItem>;
+  lunar?: Maybe<LunarItem>;
+};
+
+export type LunarItem = Node & {
+  id: Scalars['ID'];
+  parent?: Maybe<Node>;
+  children: Array<Node>;
+  internal: Internal;
+  coverThumbnail?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  creators?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  isMature?: Maybe<Scalars['Boolean']>;
 };
 
 export type Query = {
@@ -406,6 +419,8 @@ export type Query = {
   allPreviewsItem: PreviewsItemConnection;
   aceItem?: Maybe<AceItem>;
   allAceItem: AceItemConnection;
+  lunarItem?: Maybe<LunarItem>;
+  allLunarItem: LunarItemConnection;
 };
 
 
@@ -683,6 +698,27 @@ export type QueryaceItemArgs = {
 export type QueryallAceItemArgs = {
   filter?: InputMaybe<AceItemFilterInput>;
   sort?: InputMaybe<Array<InputMaybe<AceItemSortInput>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QuerylunarItemArgs = {
+  id?: InputMaybe<StringQueryOperatorInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+  children?: InputMaybe<NodeFilterListInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+  coverThumbnail?: InputMaybe<StringQueryOperatorInput>;
+  title?: InputMaybe<StringQueryOperatorInput>;
+  creators?: InputMaybe<StringQueryOperatorInput>;
+  description?: InputMaybe<StringQueryOperatorInput>;
+  isMature?: InputMaybe<BooleanQueryOperatorInput>;
+};
+
+
+export type QueryallLunarItemArgs = {
+  filter?: InputMaybe<LunarItemFilterInput>;
+  sort?: InputMaybe<Array<InputMaybe<LunarItemSortInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   limit?: InputMaybe<Scalars['Int']>;
 };
@@ -2276,6 +2312,128 @@ export type AceItemGroupConnectiongroupArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   limit?: InputMaybe<Scalars['Int']>;
   field: AceItemFieldSelector;
+};
+
+export type LunarItemConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<LunarItemEdge>;
+  nodes: Array<LunarItem>;
+  pageInfo: PageInfo;
+  distinct: Array<Scalars['String']>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+  group: Array<LunarItemGroupConnection>;
+};
+
+
+export type LunarItemConnectiondistinctArgs = {
+  field: LunarItemFieldSelector;
+};
+
+
+export type LunarItemConnectionmaxArgs = {
+  field: LunarItemFieldSelector;
+};
+
+
+export type LunarItemConnectionminArgs = {
+  field: LunarItemFieldSelector;
+};
+
+
+export type LunarItemConnectionsumArgs = {
+  field: LunarItemFieldSelector;
+};
+
+
+export type LunarItemConnectiongroupArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  field: LunarItemFieldSelector;
+};
+
+export type LunarItemEdge = {
+  next?: Maybe<LunarItem>;
+  node: LunarItem;
+  previous?: Maybe<LunarItem>;
+};
+
+export type LunarItemFieldSelector = {
+  id?: InputMaybe<FieldSelectorEnum>;
+  parent?: InputMaybe<NodeFieldSelector>;
+  children?: InputMaybe<NodeFieldSelector>;
+  internal?: InputMaybe<InternalFieldSelector>;
+  coverThumbnail?: InputMaybe<FieldSelectorEnum>;
+  title?: InputMaybe<FieldSelectorEnum>;
+  creators?: InputMaybe<FieldSelectorEnum>;
+  description?: InputMaybe<FieldSelectorEnum>;
+  isMature?: InputMaybe<FieldSelectorEnum>;
+};
+
+export type LunarItemGroupConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<LunarItemEdge>;
+  nodes: Array<LunarItem>;
+  pageInfo: PageInfo;
+  distinct: Array<Scalars['String']>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+  group: Array<LunarItemGroupConnection>;
+  field: Scalars['String'];
+  fieldValue?: Maybe<Scalars['String']>;
+};
+
+
+export type LunarItemGroupConnectiondistinctArgs = {
+  field: LunarItemFieldSelector;
+};
+
+
+export type LunarItemGroupConnectionmaxArgs = {
+  field: LunarItemFieldSelector;
+};
+
+
+export type LunarItemGroupConnectionminArgs = {
+  field: LunarItemFieldSelector;
+};
+
+
+export type LunarItemGroupConnectionsumArgs = {
+  field: LunarItemFieldSelector;
+};
+
+
+export type LunarItemGroupConnectiongroupArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  field: LunarItemFieldSelector;
+};
+
+export type LunarItemFilterInput = {
+  id?: InputMaybe<StringQueryOperatorInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+  children?: InputMaybe<NodeFilterListInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+  coverThumbnail?: InputMaybe<StringQueryOperatorInput>;
+  title?: InputMaybe<StringQueryOperatorInput>;
+  creators?: InputMaybe<StringQueryOperatorInput>;
+  description?: InputMaybe<StringQueryOperatorInput>;
+  isMature?: InputMaybe<BooleanQueryOperatorInput>;
+};
+
+export type LunarItemSortInput = {
+  id?: InputMaybe<SortOrderEnum>;
+  parent?: InputMaybe<NodeSortInput>;
+  children?: InputMaybe<NodeSortInput>;
+  internal?: InputMaybe<InternalSortInput>;
+  coverThumbnail?: InputMaybe<SortOrderEnum>;
+  title?: InputMaybe<SortOrderEnum>;
+  creators?: InputMaybe<SortOrderEnum>;
+  description?: InputMaybe<SortOrderEnum>;
+  isMature?: InputMaybe<SortOrderEnum>;
 };
 
 export type SearchIndexQueryVariables = Exact<{ [key: string]: never; }>;

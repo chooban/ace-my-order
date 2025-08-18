@@ -13,9 +13,9 @@ import { Header } from './Header'
 const styles = (theme: any) => {
   return createStyles({
     root: {
-      [theme.breakpoints.down('sm')]: {
-        width: '100vw',
-      },
+      // [theme.breakpoints.down('sm')]: {
+      //   width: '100vw',
+      // },
       width: '75vw',
       minHeight: '100vh',
       height: '100%',

@@ -30,6 +30,12 @@ const config: GatsbyConfig = {
       },
     },
     {
+      resolve: 'gatsby-source-lunar',
+      options: {
+        savepath: `${__dirname}/data/lunar/`,
+      },
+    },
+    {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'data',
