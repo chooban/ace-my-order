@@ -6,11 +6,6 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
   const { createTypes } = actions
   const typeDefs = `
   
-    type PreviewsItem implements Node {
-      isMature: Boolean!
-      isOfferedAgain: Boolean!
-    }
-
     type AceItem implements Node {
       previewsCode: String!
       price: Float!
@@ -18,6 +13,10 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
       slug: String!
       title: String!
       catalogueId: String!
+      isMature: Boolean!
+      isOfferedAgain: Boolean!
+      creators: String!
+      description: String!
     }
   `
   createTypes(typeDefs)

@@ -355,11 +355,6 @@ export type LocalSearchCatalogue = Node & {
 export type PreviewsItem = Node & {
   isMature: Scalars['Boolean'];
   isOfferedAgain: Scalars['Boolean'];
-  catalogueId?: Maybe<Scalars['String']>;
-  coverThumbnail?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  creators?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   parent?: Maybe<Node>;
   children: Array<Node>;
@@ -661,11 +656,6 @@ export type QueryallLocalSearchCatalogueArgs = {
 export type QuerypreviewsItemArgs = {
   isMature?: InputMaybe<BooleanQueryOperatorInput>;
   isOfferedAgain?: InputMaybe<BooleanQueryOperatorInput>;
-  catalogueId?: InputMaybe<StringQueryOperatorInput>;
-  coverThumbnail?: InputMaybe<StringQueryOperatorInput>;
-  title?: InputMaybe<StringQueryOperatorInput>;
-  description?: InputMaybe<StringQueryOperatorInput>;
-  creators?: InputMaybe<StringQueryOperatorInput>;
   id?: InputMaybe<StringQueryOperatorInput>;
   parent?: InputMaybe<NodeFilterInput>;
   children?: InputMaybe<NodeFilterListInput>;
@@ -2148,11 +2138,6 @@ export type PreviewsItemEdge = {
 export type PreviewsItemFieldSelector = {
   isMature?: InputMaybe<FieldSelectorEnum>;
   isOfferedAgain?: InputMaybe<FieldSelectorEnum>;
-  catalogueId?: InputMaybe<FieldSelectorEnum>;
-  coverThumbnail?: InputMaybe<FieldSelectorEnum>;
-  title?: InputMaybe<FieldSelectorEnum>;
-  description?: InputMaybe<FieldSelectorEnum>;
-  creators?: InputMaybe<FieldSelectorEnum>;
   id?: InputMaybe<FieldSelectorEnum>;
   parent?: InputMaybe<NodeFieldSelector>;
   children?: InputMaybe<NodeFieldSelector>;
@@ -2203,11 +2188,6 @@ export type PreviewsItemGroupConnectiongroupArgs = {
 export type PreviewsItemFilterInput = {
   isMature?: InputMaybe<BooleanQueryOperatorInput>;
   isOfferedAgain?: InputMaybe<BooleanQueryOperatorInput>;
-  catalogueId?: InputMaybe<StringQueryOperatorInput>;
-  coverThumbnail?: InputMaybe<StringQueryOperatorInput>;
-  title?: InputMaybe<StringQueryOperatorInput>;
-  description?: InputMaybe<StringQueryOperatorInput>;
-  creators?: InputMaybe<StringQueryOperatorInput>;
   id?: InputMaybe<StringQueryOperatorInput>;
   parent?: InputMaybe<NodeFilterInput>;
   children?: InputMaybe<NodeFilterListInput>;
@@ -2217,11 +2197,6 @@ export type PreviewsItemFilterInput = {
 export type PreviewsItemSortInput = {
   isMature?: InputMaybe<SortOrderEnum>;
   isOfferedAgain?: InputMaybe<SortOrderEnum>;
-  catalogueId?: InputMaybe<SortOrderEnum>;
-  coverThumbnail?: InputMaybe<SortOrderEnum>;
-  title?: InputMaybe<SortOrderEnum>;
-  description?: InputMaybe<SortOrderEnum>;
-  creators?: InputMaybe<SortOrderEnum>;
   id?: InputMaybe<SortOrderEnum>;
   parent?: InputMaybe<NodeSortInput>;
   children?: InputMaybe<NodeSortInput>;

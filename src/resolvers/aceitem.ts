@@ -1,5 +1,5 @@
 import { titleFormat } from './title-format'
-import type { AceItem as AceItemType, LunarItem, PreviewsItem } from '../../typings/autogen'
+import type { AceItem as AceItemType, LunarItem } from '../../typings/autogen'
 
 const previewsCodeToCatalogueId = function (previewsCode: string) {
   const parts = previewsCode.split('/')
@@ -15,13 +15,6 @@ const previewsCodeToCatalogueId = function (previewsCode: string) {
   return catalogueId
 }
 
-const getPreviews = (nodeModel: any, previewsCode: string): Promise<PreviewsItem> => {
-  return nodeModel.findOne({
-      query: { filter : { catalogueId: { eq: previewsCodeToCatalogueId(previewsCode) }}},
-      type: "PreviewsItem",
-  })
-}
-
 const getLunar = (nodeModel: any, title: string): Promise<LunarItem> => {
   return nodeModel.findOne({
       query: { filter : { title: { eq: title }}},
@@ -29,13 +22,6 @@ const getLunar = (nodeModel: any, title: string): Promise<LunarItem> => {
   })
 }
 
-const fromPreviews = async (nodeModel: any, previewsCode: string, field: string): Promise<any> => {
-  const p = await getPreviews(nodeModel, previewsCode)
-  
-  // @ts-ignore
-  return p && p[field] ? p[field] : undefined
-}
- 
 const fromLunar = async (nodeModel: any, title: string, field: string) => {
   const p = await getLunar(nodeModel, title)
   
@@ -43,21 +29,22 @@ const fromLunar = async (nodeModel: any, title: string, field: string) => {
   return p && p[field] ? p[field] : undefined
 }
 
-const lunarThenPreviews = async (nodeModel: any, a: AceItemType, field: string): Promise<any> => {
+const lunarThenAce = async (nodeModel: any, a: AceItemType, field: string): Promise<any> => {
   const l = await fromLunar(nodeModel, a.title, field)
  
   if (l) {
     return l
   }
   
-  return fromPreviews(nodeModel, a.previewsCode, field)
+  // @ts-ignore
+  return a[field] ? a[field] : ""
 }
 
 export const AceItem = {
   title: {
-    resolve: async ({ title, previewsCode }: AceItemType, args: any, context: any) => {
-      const previewsTitle = await fromPreviews(context.nodeModel, previewsCode, "title")
-      return previewsTitle ? titleFormat(previewsTitle) : titleFormat(title)
+    resolve: async (source: AceItemType, args: any, context: any) => {
+      const title = await lunarThenAce(context.nodeModel, source, "title")
+      return title ? titleFormat(title) : titleFormat(source.title)
     }
   },
   price: {
@@ -72,32 +59,29 @@ export const AceItem = {
   description: {
     type: 'String',
     resolve: async (source: AceItemType, args: any, context: any) => 
-      lunarThenPreviews(context.nodeModel, source, "description")
+      lunarThenAce(context.nodeModel, source, "description")
   },
   isMature: {
     type: 'Boolean',
-    resolve: async (source: AceItemType, args: any, context: any) => 
-      lunarThenPreviews(context.nodeModel, source, "isMature")
+    resolve: async (source: AceItemType, args: any, context: any) =>  {
+      const title = await lunarThenAce(context.nodeModel, source, "title")
+      return title.includes("(MR)")
+    }
   },
   isOfferedAgain: {
     type: 'Boolean',
-    resolve: async (source: AceItemType, args: any, context: any) => 
-      lunarThenPreviews(context.nodeModel, source, "isOfferedAgain")
+    resolve: async (source: AceItemType, args: any, context: any) => false
+      // !!!lunarThenAce(context.nodeModel, source, "isOfferedAgain")
   },
   creators: {
     type: 'String',
     resolve: async (source: AceItemType, args: any, context: any) => 
-      lunarThenPreviews(context.nodeModel, source, "creators")
+      lunarThenAce(context.nodeModel, source, "creators")
   },
   coverThumbnail: {
     type: 'String',
-    resolve: async (source: AceItemType, args: any, context: any) => 
-      lunarThenPreviews(context.nodeModel, source, "coverThumbnail")
-  },
-  previews: {
-    type: 'PreviewsItem',
-    resolve: async (source: any, args: any, context: any, info: any) => 
-      getPreviews(context.nodeModel, source.previewsCode)
+    resolve: async (source: AceItemType, args: any, context: any) => ""
+      // lunarThenAce(context.nodeModel, source, "coverThumbnail")
   },
   lunar: {
     type: 'LunarItem',

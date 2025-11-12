@@ -12,7 +12,8 @@ export const sourceNodes = async ({ actions, createContentDigest, createNodeId }
   console.log('Source Lunar data')
   await ensureDirectoryExists(savepath)
   
-  const fetchAndParse = async (targetUrl) => {
+  const fetchAndParse = async (targetUrl, dateAsString) => {
+    console.log(`Fetching ${targetUrl}`)
     const pageText = await fetch(targetUrl, { method: 'GET', redirect: 'follow' })
       .then((response) => {
         if (response.ok) {
@@ -28,13 +29,15 @@ export const sourceNodes = async ({ actions, createContentDigest, createNodeId }
       
     const $ = cheerio.load(pageText)
 
-    const books = $('.productdetail[data-foc]')
-    console.log(`Found ${books.length} books`)
+    const books = $(`.imageitem[data-foc]`)
+    console.log(`Found ${books.length} books for ${targetUrl}`)
     
     for (let i = 0; i < books.length; i++) {
       const document = $(books[i])
       const id = document.data('code')
       const fileName = path.join(savepath, `${id}.html`)
+      
+      // console.log(`Writing ${id}.html for ${document.data('title')}`)
       await fs.writeFile(fileName, document.parent().html())
       
       const coverImage = document.data("img").replace('hires/', '')
@@ -68,16 +71,14 @@ export const sourceNodes = async ({ actions, createContentDigest, createNodeId }
   
   const baseUrl = 'https://www.lunardistribution.com/'
   const parsingCutoffDate = new Date()
-  parsingCutoffDate.setDate(parsingCutoffDate.getDate() + 60)
+  parsingCutoffDate.setDate(parsingCutoffDate.getDate() + 49)
 
   let nextCutoffDate = await fetchAndParse(baseUrl)
-  console.log({ nextCutoffDate, parsingCutoffDate })
-  console.log(nextCutoffDate < parsingCutoffDate)
-
   while (nextCutoffDate < parsingCutoffDate) {
-    const url = baseUrl + '?foc=' + nextCutoffDate.toLocaleString("en-US")
-    nextCutoffDate = await fetchAndParse(url)
-    console.log(`Next cutoff date is ${nextCutoffDate.toLocaleDateString('en-US')}`)
+    const dateAsString = nextCutoffDate.toLocaleString("en-US").split(',')[0]
+    const url = baseUrl + '?foc=' + dateAsString 
+    nextCutoffDate = await fetchAndParse(url, dateAsString)
+    console.log(`Next cutoff date is ${nextCutoffDate}`)
     if (nextCutoffDate < parsingCutoffDate) {
       console.log('I should go on')
     } else {

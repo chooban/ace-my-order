@@ -24,12 +24,6 @@ const config: GatsbyConfig = {
     'gatsby-plugin-material-ui',
     'gatsby-plugin-why-did-you-render',
     {
-      resolve: 'gatsby-source-previews',
-      options: {
-        savepath: `${__dirname}/data/previews/`,
-      },
-    },
-    {
       resolve: 'gatsby-source-lunar',
       options: {
         savepath: `${__dirname}/data/lunar/`,
@@ -56,6 +50,9 @@ const config: GatsbyConfig = {
           'IGNORE',
           'IGNORE',
           'publisher',
+          'isOfferedAgain',
+          'description',
+          'creators'
         ],
         ignoreColumns: /IGNORE/,
       },
